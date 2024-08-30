@@ -1,9 +1,9 @@
 package conf_test
 
 import (
-	"GOKIT_v001/internal/conf"
 	"testing"
 	"time"
+	"tmfEcho/internal/conf"
 
 	"github.com/stretchr/testify/assert"
 )

@@ -1,10 +1,10 @@
 package log
 
 import (
-	"GOKIT_v001/internal/conf"
 	"fmt"
 	"strings"
 	"time"
+	"tmfEcho/internal/conf"
 )
 
 func getOutputPath(key string) []string {

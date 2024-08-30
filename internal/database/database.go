@@ -1,11 +1,11 @@
 package database
 
 import (
-	"GOKIT_v001/internal/conf"
-	"GOKIT_v001/internal/global"
-	"GOKIT_v001/internal/log"
 	"fmt"
 	"strings"
+	"tmfEcho/internal/conf"
+	"tmfEcho/internal/global"
+	"tmfEcho/internal/log"
 
 	"github.com/jmoiron/sqlx"
 

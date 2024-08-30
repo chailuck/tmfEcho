@@ -1,6 +1,6 @@
 package database
 
-import "GOKIT_v001/internal/conf"
+import "tmfEcho/internal/conf"
 
 func IsDB(dbName string) bool {
 	return conf.Get("db.DBMS.name") == dbName

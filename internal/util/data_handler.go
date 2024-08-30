@@ -1,10 +1,10 @@
 package util
 
 import (
-	"GOKIT_v001/internal/log"
 	"database/sql"
 	"encoding/json"
 	"time"
+	"tmfEcho/internal/log"
 )
 
 // CREDIT: https://medium.com/aubergine-solutions/how-i-handled-null-possible-values-from-database-rows-in-golang-521fb0ee267

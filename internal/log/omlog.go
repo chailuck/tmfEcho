@@ -1,11 +1,11 @@
 package log
 
 import (
-	"GOKIT_v001/internal/conf"
 	"fmt"
 	"path/filepath"
 	"runtime"
 	"time"
+	"tmfEcho/internal/conf"
 
 	"go.uber.org/zap"
 	"go.uber.org/zap/zapcore"

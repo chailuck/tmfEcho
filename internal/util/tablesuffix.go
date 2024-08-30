@@ -1,10 +1,10 @@
 package util
 
 import (
-	"GOKIT_v001/internal/log"
 	"errors"
 	"strconv"
 	"strings"
+	"tmfEcho/internal/log"
 )
 
 const (

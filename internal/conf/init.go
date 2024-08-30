@@ -1,7 +1,6 @@
 package conf
 
 import (
-	"GOKIT_v001/internal/global"
 	"bufio"
 	"bytes"
 	"fmt"
@@ -9,6 +8,7 @@ import (
 	"path/filepath"
 	"runtime"
 	"strings"
+	"tmfEcho/internal/global"
 )
 
 var apiConf []byte

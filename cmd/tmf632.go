@@ -1,3 +1,10 @@
+package main
+
+import (
+	"net/http"
+	"tmfEcho/internal/database"
+	"tmfEcho/internal/log"
+)
 
 func main() {
 	//ctx := context.Background()
@@ -10,7 +17,6 @@ func main() {
 	}
 
 	// Create service
-
 
 	log.AppTraceLog.Info(log.AppTraceLogInfo("Listening on port :"+apiPort+"...", "ADMIN", "", "", "", ""))
 

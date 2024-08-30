@@ -1,10 +1,10 @@
 package util
 
 import (
-	"GOKIT_v001/internal/log"
 	"fmt"
 	"path/filepath"
 	"runtime"
+	"tmfEcho/internal/log"
 )
 
 const (

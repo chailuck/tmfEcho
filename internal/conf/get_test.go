@@ -1,10 +1,10 @@
 package conf_test
 
 import (
-	"GOKIT_v001/internal/conf"
 	"strconv"
 	"sync"
 	"testing"
+	"tmfEcho/internal/conf"
 
 	"github.com/stretchr/testify/assert"
 )
