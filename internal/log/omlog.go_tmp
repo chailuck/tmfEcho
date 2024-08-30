@@ -1,0 +1,142 @@
+package log
+
+import (
+	"fmt"
+	"log"
+	"path/filepath"
+	"runtime"
+
+	"go.uber.org/zap"
+	"go.uber.org/zap/zapcore"
+)
+
+// var Writer *syslog.Writer
+
+// NewZapSugarLogger returns a Go kit log.Logger that sends
+// log events to a zap.Logger.
+
+type OMLogger interface {
+	Info(m LogMessage)
+	Debug(m LogMessage)
+	Warn(m LogMessage)
+	Error(m LogMessage)
+}
+
+type APITraceLogger struct {
+	zlogger zap.Logger
+}
+
+var APITraceLog OMLogger = NewTrace()
+
+func NewTrace() APITraceLogger {
+
+	cfg := zap.Config{
+		Encoding:         "json",
+		Level:            zap.NewAtomicLevelAt(zapcore.DebugLevel),
+		OutputPaths:      []string{"stderr"},
+		ErrorOutputPaths: []string{"stderr"},
+		EncoderConfig: zapcore.EncoderConfig{
+			MessageKey: "message",
+
+			LevelKey:    "level",
+			EncodeLevel: zapcore.CapitalLevelEncoder,
+
+			TimeKey:    "time",
+			EncodeTime: zapcore.ISO8601TimeEncoder,
+		},
+	}
+	logger, err := cfg.Build()
+	if err != nil {
+		log.Fatal(err)
+	}
+	log.Printf("New Trace")
+	return APITraceLogger{
+		zlogger: *logger,
+	}
+}
+
+func (fl APITraceLogger) Info(m LogMessage) {
+	m.setTimeMsec()
+	fl.zlogger.Info(m.string())
+}
+
+func (fl APITraceLogger) Warn(m LogMessage) {
+	_, filename, line, _ := runtime.Caller(1)
+	m.LineOfCode = fmt.Sprintf("%s:%d", filepath.Base(filename), line)
+	m.setTimeMsec()
+	fl.zlogger.Warn(m.string())
+}
+
+func (fl APITraceLogger) Error(m LogMessage) {
+	_, filename, line, _ := runtime.Caller(1)
+	m.LineOfCode = fmt.Sprintf("%s:%d", filepath.Base(filename), line)
+	m.setTimeMsec()
+	fl.zlogger.Error(m.string())
+}
+
+func (fl APITraceLogger) Debug(m LogMessage) {
+	_, filename, line, _ := runtime.Caller(1)
+	m.LineOfCode = fmt.Sprintf("%s:%d", filepath.Base(filename), line)
+	m.setTimeMsec()
+	fl.zlogger.Debug(m.string())
+}
+
+type TraceLogger struct {
+	zlogger zap.Logger
+}
+
+// ------------------ APPLICATION TRACELOG ----------------------
+
+var TraceLog TraceLogger = NewTraceLog()
+
+func NewTraceLog() TraceLogger {
+
+	cfg := zap.Config{
+		Encoding:         "json",
+		Level:            zap.NewAtomicLevelAt(zapcore.DebugLevel),
+		OutputPaths:      []string{"stderr"},
+		ErrorOutputPaths: []string{"stderr"},
+		EncoderConfig: zapcore.EncoderConfig{
+			MessageKey: "message",
+
+			LevelKey:    "level",
+			EncodeLevel: zapcore.CapitalLevelEncoder,
+
+			TimeKey:    "time",
+			EncodeTime: zapcore.ISO8601TimeEncoder,
+		},
+	}
+	logger, err := cfg.Build()
+	if err != nil {
+		log.Fatal(err)
+	}
+	log.Printf("New Trace Log")
+	return TraceLogger{
+		zlogger: *logger,
+	}
+}
+
+func (l TraceLogger) Info(m LogMessage) {
+	l.zlogger.Info(m.string())
+}
+
+func (l TraceLogger) Warn(m LogMessage) {
+	_, filename, line, _ := runtime.Caller(1)
+	m.LineOfCode = fmt.Sprintf("%s:%d", filepath.Base(filename), line)
+	m.setTimeMsec()
+	l.zlogger.Warn(m.string())
+}
+
+func (l TraceLogger) Error(m LogMessage) {
+	_, filename, line, _ := runtime.Caller(1)
+	m.LineOfCode = fmt.Sprintf("%s:%d", filepath.Base(filename), line)
+	m.setTimeMsec()
+	l.zlogger.Error(m.string())
+}
+
+func (l TraceLogger) Debug(m LogMessage) {
+	_, filename, line, _ := runtime.Caller(1)
+	m.LineOfCode = fmt.Sprintf("%s:%d", filepath.Base(filename), line)
+	m.setTimeMsec()
+	l.zlogger.Debug(m.string())
+}

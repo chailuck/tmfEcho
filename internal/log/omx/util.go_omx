@@ -1,0 +1,11 @@
+package log
+
+import "github.com/ant0ine/go-json-rest/rest"
+
+func GetRequest(l ServiceLogger) *rest.Request {
+	switch logger := l.(type) {
+	case *RestHandlerLog:
+		return logger.Request
+	}
+	return nil
+}

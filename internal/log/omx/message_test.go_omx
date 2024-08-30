@@ -1,0 +1,226 @@
+package log
+
+import (
+	"testing"
+	"time"
+)
+
+func TestMessageString(t *testing.T) {
+	now := time.Now()
+	msg := Message{
+		Step:              1,
+		ApiStartTime:      now,
+		LogTime:           now,
+		LanUser:           "OMR",
+		CCBUser:           "LLTWIN",
+		CustomerNumber:    "000000",
+		SubscriberNumber:  "66809737799",
+		CallHeaderId:      "12345",
+		MessageId:         "123e4567-e89b-12d3-a456-426655440000",
+		SourceSystem:      "Web",
+		RequestDateTime:   now,
+		RequestIp:         "10.89.90.11",
+		ApiName:           "API1",
+		MachineName:       "-",
+		EndPointSystem:    "-",
+		ServiceName:       "-",
+		ApiStatusCode:     "-",
+		ServiceStatusCode: "-",
+		ErrorMessage:      "-",
+		ResponseTime:      0,
+		EndToEnd:          0,
+	}
+
+	expected := "|" + now.Local().String() + "|OMR|LLTWIN|000000|66809737799|12345|123e4567-e89b-12d3-a456-426655440000|Web|" + now.Local().String() + "|10.89.90.11|API1|-|1|-|-|-|-|-|0|0"
+
+	if msg.originString() != expected {
+		t.Errorf("expect\n%s but was\n%s\n", expected, msg.string())
+	}
+}
+
+func TestMessageOriginStringWithNewLine(t *testing.T) {
+	now := time.Now()
+	msg := Message{
+		Step:              1,
+		ApiStartTime:      now,
+		LogTime:           now,
+		LanUser:           "OMR",
+		CCBUser:           "LLTWIN",
+		CustomerNumber:    "000000",
+		SubscriberNumber:  "66809737799",
+		CallHeaderId:      "12345",
+		MessageId:         "123e4567-e89b-12d3-a456-426655440000",
+		SourceSystem:      "Web",
+		RequestDateTime:   now,
+		RequestIp:         "10.89.90.11",
+		ApiName:           "API1",
+		MachineName:       "-",
+		EndPointSystem:    "-",
+		ServiceName:       "-",
+		ApiStatusCode:     "-",
+		ServiceStatusCode: "-",
+		ErrorMessage:      "Msg1\nMsg2\nMsg3",
+		ResponseTime:      0,
+		EndToEnd:          0,
+	}
+
+	expected := "|" + now.Local().String() + "|OMR|LLTWIN|000000|66809737799|12345|123e4567-e89b-12d3-a456-426655440000|Web|" + now.Local().String() + "|10.89.90.11|API1|-|1|-|-|-|-|Msg1 Msg2 Msg3|0|0"
+
+	if msg.string() != expected {
+		t.Errorf("expect\n%s\nbut was\n%s\n", expected, msg.string())
+	}
+}
+
+func TestMessageStringWithNewLine(t *testing.T) {
+	now := time.Now()
+	msg := Message{
+		Step:              1,
+		ApiStartTime:      now,
+		LogTime:           now,
+		LanUser:           "OMR",
+		CCBUser:           "LLTWIN",
+		CustomerNumber:    "000000",
+		SubscriberNumber:  "66809737799",
+		CallHeaderId:      "12345",
+		MessageId:         "123e4567-e89b-12d3-a456-426655440000",
+		SourceSystem:      "Web",
+		RequestDateTime:   now,
+		RequestIp:         "10.89.90.11",
+		ApiName:           "API1",
+		MachineName:       "-",
+		EndPointSystem:    "-",
+		ServiceName:       "-",
+		ApiStatusCode:     "-",
+		ServiceStatusCode: "-",
+		ErrorMessage:      "Msg1\nMsg2\nMsg3",
+		ResponseTime:      0,
+		EndToEnd:          0,
+	}
+
+	expected := "|" + now.Local().String() + "|OMR|LLTWIN|000000|66809737799|12345|123e4567-e89b-12d3-a456-426655440000|Web|" + now.Local().String() + "|10.89.90.11|API1|-|1|-|-|-|-|Msg1 Msg2 Msg3|0|0"
+
+	if msg.string() != expected {
+		t.Errorf("expect\n%s\nbut was\n%s\n", expected, msg.string())
+	}
+}
+
+func TestMessageOriginString(t *testing.T) {
+	now := time.Now()
+	msg := Message{
+		Step:              1,
+		ApiStartTime:      now,
+		LogTime:           now,
+		LanUser:           "OMR",
+		CCBUser:           "LLTWIN",
+		CustomerNumber:    "000000",
+		SubscriberNumber:  "66809737799",
+		CallHeaderId:      "12345",
+		MessageId:         "123e4567-e89b-12d3-a456-426655440000",
+		SourceSystem:      "Web",
+		RequestDateTime:   now,
+		RequestIp:         "10.89.90.11",
+		ApiName:           "API1",
+		MachineName:       "-",
+		EndPointSystem:    "-",
+		ServiceName:       "-",
+		ApiStatusCode:     "-",
+		ServiceStatusCode: "-",
+		ErrorMessage:      "-",
+		ResponseTime:      0,
+		EndToEnd:          0,
+		OMRMobileVersion:  "1.0.1",
+		OSPlatform:        "iOS",
+		OSVersion:         "10.1.1",
+		DeviceID:          "a-c-b-n",
+		DeviceModel:       "iPhone6",
+		Location:          "",
+		Network:           "4G",
+	}
+
+	expected := "|" + now.Local().String() + "|OMR|LLTWIN|000000|66809737799|12345|123e4567-e89b-12d3-a456-426655440000|Web|" + now.Local().String() + "|10.89.90.11|API1|-|1|-|-|-|-|-|0|0"
+
+	if msg.originString() != expected {
+		t.Errorf("expect\n%s but was\n%s\n", expected, msg.originString())
+	}
+}
+
+func TestMessageStringFromMobile(t *testing.T) {
+	now := time.Now()
+	msg := Message{
+		Step:              1,
+		ApiStartTime:      now,
+		LogTime:           now,
+		LanUser:           "OMR",
+		CCBUser:           "LLTWIN",
+		CustomerNumber:    "000000",
+		SubscriberNumber:  "66809737799",
+		CallHeaderId:      "12345",
+		MessageId:         "123e4567-e89b-12d3-a456-426655440000",
+		SourceSystem:      "Web",
+		RequestDateTime:   now,
+		RequestIp:         "10.89.90.11",
+		ApiName:           "API1",
+		MachineName:       "-",
+		EndPointSystem:    "-",
+		ServiceName:       "-",
+		ApiStatusCode:     "-",
+		ServiceStatusCode: "-",
+		ErrorMessage:      "-",
+		ResponseTime:      0,
+		EndToEnd:          0,
+		OMRMobileVersion:  "1.0.1",
+		OSPlatform:        "iOS",
+		OSVersion:         "10.1.1",
+		DeviceID:          "a-c-b-n",
+		DeviceModel:       "iPhone6",
+		Location:          "",
+		Network:           "4G",
+	}
+
+	expected := "|" + now.Local().String() + "|OMR|LLTWIN|000000|66809737799|12345|123e4567-e89b-12d3-a456-426655440000|Web|" + now.Local().String() + "|10.89.90.11|API1|-|1|-|-|-|-|-|0|0|1.0.1|iOS|10.1.1|a-c-b-n|iPhone6||4G"
+
+	if msg.string() != expected {
+		t.Errorf("expect\n%s but was\n%s\n", expected, msg.string())
+	}
+}
+
+func BenchmarkMessageString(b *testing.B) {
+	msg := Message{
+		Step:              1,
+		ApiStartTime:      time.Now(),
+		LogTime:           time.Now(),
+		LanUser:           "OMR",
+		CCBUser:           "LLTWIN",
+		CustomerNumber:    "000000",
+		SubscriberNumber:  "66809737799",
+		CallHeaderId:      "12345",
+		MessageId:         "123e4567-e89b-12d3-a456-426655440000",
+		SourceSystem:      "Web",
+		RequestDateTime:   time.Now(),
+		RequestIp:         "10.89.90.11",
+		ApiName:           "API1",
+		MachineName:       "-",
+		EndPointSystem:    "-",
+		ServiceName:       "-",
+		ApiStatusCode:     "-",
+		ServiceStatusCode: "-",
+		ErrorMessage:      "-",
+		ResponseTime:      0,
+		EndToEnd:          0,
+	}
+
+	b.ResetTimer()
+
+	for i := 0; i < b.N; i++ {
+		_ = msg.string()
+	}
+}
+
+func TestConvertToMilliseconds(t *testing.T) {
+	var t0 time.Duration = 1000000
+	var expected int = 1
+	actual := Milliseconds(t0)
+	if actual != expected {
+		t.Errorf("expect %v but %v", expected, actual)
+	}
+}

@@ -1,0 +1,222 @@
+package log
+
+import (
+	"strings"
+	"testing"
+
+	"github.com/stretchr/testify/assert"
+)
+
+func TestVerifyOutstandingLog_HandlerLevel(t *testing.T) {
+	var l *MockRestLogger
+	var err error
+
+	l = Mock()
+	l.HandlerStart()
+	l.HandlerEnd()
+	err = l.VerifyNoOutstandingLog()
+	if err != nil {
+		t.Error("Expect no error but", err)
+	}
+
+	l = Mock()
+	l.HandlerStart()
+	l.HandlerEndWithError("ERROR")
+	err = l.VerifyNoOutstandingLog()
+	if err != nil {
+		t.Error("Expect no error but", err)
+	}
+
+	l = Mock()
+	l.HandlerStart()
+	err = l.VerifyNoOutstandingLog()
+	if err == nil {
+		t.Error("Expect outstanding error")
+	}
+
+	l = Mock()
+	err = l.VerifyNoOutstandingLog()
+	if err != nil {
+		t.Error("Expect no outstanding error but", err)
+	}
+
+	l = Mock()
+	l.HandlerEnd()
+	err = l.VerifyNoOutstandingLog()
+	if err == nil {
+		t.Error("Expect outstanding error but not")
+	}
+
+	l = Mock()
+	l.HandlerStart()
+	l.HandlerStart()
+	l.HandlerEnd()
+	err = l.VerifyNoOutstandingLog()
+	if err == nil {
+		t.Error("Expect outstanding error but not")
+	}
+
+	l = Mock()
+	l.HandlerStart()
+	l.HandlerEnd()
+	l.HandlerEnd()
+	err = l.VerifyNoOutstandingLog()
+	if err == nil {
+		t.Error("Expect outstanding error but not")
+	}
+
+	l = Mock()
+	l.HandlerStart()
+	l.HandlerEnd()
+	l.HandlerEndWithError("500")
+	err = l.VerifyNoOutstandingLog()
+	if err == nil {
+		t.Error("Expect outstanding error but not")
+	}
+
+	l = Mock()
+	l.HandlerStart()
+	l.HandlerStart()
+	l.HandlerStart()
+	l.HandlerEnd()
+	l.HandlerEnd()
+	l.HandlerEnd()
+	err = l.VerifyNoOutstandingLog()
+	if err == nil {
+		t.Error("Expect outstanding error but not")
+	}
+
+	l = Mock()
+	l.HandlerStart()
+	l.HandlerEnd()
+	l.HandlerEndWithError("500")
+	l.HandlerEnd()
+	err = l.VerifyNoOutstandingLog()
+	if err == nil {
+		t.Error("Expect outstanding error but not")
+	}
+}
+
+func TestVerifyOutstandingLog_ServiceLevel(t *testing.T) {
+	var l *MockRestLogger
+	var err error
+	var xErr string
+
+	l = Mock()
+	l.HandlerStart()
+	l.ServiceStart("A", "B")
+	l.ServiceEnd("A", "B", "200")
+	l.HandlerEnd()
+	err = l.VerifyNoOutstandingLog()
+	if err != nil {
+		t.Error("Expect no error but", err)
+	}
+
+	l = Mock()
+	l.HandlerStart()
+	l.ServiceStart("A", "B")
+	l.ServiceEnd("A", "B", "500", "ERROR")
+	l.HandlerEnd()
+	err = l.VerifyNoOutstandingLog()
+	if err != nil {
+		t.Error("Expect no error but", err)
+	}
+
+	l = Mock()
+	l.HandlerStart()
+	l.ServiceStart("A", "B")
+	l.ServiceStart("A", "C")
+	l.ServiceEnd("A", "C")
+	l.ServiceEnd("A", "B")
+	l.HandlerEnd()
+	err = l.VerifyNoOutstandingLog()
+	if err != nil {
+		t.Error("Expect no error but", err)
+	}
+
+	l = Mock()
+	l.HandlerStart()
+	l.ServiceStart("A", "B")
+	l.ServiceEnd("A", "C")
+	l.HandlerEnd()
+	err = l.VerifyNoOutstandingLog()
+	if err == nil {
+		t.Error("Expect outstanding error but", err)
+		return
+	}
+	xErr = "Log handler service is outstanding"
+	if !strings.Contains(err.Error(), xErr) {
+		t.Error("Expect error", xErr, "but", err)
+	}
+
+	l = Mock()
+	l.HandlerStart()
+	l.ServiceStart("A", "B")
+	l.HandlerEnd()
+	err = l.VerifyNoOutstandingLog()
+	if err == nil {
+		t.Error("Expect outstanding error but", err)
+		return
+	}
+	xErr = "Log handler service is outstanding"
+	if !strings.Contains(err.Error(), xErr) {
+		t.Error("Expect error", xErr, "but", err)
+	}
+
+	l = Mock()
+	l.HandlerStart()
+	l.ServiceEnd("A", "B")
+	l.HandlerEnd()
+	err = l.VerifyNoOutstandingLog()
+	if err == nil {
+		t.Error("Expect outstanding error but", err)
+		return
+	}
+	xErr = "Log handler service is outstanding"
+	if err.Error() != xErr {
+		t.Error("Expect error", xErr, "but", err)
+	}
+}
+
+func TestIsLog(t *testing.T) {
+	l := Mock()
+
+	if l.IsLog() {
+		t.Error("Expect no log")
+	}
+
+	l = Mock()
+	l.HandlerStart()
+	if !l.IsLog() {
+		t.Error("Expect log")
+	}
+
+	l = Mock()
+	l.HandlerStart()
+	l.ServiceStart("A", "B")
+	l.ServiceEnd("A", "B", "500", "ERROR")
+	l.HandlerEnd()
+
+	if !l.IsLog() {
+		t.Error("Expect log")
+	}
+}
+
+func TestServiceEndArgsEqual(t *testing.T) {
+	l := Mock()
+	l.ServiceStart("SYS1", "SV1")
+	l.ServiceEnd("SYS1", "SV1", "200")
+	l.ServiceEndArgsEqual(t, "SYS1", "SV1", "200")
+
+	l.ServiceStart("SYS1", "SV2")
+	l.ServiceEnd("SYS1", "SV2", "500", "err1")
+	l.ServiceEndArgsEqual(t, "SYS1", "SV2", "500", "err1")
+}
+
+func TestNewMockGetMessageIDShouldBeSame_NotEmpty(t *testing.T) {
+	l := Mock()
+	id1 := l.GetMessageId()
+	id2 := l.GetMessageId()
+	assert.NotEmpty(t, id1)
+	assert.Equal(t, id1, id2)
+}

@@ -1,0 +1,7 @@
+CREATE TABLE cs_seqn (
+seqn_name varchar2(20) NOT NULL,
+seqn_numb  integer,
+maxm_xtnt integer,
+incr_vlue integer
+)
+

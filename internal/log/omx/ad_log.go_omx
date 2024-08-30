@@ -1,0 +1,22 @@
+package log
+
+//ADLog should not log ServiceStart/End for ADService
+type ADLog struct {
+	*RestHandlerLog
+}
+
+//ServiceStart not log ServiceStart of ADService
+func (l *ADLog) ServiceStart(args ...string) {
+	if args[0] == "ignore" {
+		return
+	}
+	l.RestHandlerLog.ServiceStart(args...)
+}
+
+//ServiceEnd not log ServiceEnd of ADService
+func (l *ADLog) ServiceEnd(args ...string) {
+	if args[0] == "ignore" {
+		return
+	}
+	l.RestHandlerLog.ServiceEnd(args...)
+}

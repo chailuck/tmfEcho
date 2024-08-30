@@ -1,0 +1,14 @@
+PS D:\Documents\Pop\Knowledge\Programming\GO lang\GOKIT_v001\GOKIT_v001> go run .\cmd\customer.go
+
+Oracle
+U: C##OMDTAC
+P: omdtac
+
+
+Oracle and PostgreSQL
+
+Returned field name:    O UPPER                 P LOWER
+Current date:           O CURRENT_DATE          P now()        select now() from xxxxx
+Prepare statemetn:      O :1 :2                 P $1 $2
+Sequence of input       O every variable        P duplicated number
+Get running serial      O RETURNING INTO        P RETURNING

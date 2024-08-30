@@ -1,0 +1,451 @@
+package log
+
+import (
+	"omr/api/constant"
+	"omr/apitest"
+	"reflect"
+	"testing"
+	"time"
+
+	"github.com/ant0ine/go-json-rest/rest"
+	"github.com/ant0ine/go-json-rest/rest/test"
+	"github.com/stretchr/testify/assert"
+)
+
+func createRequest() *rest.Request {
+	req := test.MakeSimpleRequest("GET", "http://1.2.3.4/user/CHAILUCK", nil)
+	r := &rest.Request{
+		Request:    req,
+		PathParams: map[string]string{},
+		Env:        map[string]interface{}{},
+	}
+	return r
+}
+
+func TestHandlerStart(t *testing.T) {
+	request := createRequest()
+	l := NewRestHandlerLog(request)
+	l.HandlerStart()
+}
+
+func TestServiceStart(t *testing.T) {
+	request := createRequest()
+
+	l := NewRestHandlerLog(request)
+	l.ServiceStart()
+
+}
+
+func TestServiceStartWithArguments(t *testing.T) {
+	request := createRequest()
+
+	l := NewRestHandlerLog(request)
+	l.ServiceStart("TUX", "ChckBlkLstCustWS")
+
+}
+
+type mockOMRLogger struct {
+	msg Message
+}
+
+func (m *mockOMRLogger) Write(msg Message) {
+	m.msg = msg
+}
+
+func TestEachOfLogStateShouldDoOneTime(t *testing.T) {
+	mock := &mockOMRLogger{}
+	l := &RestHandlerLog{
+		m:       Message{},
+		Request: nil,
+		// TransactionInfo: "1234",
+		Logger: mock,
+		// CallerInfo:      []string{},
+		// config:         conf.Omr(),
+		HandlerStarted: false,
+		handlerEnded:   false,
+	}
+	l.HandlerEnd()
+	l.HandlerEndWithError("500")
+	if mock.msg.ServiceStatusCode != "" {
+		t.Error("It should not write duplicate HandlerEnd")
+	}
+}
+
+func TestMobileNewMessage(t *testing.T) {
+	r := createRequest()
+
+	r.Header.Set("OMRMobileVersion", "1.0.1")
+	r.Header.Set("OSPlatform", "iOS")
+	r.Header.Set("OSVersion", "10.1.1")
+	r.Header.Set("ClientID", "a-c-b-n")
+	r.Header.Set("DeviceModel", "iPhone6")
+	r.Header.Set("Network", "4G")
+
+	m := newMessage(r, "1234")
+	m.MachineName = ""
+
+	expected := Message{
+		Step:                 1,
+		ApiStartTime:         time.Time{},
+		ApiStartLocalTime:    "",
+		LogTime:              time.Time{},
+		LogLocalTime:         "",
+		LanUser:              "",
+		CCBUser:              "",
+		CustomerNumber:       "",
+		SubscriberNumber:     "",
+		CallHeaderId:         "",
+		MessageId:            "1234",
+		SourceSystem:         "",
+		RequestDateTime:      time.Time{},
+		RequestDateLocalTime: "",
+		RequestIp:            "",
+		ApiName:              "testing.tRunner",
+		MachineName:          "",
+		EndPointSystem:       "-",
+		ServiceName:          "-",
+		ApiStatusCode:        "-",
+		ServiceStatusCode:    "-",
+		ErrorMessage:         "-",
+		ResponseTime:         0,
+		EndToEnd:             0,
+		ResponseTimeMsec:     0,
+		EndToEndMsec:         0,
+		OMRMobileVersion:     "1.0.1",
+		OSPlatform:           "iOS",
+		OSVersion:            "10.1.1",
+		DeviceID:             "a-c-b-n",
+		DeviceModel:          "iPhone6",
+		Location:             "",
+		Network:              "4G",
+	}
+
+	if !reflect.DeepEqual(m, expected) {
+		t.Errorf("%#v\nis expected but got\n%#v\n", expected, m)
+	}
+}
+
+func TestOriginNewMessage(t *testing.T) {
+	r := createRequest()
+	m := newMessage(r, "1234")
+	m.MachineName = ""
+
+	expected := Message{
+		Step:                 1,
+		ApiStartTime:         time.Time{},
+		ApiStartLocalTime:    "",
+		LogTime:              time.Time{},
+		LogLocalTime:         "",
+		LanUser:              "",
+		CCBUser:              "",
+		CustomerNumber:       "",
+		SubscriberNumber:     "",
+		CallHeaderId:         "",
+		MessageId:            "1234",
+		SourceSystem:         "",
+		RequestDateTime:      time.Time{},
+		RequestDateLocalTime: "",
+		RequestIp:            "",
+		ApiName:              "testing.tRunner",
+		MachineName:          "",
+		EndPointSystem:       "-",
+		ServiceName:          "-",
+		ApiStatusCode:        "-",
+		ServiceStatusCode:    "-",
+		ErrorMessage:         "-",
+		ResponseTime:         0,
+		EndToEnd:             0,
+		ResponseTimeMsec:     0,
+		EndToEndMsec:         0,
+		OMRMobileVersion:     "",
+		OSPlatform:           "",
+		OSVersion:            "",
+		DeviceID:             "",
+		DeviceModel:          "",
+		Location:             "",
+		Network:              "",
+	}
+
+	if !reflect.DeepEqual(m, expected) {
+		t.Errorf("%#v\nis expected but got\n%#v\n", expected, m)
+	}
+}
+
+func TestNoUserCallerInfo_Use_UserCode_UserLan_Instead(t *testing.T) {
+	r := createRequest()
+	r.Header.Set("UserCode", "LLAMORN")
+	r.Header.Set("UserLan", "HOMEL")
+
+	m := newMessage(r, "1234")
+	m.MachineName = ""
+
+	expected := Message{
+		Step:                 1,
+		ApiStartTime:         time.Time{},
+		ApiStartLocalTime:    "",
+		LogTime:              time.Time{},
+		LogLocalTime:         "",
+		LanUser:              "HOMEL",
+		CCBUser:              "LLAMORN",
+		CustomerNumber:       "",
+		SubscriberNumber:     "",
+		CallHeaderId:         "",
+		MessageId:            "1234",
+		SourceSystem:         "",
+		RequestDateTime:      time.Time{},
+		RequestDateLocalTime: "",
+		RequestIp:            "",
+		ApiName:              "testing.tRunner",
+		MachineName:          "",
+		EndPointSystem:       "-",
+		ServiceName:          "-",
+		ApiStatusCode:        "-",
+		ServiceStatusCode:    "-",
+		ErrorMessage:         "-",
+		ResponseTime:         0,
+		EndToEnd:             0,
+		ResponseTimeMsec:     0,
+		EndToEndMsec:         0,
+		OMRMobileVersion:     "",
+		OSPlatform:           "",
+		OSVersion:            "",
+		DeviceID:             "",
+		DeviceModel:          "",
+		Location:             "",
+		Network:              "",
+	}
+
+	if !reflect.DeepEqual(m, expected) {
+		t.Errorf("%#v\nis expected but got\n%#v\n", expected, m)
+	}
+
+}
+
+func TestUpdateMessage(t *testing.T) {
+	r := createRequest()
+	r.Env[constant.MiddlewareLog] = &RestHandlerLog{m: Message{
+		LanUser:          "LanUser",
+		CCBUser:          "CCBUser",
+		CustomerNumber:   "CustomerNumber",
+		SubscriberNumber: "SubscriberNumber",
+		CallHeaderId:     "CallHeaderId",
+		SourceSystem:     "SourceSystem",
+		RequestIp:        "RequestIp",
+	},
+	}
+	UpdateMessage(r, []string{3: "5435435", 4: "66804444444"}...)
+	if r.Env[constant.MiddlewareLog].(*RestHandlerLog).m.CustomerNumber != "5435435" {
+		t.Error("It should change value by index in log message but the value was ", r.Env[constant.MiddlewareLog].(*RestHandlerLog).m.CustomerNumber)
+	}
+	if r.Env[constant.MiddlewareLog].(*RestHandlerLog).m.SubscriberNumber != "66804444444" {
+		t.Error("It should change value by index in log message but the value was ", r.Env[constant.MiddlewareLog].(*RestHandlerLog).m.CustomerNumber)
+	}
+	if r.Env[constant.MiddlewareLog].(*RestHandlerLog).m.LanUser != "LanUser" {
+		t.Error("It should not change value if its index is zero value but was ", r.Env[constant.MiddlewareLog].(*RestHandlerLog).m.CustomerNumber)
+	}
+}
+
+func TestUpdateMessageWhenHasNoLogInEnv(t *testing.T) {
+	r := createRequest()
+	UpdateMessage(r, []string{3: "5435435", 4: "66804444444"}...)
+}
+
+func TestUpdateMessageInterface(t *testing.T) {
+	r := createRequest()
+	r.Env[constant.MiddlewareLog] = HandlerServiceLogger(&RestHandlerLog{m: Message{
+		LanUser:          "LanUser",
+		CCBUser:          "CCBUser",
+		CustomerNumber:   "CustomerNumber",
+		SubscriberNumber: "SubscriberNumber",
+		CallHeaderId:     "CallHeaderId",
+		SourceSystem:     "SourceSystem",
+		RequestIp:        "RequestIp",
+	},
+	})
+	UpdateMessage(r, []string{3: "5435435", 4: "66804444444"}...)
+	if r.Env[constant.MiddlewareLog].(*RestHandlerLog).m.CustomerNumber != "5435435" {
+		t.Error("It should change value by index in log message but the value was ", r.Env[constant.MiddlewareLog].(*RestHandlerLog).m.CustomerNumber)
+	}
+	if r.Env[constant.MiddlewareLog].(*RestHandlerLog).m.SubscriberNumber != "66804444444" {
+		t.Error("It should change value by index in log message but the value was ", r.Env[constant.MiddlewareLog].(*RestHandlerLog).m.CustomerNumber)
+	}
+	if r.Env[constant.MiddlewareLog].(*RestHandlerLog).m.LanUser != "LanUser" {
+		t.Error("It should not change value if its index is zero value but was ", r.Env[constant.MiddlewareLog].(*RestHandlerLog).m.CustomerNumber)
+	}
+}
+
+func TestHandlerEndWithErrorWithTwoParameter(t *testing.T) {
+	mock := &mockOMRLogger{}
+	l := &RestHandlerLog{
+		m:              Message{},
+		Request:        nil,
+		Logger:         mock,
+		HandlerStarted: false,
+		handlerEnded:   false,
+	}
+	l.ServiceEnd("500", "service error")
+	l.HandlerEndWithError("520", "api error")
+
+	if mock.msg.ApiStatusCode != "520" {
+		t.Error("ApiStatusCode should be 520 by first parameter but was", mock.msg.ApiStatusCode)
+	}
+
+	if mock.msg.ServiceStatusCode != "500" {
+		t.Error("ServiceStatusCode should be 500 by ServiceEnd first parameter but was", mock.msg.ServiceStatusCode)
+	}
+}
+
+func TestHandlerEndWithErrorWithThreeParameter(t *testing.T) {
+	mock := &mockOMRLogger{}
+	l := &RestHandlerLog{
+		m:              Message{},
+		Request:        nil,
+		Logger:         mock,
+		HandlerStarted: false,
+		handlerEnded:   false,
+	}
+	l.ServiceEnd("500", "service error")
+	l.HandlerEndWithError("400", "api error", "520")
+
+	if mock.msg.ApiStatusCode != "520" {
+		t.Error("ApiStatusCode should be 520 by third parameter but was", mock.msg.ApiStatusCode)
+	}
+
+	if mock.msg.ServiceStatusCode != "400" {
+		t.Error("ServiceStatusCode should be 400 by first parameter but was", mock.msg.ServiceStatusCode)
+	}
+}
+
+func TestRaceServiceStart(t *testing.T) {
+	mock := &mockOMRLogger{}
+	l := &RestHandlerLog{
+		m:              Message{},
+		Request:        nil,
+		Logger:         mock,
+		HandlerStarted: false,
+		handlerEnded:   false,
+	}
+	go l.ServiceStart()
+	go l.ServiceStart()
+	go l.ServiceStart()
+
+	//please run this test with go test -race -test.run TestRaceServiceStart
+}
+
+func TestServiceEndRemoveNewLineAndCarriageReturn(t *testing.T) {
+	mock := &mockOMRLogger{}
+	l := &RestHandlerLog{
+		m:              Message{},
+		Request:        nil,
+		Logger:         mock,
+		HandlerStarted: false,
+		handlerEnded:   false,
+	}
+	l.ServiceEnd("SALT", "ReadServiceName", "500", "service error\nfrom some service\r\nthat return newline\nand carriage return\r\n")
+	if l.m.ErrorMessage != "service errorfrom some servicethat return newlineand carriage return" {
+		t.Error("it should remove new line and carriage return out from error message but it doesn't")
+	}
+}
+
+func TestHandlerEndWithErrorRemoveNewLineAndCarriageReturn(t *testing.T) {
+	mock := &mockOMRLogger{}
+	l := &RestHandlerLog{
+		m:              Message{},
+		Request:        nil,
+		Logger:         mock,
+		HandlerStarted: false,
+		handlerEnded:   false,
+	}
+	l.HandlerEndWithError("500", "service error\nfrom some service\r\nthat return newline\nand carriage return\r\n")
+	if l.m.ErrorMessage != "service errorfrom some servicethat return newlineand carriage return" {
+		t.Error("it should remove new line and carriage return out from error message but it doesn't")
+	}
+}
+
+func TestNewRestHandlerLog(t *testing.T) {
+	l := NewRestHandlerLog(nil)
+	assert.Nil(t, l.Request)
+
+	r := apitest.MakePostRequest(`{}`, "HOMEL")
+	l = NewRestHandlerLog(r)
+	assert.Equal(t, l, r.Env[constant.MiddlewareLog])
+	assert.Equal(t, r, l.Request)
+	assert.NotEmpty(t, r.Header.Get(constant.TransactionID))
+	assert.Equal(t, r.Header.Get(constant.TransactionID), l.GetMessageId())
+}
+
+func TestNewRestHandlerLog_Exists(t *testing.T) {
+	r := apitest.MakePostRequest(`{}`, "HOMEL")
+
+	l1 := NewRestHandlerLog(r)
+	l2 := NewRestHandlerLog(r)
+
+	assert.Equal(t, l1, l2)
+}
+
+func TestNewRestHandlerLog_ADLogExists(t *testing.T) {
+	r := apitest.MakePostRequest(`{}`, "HOMEL")
+	l := NewRestHandlerLog(r)
+	al := ADLog{l}
+	r.Env[constant.MiddlewareLog] = al
+
+	l2 := NewRestHandlerLog(r)
+	assert.Equal(t, l, l2)
+}
+
+func TestNewRestHandlerLog_NonLogExists(t *testing.T) {
+	r := apitest.MakePostRequest(`{}`, "HOMEL")
+	r.Env[constant.MiddlewareLog] = "it's not log"
+
+	l := NewRestHandlerLog(r)
+
+	assert.IsType(t, &RestHandlerLog{}, r.Env[constant.MiddlewareLog])
+	assert.Equal(t, l, r.Env[constant.MiddlewareLog])
+}
+
+func TestNewLog(t *testing.T) {
+	r := apitest.MakePostRequest(`{}`, "HOMEL")
+
+	l := New(r)
+
+	assert.Equal(t, l, r.Env[constant.MiddlewareLog])
+	assert.NotEmpty(t, r.Header.Get(constant.TransactionID))
+	assert.Equal(t, r.Header.Get(constant.TransactionID), l.GetMessageId())
+}
+
+func TestNewLog_NonLogExists(t *testing.T) {
+	r := apitest.MakePostRequest(`{}`, "HOMEL")
+	r.Env[constant.MiddlewareLog] = "it's not log"
+
+	l := New(r)
+
+	assert.IsType(t, &RestHandlerLog{}, r.Env[constant.MiddlewareLog])
+	assert.Equal(t, l, r.Env[constant.MiddlewareLog])
+}
+
+func TestNewLog_Exists(t *testing.T) {
+	r := apitest.MakePostRequest(`{}`, "HOMEL")
+
+	l := New(r)
+	l2 := New(r)
+
+	assert.Equal(t, l, l2)
+}
+
+func TestAPIName(t *testing.T) {
+	r := apitest.MakeGetRequest(nil, "HOMEL")
+	f1(r)
+	assert.Equal(t, "log.f1", r.Env["ApiName"])
+
+	r = apitest.MakeGetRequest(nil, "HOMEL")
+	f2(r)
+	assert.Equal(t, "log.f2", r.Env["ApiName"])
+}
+
+func f1(r *rest.Request) {
+	New(r)
+}
+
+func f2(r *rest.Request) {
+	NewRestHandlerLog(r)
+}

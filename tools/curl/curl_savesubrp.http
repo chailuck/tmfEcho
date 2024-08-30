@@ -1,0 +1,23 @@
+curl -X POST    -H "Content-Type:application/json"  
+-d 
+'{
+    "CUST_NUMB": 502236788,
+    "SUBR_NUMB": "668120833162", 
+    "USER_CODE": "TUSER01",
+    "TITL": "Mr",
+    "FRST_NAME": "Test",
+    "LAST_NAME": "Test",
+    "DEAL_NUMB": "10201002",
+    "SLMN_CODE": "26372",
+    "AGMT_CHCK_FLAG": "R",
+    "LANG":"E",
+    "AGMT_CHCK_DATE": "2023-01-01T05:34:45",
+    "BARR_FLAG":"1",
+    "CS_SMS_BARR__LAST_CHNG_DTTM": "2023-01-01T05:34:45",
+    "REMK":"Remark",
+    "CS_SUBR_PCN__LAST_CHNG_DTTM": "2020-06-05T15:20:28"
+
+    
+}'  
+http://localhost:8080/SaveSubrP
+

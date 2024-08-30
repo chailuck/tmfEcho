@@ -1,0 +1,13 @@
+CREATE TABLE rd_bill_prdt (
+blpd_code char(2) NOT NULL,
+comp_code char(2) NOT NULL,
+long_desc varchar(50) NOT NULL,
+card_indc char(1) NOT NULL,
+eir_indc char(1) NOT NULL,
+blpd_indc char(4) NOT NULL,
+subr_tabl_mod smallint NOT NULL,
+crtd_dttm TIMESTAMP(0) NOT NULL,
+crtd_by char(12) NOT NULL,
+last_chng_dttm TIMESTAMP(0) NOT NULL,
+last_chng_by char(12) NOT NULL
+)

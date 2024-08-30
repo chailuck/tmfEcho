@@ -1,0 +1,16 @@
+package log
+
+import (
+	"omr/apitest"
+	"testing"
+)
+
+func TestADLogServiceStart_End(t *testing.T) {
+	r := apitest.MakeGetRequest(map[string]string{}, "HOMEL")
+	l := ADLog{NewRestHandlerLog(r)}
+	l.ServiceStart("ignore")
+	l.ServiceEnd("ignore", API_RETURN_SUCCESS)
+
+	l.ServiceStart("AD")
+	l.ServiceEnd("AD", API_RETURN_SUCCESS)
+}

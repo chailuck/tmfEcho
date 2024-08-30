@@ -1,0 +1,32 @@
+package log
+
+import "github.com/ant0ine/go-json-rest/rest"
+
+type LogResult struct {
+	HandlerServiceLogger
+	lastSys, lastService string
+}
+
+func (l *LogResult) ServiceStart(args ...string) {
+	if len(args) < 2 {
+		return
+	}
+	l.lastSys, l.lastService = args[0], args[1]
+	l.HandlerServiceLogger.ServiceStart(l.lastSys, l.lastService)
+}
+
+func (l LogResult) Result(err error) {
+	if l.lastSys == "" {
+		return
+	}
+	if err != nil {
+		l.ServiceEnd(l.lastSys, l.lastService, API_RETURN_FAIL, err.Error())
+		return
+	}
+	l.ServiceEnd(l.lastSys, l.lastService, API_RETURN_SUCCESS)
+
+}
+
+func NewLogResult(r *rest.Request) *LogResult {
+	return &LogResult{New(r), "", ""}
+}

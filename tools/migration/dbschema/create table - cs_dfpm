@@ -1,0 +1,11 @@
+CREATE TABLE cs_dfpm (
+dfpm_code char(20) NOT NULL,
+long_desc char(50) NOT NULL,
+vlue_char varchar(50) ,
+vlue_int integer ,
+vlue_mney money(10,2) ,
+crtd_dttm TIMESTAMP(0) NOT NULL,
+crtd_by char(12) NOT NULL,
+last_chng_dttm TIMESTAMP(0) NOT NULL,
+last_chng_by char(12) NOT NULL
+)

@@ -1,0 +1,145 @@
+package log
+
+import (
+	"errors"
+	"fmt"
+	"reflect"
+	"strings"
+	"testing"
+
+	"code.google.com/p/go-uuid/uuid"
+	"github.com/kr/pretty"
+)
+
+type MockRestLogger struct {
+	HandlerStartCalled, HandlerEndCalled, HandlerEndWithErrorCalled bool
+	HandlerStartCount, HandlerEndCount                              int
+	serviceStartList                                                map[string]string
+	serviceEndList                                                  map[string]string
+	serviceEndArgs                                                  map[string][]string
+	handlerEndWithError                                             []string
+	uuid                                                            string
+}
+
+//Mock new mocking log for unit test
+func Mock() *MockRestLogger {
+	return &MockRestLogger{
+		serviceStartList: make(map[string]string),
+		serviceEndList:   make(map[string]string),
+		serviceEndArgs:   make(map[string][]string),
+	}
+}
+
+func (m *MockRestLogger) HandlerStart() {
+	m.HandlerStartCalled = true
+	m.HandlerStartCount++
+}
+
+func (m *MockRestLogger) HandlerEnd() {
+	m.HandlerEndCalled = true
+	m.HandlerEndCount++
+}
+
+func (m *MockRestLogger) HandlerEndWithMessage(msg string) {
+	m.HandlerEndCalled = true
+	m.HandlerEndCount++
+}
+
+func (m *MockRestLogger) ServiceStart(args ...string) {
+	var sys, serv string
+	for k, v := range args {
+		switch k {
+		case 0:
+			sys = v
+		case 1:
+			serv = v
+		}
+	}
+	key := sys + ":::" + serv
+	m.serviceStartList[key] = ""
+}
+
+func (m *MockRestLogger) ServiceEnd(args ...string) {
+	var sys, serv string
+	var a []string
+	for k, v := range args {
+		switch k {
+		case 0:
+			sys = v
+		case 1:
+			serv = v
+		}
+		a = append(a, v)
+	}
+	key := sys + ":::" + serv
+	m.serviceEndArgs[key] = append(m.serviceEndArgs[sys], a...)
+	m.serviceEndList[key] = ""
+}
+
+func (m *MockRestLogger) ServiceEndWithError(...string) {
+	//no test
+}
+
+func (m *MockRestLogger) HandlerEndWithError(v ...string) {
+	m.HandlerEndWithErrorCalled = true
+	m.HandlerEndCount++
+	m.handlerEndWithError = append(m.handlerEndWithError, v...)
+}
+
+func (m *MockRestLogger) GetMessageId() string {
+	if m.uuid == "" {
+		m.uuid = uuid.New()
+	}
+	return m.uuid
+}
+
+func (m *MockRestLogger) UpdateMessage(...string) {
+	//no test
+}
+
+//VerifyNoOutstandingLog - verify log should start and end
+func (m MockRestLogger) VerifyNoOutstandingLog() error {
+	if !(m.HandlerStartCalled && m.HandlerEndCalled) &&
+		!(m.HandlerStartCalled && m.HandlerEndWithErrorCalled) &&
+		!(!m.HandlerStartCalled && !m.HandlerEndCalled) {
+		return errors.New("Log handler no start or no end")
+	}
+	if m.HandlerStartCount > 1 || m.HandlerEndCount > 1 {
+		return errors.New("Log handler start or end more than 1 times")
+	}
+
+	if len(m.serviceStartList) != len(m.serviceEndList) {
+		fmt.Printf("START=%v\nEND=%v\n", m.serviceStartList, m.serviceEndList)
+		return errors.New("Log handler service is outstanding")
+	}
+	d := pretty.Diff(m.serviceStartList, m.serviceEndList)
+	if len(d) > 0 {
+		return errors.New("Log handler service is outstanding: " + strings.Join(d, ","))
+	}
+	return nil
+}
+
+//IsLog log is written
+func (m MockRestLogger) IsLog() bool {
+	return m.HandlerStartCalled || m.HandlerEndCalled || len(m.serviceStartList) > 0 || len(m.serviceEndList) > 0
+}
+
+//HandlerEndErrorMessage error message of HandlerEndWithError
+func (m MockRestLogger) HandlerEndErrorMessage() []string {
+	return m.handlerEndWithError
+}
+
+//ServiceEndArgsEqual test ServiceEnd arguments is OK
+func (m MockRestLogger) ServiceEndArgsEqual(t *testing.T, args ...string) (b bool) {
+	t.Helper()
+	if len(args) < 2 {
+		t.Error("ServiceEndArgsEqual: expect least 2 arg")
+		return false
+	}
+	key := args[0] + ":::" + args[1]
+	b = reflect.DeepEqual(m.serviceEndArgs[key], args)
+	if !b {
+		t.Errorf("\nExpected> %v\nLogged  > %v\n", strings.Join(args, ","), m.serviceEndArgs)
+	}
+	return b
+}

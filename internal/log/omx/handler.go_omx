@@ -1,0 +1,449 @@
+package log
+
+import (
+	"omr/api/conf"
+	"omr/api/constant"
+	"omr/api/stat"
+	omrhttp "omr/http"
+	"omr/safe"
+	"os"
+	"runtime"
+	"strings"
+	"sync"
+	"time"
+
+	"code.google.com/p/go-uuid/uuid"
+	"github.com/ant0ine/go-json-rest/rest"
+)
+
+const (
+	API_IN          = 1
+	SERVICE_OUT     = 2
+	SERVICE_IN      = 3
+	API_OUT_SUCCESS = 4
+	API_OUT_ERROR   = 5
+
+	API_RETURN_SUCCESS        = "200"
+	API_RETURN_FAIL           = "500"
+	API_RETURN_BAD_REQUEST    = "400"
+	API_RETURN_UNAUTHORIZED   = "401"
+	API_RETURN_BUSINESS_ERROR = "520"
+
+	API_RETURN_BAD_REQUEST_MESSAGE = "The server cannot or will not process the request due to something that is perceived to be a client error."
+
+	MessageLanUser          = 0
+	MessageCCBUser          = 1
+	MessageSourceSystem     = 2
+	MessageCustomerNumber   = 3
+	MessageSubscriberNumber = 4
+	MessageCallHeaderId     = 5
+	MessageRequestIp        = 6
+)
+
+var (
+	hostname = "localhost"
+)
+
+type RestHandlerLog struct {
+	m              Message
+	Request        *rest.Request
+	Logger         OMRLogger
+	HandlerStarted bool
+	handlerEnded   bool
+	mux            sync.Mutex
+}
+
+type HandlerLogger interface {
+	HandlerStart()
+	HandlerEnd()
+	HandlerEndWithMessage(string)
+	HandlerEndWithError(args ...string)
+	GetMessageId() string
+	UpdateMessage(infos ...string)
+}
+
+type ServiceLogger interface {
+	ServiceStart(args ...string)
+	ServiceEnd(args ...string)
+}
+
+type HandlerServiceLogger interface {
+	HandlerLogger
+	ServiceLogger
+}
+
+func init() {
+	var err error
+	hostname, err = os.Hostname()
+
+	if err != nil {
+		panic(err)
+	}
+}
+
+func New(r *rest.Request) HandlerServiceLogger {
+	l := getHandlerServiceLogger(r)
+	if l != nil {
+		return l
+	}
+	return NewRestHandlerLog(r)
+}
+
+func NewRestHandlerLog(r *rest.Request) *RestHandlerLog {
+	if r == nil {
+		return &RestHandlerLog{
+			Request: nil,
+			Logger:  Logger,
+		}
+	}
+
+	l := getRestHandlerLog(r)
+	if l != nil {
+		return l
+	}
+
+	transID := uuid.New()
+
+	perfLog := &RestHandlerLog{
+		m:       newMessage(r, transID),
+		Request: r,
+		Logger:  Logger,
+	}
+
+	r.Env[constant.MiddlewareLog] = HandlerServiceLogger(perfLog)
+	r.Header.Set(constant.TransactionID, transID)
+
+	if conf.GetBool("toggle.Save_Screen_API") {
+		h := omrhttp.CloneHeader(r.Header)
+		url := r.URL.String()
+		safe.Go(func() {
+			stat.SavePage(h, url, perfLog.m.ApiName)
+		})
+	}
+
+	return perfLog
+}
+
+func getHandlerServiceLogger(r *rest.Request) HandlerServiceLogger {
+	v, exists := r.Env[constant.MiddlewareLog]
+	if !exists {
+		return nil
+	}
+	switch l := v.(type) {
+	case HandlerServiceLogger:
+		return l
+	default:
+		return nil
+	}
+}
+
+func getRestHandlerLog(r *rest.Request) *RestHandlerLog {
+	v, exists := r.Env[constant.MiddlewareLog]
+	if !exists {
+		return nil
+	}
+	switch l := v.(type) {
+	case ADLog:
+		return l.RestHandlerLog
+	case *RestHandlerLog:
+		return l
+	default:
+		return nil
+	}
+}
+
+func newMessage(r *rest.Request, transID string) Message {
+	callerInfos := make([]string, 7)
+	callerInfo := r.Header.Get("CallerInfo")
+	infos := strings.Split(callerInfo, "|")
+	infos = append(infos, r.Header.Get("X-Real-IP"))
+	copy(callerInfos, infos)
+	apiName := funcName()
+	if r != nil {
+		if an, exists := r.Env[constant.ApiName]; exists {
+			apiName = an.(string)
+		} else {
+			r.Env[constant.ApiName] = apiName
+		}
+	}
+
+	m := Message{
+		Step:              API_IN,
+		LanUser:           getSome(callerInfos[MessageLanUser], r.Header.Get("UserLan")),
+		CCBUser:           getSome(callerInfos[MessageCCBUser], r.Header.Get("UserCode")),
+		CustomerNumber:    callerInfos[MessageCustomerNumber],
+		SubscriberNumber:  callerInfos[MessageSubscriberNumber],
+		CallHeaderId:      callerInfos[MessageCallHeaderId],
+		MessageId:         transID,
+		SourceSystem:      callerInfos[MessageSourceSystem],
+		RequestIp:         callerInfos[MessageRequestIp],
+		ApiName:           apiName,
+		MachineName:       hostname,
+		EndPointSystem:    "-",
+		ServiceName:       "-",
+		ApiStatusCode:     "-",
+		ServiceStatusCode: "-",
+		ErrorMessage:      "-",
+		ResponseTime:      0,
+		EndToEnd:          0,
+	}
+
+	if r.Header.Get("OMRMobileVersion") != "" {
+		m.OMRMobileVersion = r.Header.Get("OMRMobileVersion")
+		m.OSPlatform = r.Header.Get("OSPlatform")
+		m.OSVersion = r.Header.Get("OSVersion")
+		m.DeviceID = r.Header.Get("ClientID")
+		m.DeviceModel = r.Header.Get("DeviceModel")
+		m.Network = r.Header.Get("Network")
+	}
+
+	return m
+}
+
+func getSome(a string, b string) string {
+	if a != "" {
+		return a
+	}
+	return b
+}
+
+func (l *RestHandlerLog) trace() {
+	l.Logger.Write(l.m)
+}
+
+func (l *RestHandlerLog) GetMessageId() string {
+	l.mux.Lock()
+	defer l.mux.Unlock()
+	return l.m.MessageId
+}
+
+func (l *RestHandlerLog) HandlerStart() {
+	l.mux.Lock()
+	defer l.mux.Unlock()
+	defer func() {
+		l.HandlerStarted = true
+	}()
+
+	if l.HandlerStarted {
+		return
+	}
+
+	l.m.ApiStartTime = time.Now()
+	l.m.LogTime = l.m.ApiStartTime
+	l.m.RequestDateTime = l.m.ApiStartTime
+
+	l.trace()
+}
+
+func (l *RestHandlerLog) ServiceStart(args ...string) {
+	l.mux.Lock()
+	defer l.mux.Unlock()
+
+	l.m.LogTime = time.Now()
+	l.m.Step = SERVICE_OUT
+	l.m.ErrorMessage = "-"
+
+	for key, val := range args {
+		switch key {
+		case 0:
+			l.m.EndPointSystem = val
+		case 1:
+			l.m.ServiceName = val
+		case 2:
+			l.m.ErrorMessage = val
+		case 3:
+			l.m.EndPointURL = val
+		}
+	}
+
+	if conf.GetBool("toggle.Save_Screen_API") {
+		m := l.m
+		safe.Go(func() {
+			stat.SaveAPIServiceName(m.ApiName, m.ServiceName, m.EndPointSystem, m.EndPointURL)
+		})
+	}
+
+	l.m.ServiceStatusCode = ""
+	l.m.ApiStatusCode = ""
+	l.m.ResponseTime = 0
+	l.m.EndToEnd = 0
+	l.trace()
+}
+
+func (l *RestHandlerLog) ServiceEnd(args ...string) {
+	l.mux.Lock()
+	defer l.mux.Unlock()
+
+	r := strings.NewReplacer("\r", "", "\n", "")
+
+	newLogTime := time.Now()
+	l.m.Step = SERVICE_IN
+	for key, val := range args {
+		switch key {
+		case 0:
+			l.m.EndPointSystem = val
+		case 1:
+			l.m.ServiceName = val
+		case 2:
+			l.m.ServiceStatusCode = val
+		case 3:
+			l.m.ErrorMessage = r.Replace(val)
+		case 4:
+			l.m.EndPointURL = val
+		}
+	}
+
+	l.m.ApiStatusCode = "200"
+	l.m.ResponseTime = newLogTime.Sub(l.m.LogTime)
+	l.m.EndToEnd = 0
+	l.m.LogTime = newLogTime
+	l.trace()
+}
+
+func (l *RestHandlerLog) HandlerEnd() {
+	l.mux.Lock()
+	defer l.mux.Unlock()
+
+	defer func() {
+		l.handlerEnded = true
+	}()
+
+	if l.handlerEnded {
+		return
+	}
+
+	newLogTime := time.Now()
+	l.m.Step = API_OUT_SUCCESS
+	l.m.ServiceStatusCode = ""
+	l.m.ApiStatusCode = API_RETURN_SUCCESS
+	l.m.ResponseTime = newLogTime.Sub(l.m.ApiStartTime)
+	l.m.EndToEnd = newLogTime.Sub(l.m.RequestDateTime)
+	l.m.LogTime = newLogTime
+	l.trace()
+}
+
+func (l *RestHandlerLog) HandlerEndWithMessage(message string) {
+	l.mux.Lock()
+	defer l.mux.Unlock()
+	defer func() {
+		l.handlerEnded = true
+	}()
+
+	if l.handlerEnded {
+		return
+	}
+
+	newLogTime := time.Now()
+	l.m.Step = API_OUT_SUCCESS
+	l.m.ServiceStatusCode = ""
+	l.m.ApiStatusCode = API_RETURN_SUCCESS
+	l.m.ResponseTime = newLogTime.Sub(l.m.ApiStartTime)
+	l.m.EndToEnd = newLogTime.Sub(l.m.RequestDateTime)
+	l.m.ErrorMessage = message
+	l.m.LogTime = newLogTime
+	l.trace()
+}
+
+func (l *RestHandlerLog) HandlerEndWithError(args ...string) {
+	l.mux.Lock()
+	defer l.mux.Unlock()
+	defer func() {
+		l.handlerEnded = true
+	}()
+
+	if l.handlerEnded {
+		return
+	}
+
+	r := strings.NewReplacer("\r", "", "\n", "")
+
+	newLogTime := time.Now()
+	l.m.Step = API_OUT_ERROR
+	l.m.ServiceStatusCode = API_RETURN_FAIL
+	l.m.ApiStatusCode = API_RETURN_FAIL
+
+	if len(args) == 2 {
+		l.m.ApiStatusCode = args[0]
+		l.m.ErrorMessage = r.Replace(args[1])
+	}
+
+	if len(args) > 2 {
+		originalHandlerEndWithError(&l.m, args...)
+	}
+
+	l.m.ResponseTime = newLogTime.Sub(l.m.ApiStartTime)
+	l.m.EndToEnd = newLogTime.Sub(l.m.RequestDateTime)
+	l.m.LogTime = newLogTime
+	l.trace()
+}
+
+func originalHandlerEndWithError(m *Message, args ...string) {
+	r := strings.NewReplacer("\r", "", "\n", "")
+	m.ServiceStatusCode = args[0]
+	m.ErrorMessage = r.Replace(args[1])
+	m.ApiStatusCode = args[2]
+}
+
+// GenLogMessage returns string to put in log
+func GenLogMessage(messageNature, messageSQLCode, messageEN string) string {
+	const LOG_ERROR_SEPERATE = "#"
+	return messageNature + LOG_ERROR_SEPERATE + messageSQLCode + LOG_ERROR_SEPERATE + messageEN
+}
+
+// UpdateMessage updates message such as subscriber or customer number
+// usage is UpdateMessage(r, []string{log.MessageCustomerNumber:"66800000000"})
+func UpdateMessage(r *rest.Request, infos ...string) {
+	l, ok := r.Env[constant.MiddlewareLog].(HandlerServiceLogger)
+	if !ok {
+		return
+	}
+	l.UpdateMessage(infos...)
+}
+
+// UpdateMessage updates message such as subscriber or customer number
+// usage is UpdateMessage(r, []string{log.MessageCustomerNumber:"66800000000"})
+func (l *RestHandlerLog) UpdateMessage(infos ...string) {
+	l.mux.Lock()
+	defer l.mux.Unlock()
+
+	callerInfos := make([]string, 7)
+	copy(callerInfos, infos)
+
+	if info := callerInfos[MessageLanUser]; info != "" {
+		l.m.LanUser = info
+	}
+	if info := callerInfos[MessageCCBUser]; info != "" {
+		l.m.CCBUser = info
+	}
+	if info := callerInfos[MessageSourceSystem]; info != "" {
+		l.m.SourceSystem = info
+	}
+	if info := callerInfos[MessageCustomerNumber]; info != "" {
+		l.m.CustomerNumber = info
+	}
+	if info := callerInfos[MessageSubscriberNumber]; info != "" {
+		l.m.SubscriberNumber = info
+	}
+	if info := callerInfos[MessageCallHeaderId]; info != "" {
+		l.m.CallHeaderId = info
+	}
+	if info := callerInfos[MessageRequestIp]; info != "" {
+		l.m.RequestIp = info
+	}
+}
+
+func funcName() string {
+	f := funcNameCaller(4)
+	if f == "log.New" {
+		return funcNameCaller(5)
+	}
+	return f
+}
+
+func funcNameCaller(c int) string {
+	pc, _, _, _ := runtime.Caller(c)
+	path := runtime.FuncForPC(pc).Name()
+	i := strings.Count(path, "/")
+	s := strings.Split(path, "/")
+	return s[i]
+}

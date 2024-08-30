@@ -1,0 +1,45 @@
+package log
+
+import (
+	"encoding/json"
+	"github.com/ant0ine/go-json-rest/rest"
+	"io/ioutil"
+	"net/http"
+
+	"omr/api/utils/cleaner"
+)
+
+type LogRequest struct {
+	LogMessage string `json:"message"`
+}
+
+func LogMessageAPI(w rest.ResponseWriter, r *rest.Request) {
+	perfLog := NewRestHandlerLog(r)
+	perfLog.HandlerStart()
+
+	req, err := parseLogMessage(r)
+
+	if err != nil {
+		w.WriteHeader(http.StatusBadRequest)
+		perfLog.HandlerEndWithError(API_RETURN_BAD_REQUEST, err.Error())
+	} else {
+		CleanerRequest(req)
+		w.WriteHeader(http.StatusOK)
+		perfLog.HandlerEndWithMessage(req.LogMessage)
+	}
+}
+
+func parseLogMessage(r *rest.Request) (req *LogRequest, err error) {
+	req = new(LogRequest)
+	data, err := ioutil.ReadAll(r.Body)
+	if err != nil {
+		return
+	}
+
+	err = json.Unmarshal(data, req)
+	return
+}
+
+func CleanerRequest(req *LogRequest) {
+	req.LogMessage = cleaner.RemoveSpaceAndSpecialCharacterLite(req.LogMessage)
+}

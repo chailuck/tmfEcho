@@ -1,0 +1,139 @@
+package log
+
+import (
+	"bytes"
+	"fmt"
+	"omr/api/conf"
+	"strings"
+	"text/template"
+	"time"
+)
+
+type Message struct {
+	Step                 int           `bson:"step"` //Step in log (1,2,3,4,5)
+	ApiStartTime         time.Time     `bson:"apiStartTime"`
+	ApiStartLocalTime    string        `bson:"-"`
+	LogTime              time.Time     `bson:"logTime"`
+	LogLocalTime         string        `bson:"-"`
+	LanUser              string        `bson:"lanUser"`          //send from client (USERLAN)
+	CCBUser              string        `bson:"ccbUser"`          //send from client (CCB USER)
+	CustomerNumber       string        `bson:"customerNumber"`   //send from client
+	SubscriberNumber     string        `bson:"subscriberNumber"` //send from client
+	CallHeaderId         string        `bson:"callHederID"`      //send from client
+	MessageId            string        `bson:"messageID"`        //genereate in server (UUID)
+	SourceSystem         string        `bson:"sourceSystem"`     //send from client (Format = Source System ID + _ + pagename???
+	RequestDateTime      time.Time     `bson:"requestDateTime"`
+	RequestDateLocalTime string        `bson:"-"`
+	RequestIp            string        `bson:"requestIP"`      //send from http header (client ip)
+	ApiName              string        `bson:"apiName"`        //get from API server (from route handler)
+	MachineName          string        `bson:"machineName"`    // API server ip address
+	EndPointSystem       string        `bson:"endpointSystem"` //get from server (TUX, SHAREPOINT)
+	EndPointURL          string        `bson:"endpointUrl"`
+	ServiceName          string        `bson:"serviceName"`       //get from server (ReadCardWS,...)
+	ApiStatusCode        string        `bson:"apiStatusCode"`     //get from server (HTTP_CODE 200 or 201 or 500...)
+	ServiceStatusCode    string        `bson:"serviceStatusCode"` //get from server (SALT 200 or 201 or 500...)
+	ErrorMessage         string        `bson:"errorMessage"`      //get from server (SALT/External system error message)
+	ResponseTime         time.Duration `bson:"responseTime"`      //calculate in server (millisecond)
+	EndToEnd             time.Duration `bson:"endToEnd"`          //calculate in server (millisecond)
+	ResponseTimeMsec     int           `bson:"-"`                 //millisecond
+	EndToEndMsec         int           `bson:"-"`                 //millisecond
+
+	// Extension for mobile app
+	OMRMobileVersion string
+	OSPlatform       string
+	OSVersion        string
+	DeviceID         string
+	DeviceModel      string
+	Location         string
+	Network          string
+}
+
+func (m *Message) String() string {
+	if conf.GetBool("toggle.log.support.mobile") {
+		return m.string()
+	}
+	return m.originString()
+}
+
+func (m *Message) string() string {
+	m.setLocalTime()
+	m.setTimeMsec()
+
+	v := []string{
+		m.LogLocalTime,
+		m.LanUser,
+		m.CCBUser,
+		m.CustomerNumber,
+		m.SubscriberNumber,
+		m.CallHeaderId,
+		m.MessageId,
+		m.SourceSystem,
+		m.RequestDateLocalTime,
+		m.RequestIp,
+		m.ApiName,
+		m.MachineName,
+		fmt.Sprintf("%d", m.Step),
+		m.EndPointSystem,
+		m.ServiceName,
+		m.ApiStatusCode,
+		m.ServiceStatusCode,
+		m.ErrorMessage,
+		fmt.Sprintf("%d", m.ResponseTimeMsec),
+		fmt.Sprintf("%d", m.EndToEndMsec),
+	}
+
+	if m.OMRMobileVersion != "" {
+		v = append(v, m.OMRMobileVersion, m.OSPlatform, m.OSVersion, m.DeviceID, m.DeviceModel, m.Location, m.Network)
+	}
+
+	joined := fmt.Sprintf("|%s", strings.Join(v, "|"))
+
+	return strings.Replace(joined, "\n", " ", -1)
+}
+
+func Milliseconds(t time.Duration) int {
+	return int(t / time.Millisecond)
+}
+
+func (m *Message) setTimeMsec() {
+	m.ResponseTimeMsec = Milliseconds(m.ResponseTime)
+	m.EndToEndMsec = Milliseconds(m.EndToEnd)
+}
+
+func (m *Message) setLocalTime() {
+	m.ApiStartLocalTime = m.ApiStartTime.Local().String()
+	m.LogLocalTime = m.LogTime.Local().String()
+	m.RequestDateLocalTime = m.RequestDateTime.Local().String()
+}
+
+func (m *Message) originString() string {
+	m.setLocalTime()
+	m.setTimeMsec()
+	buf := bytes.NewBuffer([]byte{})
+	templ := template.Must(template.New("log").Parse(format))
+	templ.Execute(buf, m)
+
+	return strings.Replace(buf.String(), "\n", " ", -1)
+}
+
+var format = `|` + //01
+	`{{.LogLocalTime}}|` +
+	`{{.LanUser}}|` +
+	`{{.CCBUser}}|` +
+	`{{.CustomerNumber}}|` +
+	`{{.SubscriberNumber}}|` + //06
+	`{{.CallHeaderId}}|` +
+	`{{.MessageId}}|` +
+	`{{.SourceSystem}}|` +
+	`{{.RequestDateLocalTime}}|` +
+	`{{.RequestIp}}|` + //11
+	`{{.ApiName}}|` +
+	`{{.MachineName}}|` +
+	`{{.Step}}|` +
+	`{{.EndPointSystem}}|` +
+	`{{.ServiceName}}|` + //16
+	`{{.ApiStatusCode}}|` +
+	`{{.ServiceStatusCode}}|` +
+	`{{.ErrorMessage}}|` +
+	`{{.ResponseTimeMsec}}|` +
+	`{{.EndToEndMsec}}` //21

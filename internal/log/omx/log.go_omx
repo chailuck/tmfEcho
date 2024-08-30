@@ -1,0 +1,64 @@
+package log
+
+import (
+	"io/ioutil"
+	"log"
+	"omr/api/conf"
+	"os"
+)
+
+// var Writer *syslog.Writer
+
+type OMRLogger interface {
+	Write(m Message)
+}
+
+type FileLogger struct {
+	*log.Logger
+}
+
+// Init Side Effect
+// func init() {
+// 	Writer, _ = syslog.New(syslog.LOG_USER, "OMR")
+// }
+
+func (fl *FileLogger) Write(m Message) {
+	fl.Println(m.String())
+}
+
+var (
+	Logger OMRLogger = newTrace()
+	NopLog           = &FileLogger{log.New(ioutil.Discard, "", 0)}
+)
+
+func newTrace() *FileLogger {
+	return &FileLogger{log.New(os.Stdout, "TRACE: ", log.Lshortfile)}
+}
+
+func LogToFile(filename string) {
+	Logger = newLogger(filename, "TRACE")
+}
+
+// OpenFiles initials log files
+func OpenFiles() {
+	LogToFile(conf.Get("log.trace.file"))
+
+	// fileErrorLogger = newLogger(conf.Get("log.error.file"), "ERROR")
+	// dconf := conf.Pull(conf.Debug)
+	// fileDebugLogger = newLogger(dconf.Get("log.debug.path"), "ERROR")
+}
+
+func newLogger(filename, prefix string) OMRLogger {
+	file, err := os.OpenFile(filename, os.O_CREATE|os.O_WRONLY|os.O_APPEND, 0666)
+	if err != nil {
+		log.Fatal(err)
+	}
+	// 	if prefix == "TRACE" {
+	return &FileLogger{log.New(file, prefix+": ", log.Lshortfile)}
+	// 	}
+	// 	return &FileErrorLogger{log.New(file, prefix+": ", log.Lshortfile)}
+}
+
+func StartWriteLog() {
+	LogToFile(conf.Get("log.trace.file"))
+}

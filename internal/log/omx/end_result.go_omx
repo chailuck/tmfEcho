@@ -1,0 +1,8 @@
+package log
+
+func EndResult(system, service string, err error) []string {
+	if err != nil {
+		return []string{system, service, API_RETURN_FAIL, err.Error()}
+	}
+	return []string{system, service, API_RETURN_SUCCESS}
+}

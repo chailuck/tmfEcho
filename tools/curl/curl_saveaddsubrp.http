@@ -1,0 +1,33 @@
+curl -X POST    -H "Content-Type:application/json"  
+-d 
+'{
+    		"USER_CODE":    "TUSER01",
+			"CUST_NUMB":    625044098,
+			"SUBR_NUMB":    "66876801466",
+			"FRST_NAME":    "TEST",
+			"TITL":    "Mr",
+			"FRST_NAME":"TEST",
+			"LAST_NAME":"TEST",
+			"HRDW_NUMB":   "123456789",
+			"FRST_PKGP_CODE":"12423424",
+			"DEAL_NUMB":    "10201002",
+			"LMN_CODE":    "26372",
+			"RETL_CODE":    "R",
+			"SWON_RESN_CODE":"1",
+			"LEAS_CODE":    "1",
+			"LEAS_EXPR_DATE":"2023-01-01T05:34:45",
+			"REMK":        "TEST121212",
+			"CLNT_ID":      "1",
+			"PRCE_LIST_CODE":"1",
+			"ALRT_MTHD":    "1",
+			"SMS_LANG":     "E",
+			"IVR_LANG":     "E",
+			"USSD_LANG":    "E",
+			"BLPD_CODE":    "02",
+			"TRNS_FLAG_CODE":"1",
+			"CLNT_CALL_DTTM":"2023-01-01T05:34:45",
+			"CHNL":        "1"
+
+}'  
+http://localhost:8080/SaveAddSubrP
+

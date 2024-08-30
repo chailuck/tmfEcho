@@ -1,0 +1,19 @@
+package log
+
+import (
+	"reflect"
+	"testing"
+)
+
+func TestGetRequest(t *testing.T) {
+	r := createRequest()
+	var l ServiceLogger = &RestHandlerLog{
+		Request: r,
+	}
+
+	r2 := GetRequest(l)
+
+	if !reflect.DeepEqual(r2, r) {
+		t.Error("It should return *rest.Request in log")
+	}
+}
