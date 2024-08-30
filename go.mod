@@ -1,4 +1,4 @@
-module chailuck.ind/tmfEcho
+module tmfEcho
 
 go 1.21.4
 
