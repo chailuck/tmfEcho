@@ -1,0 +1,1030 @@
+{"level":"info","message":"kafka::brokers :: args=undefined"}
+{"level":"info","message":"kafka::brokers[\"localhost:9092\"]"}
+{"level":"info","message":"... add dynamic query parameters to get /individual"}
+{"level":"info","message":"... add dynamic query parameters to get /individual/{id}"}
+{"level":"info","message":"... add dynamic query parameters to get /organization"}
+{"level":"info","message":"... add dynamic query parameters to get /organization/{id}"}
+{"level":"info","message":"... add JSONPath filter query parameters to get /individual"}
+{"level":"info","message":"... add JSONPath filter query parameters to get /individual/{id}"}
+{"level":"info","message":"... add JSONPath filter query parameters to get /organization"}
+{"level":"info","message":"... add JSONPath filter query parameters to get /organization/{id}"}
+{"level":"info","message":"... add fields query parameters to post /listener/individualCreateEvent"}
+{"level":"info","message":"... add fields query parameters to post /listener/individualAttributeValueChangeEvent"}
+{"level":"info","message":"... add fields query parameters to post /listener/individualStateChangeEvent"}
+{"level":"info","message":"... add fields query parameters to post /listener/individualDeleteEvent"}
+{"level":"info","message":"... add fields query parameters to post /listener/organizationCreateEvent"}
+{"level":"info","message":"... add fields query parameters to post /listener/organizationAttributeValueChangeEvent"}
+{"level":"info","message":"... add fields query parameters to post /listener/organizationStateChangeEvent"}
+{"level":"info","message":"... add fields query parameters to post /listener/organizationDeleteEvent"}
+{"level":"info","message":"... add fields query parameters to post /hub"}
+{"level":"info","message":"... add sort query parameters to get /individual"}
+{"level":"info","message":"... add sort query parameters to get /organization"}
+{"level":"info","message":"... saved the updated/modified API specification /Users/henriquerodrigues/Documents/TMF/RIGen-openapi/ri-apis/TMF632-Party_Management/api/openapi.yaml"}
+{"level":"info","message":"done:: replaceAllRefs"}
+{"level":"info","message":"validator installed"}
+{"level":"info","message":"Listening on port 8632"}
+{"level":"info","message":"Express server running"}
+{"level":"info","message":"kafka::brokers :: args=undefined"}
+{"level":"info","message":"kafka::brokers[\"localhost:9092\"]"}
+{"level":"info","message":"... saved the updated/modified API specification /Users/henriquerodrigues/Documents/TMF/RIGen-openapi/ri-apis/TMF632-Party_Management/api/openapi.yaml"}
+{"level":"info","message":"done:: replaceAllRefs"}
+{"level":"info","message":"validator installed"}
+{"level":"info","message":"Listening on port 8632"}
+{"level":"info","message":"Express server running"}
+{"level":"info","message":"Service::create: createIndividual Individual"}
+{"level":"info","message":"... processMissingProperties: Individual"}
+{"level":"info","message":"populateMandatoryAttributes: type=Individual"}
+{"level":"info","message":"... processExcludedInPost: Individual Individual_Create"}
+{"level":"info","message":"... processExcludedInPost: undefined not found"}
+{"level":"info","message":"mongo::connect err=MongoServerSelectionError"}
+{"level":"info","message":"mongo::create error=MongoServerSelectionError"}
+{"level":"info","message":"handleRequest:: error={\n  \"error\": {\n    \"code\": \"1\",\n    \"reason\": \"Internal database error\",\n    \"message\": \"Internal Server Error\"\n  },\n  \"code\": 500\n}"}
+{"level":"info","message":"Service::create: createIndividual Individual"}
+{"level":"info","message":"... processMissingProperties: Individual"}
+{"level":"info","message":"populateMandatoryAttributes: type=Individual"}
+{"level":"info","message":"... processExcludedInPost: Individual Individual_Create"}
+{"level":"info","message":"... processExcludedInPost: undefined not found"}
+{"level":"info","message":"NotificationHandler:: publish ri-internal-event IndividualCreationNotification"}
+{"level":"error","message":"could not write message KafkaJSNumberOfRetriesExceeded: Connection error: "}
+{"level":"info","message":"Service::create: createOrganization Organization"}
+{"level":"info","message":"getResponseType: path not found (path=/tmf-api/partyManagement/v5/organization/)"}
+{"level":"info","message":"... processMissingProperties: Organization"}
+{"level":"info","message":"populateMandatoryAttributes: type=Organization"}
+{"level":"info","message":"... processExcludedInPost: Organization Organization_Create"}
+{"level":"info","message":"... processExcludedInPost: undefined not found"}
+{"level":"info","message":"NotificationHandler:: publish ri-internal-event OrganizationCreationNotification"}
+{"level":"info","message":"Service::index: listOrganization Organization"}
+{"level":"info","message":"mongo::findMany query={\n  \"criteria\": {},\n  \"options\": {\n    \"projection\": {},\n    \"limit\": 250\n  }\n}"}
+{"level":"info","message":"NotificationHandler:: publish ri-internal-event OrganizationNotification"}
+{"level":"info","message":"responseHeaderParams=[{\"X-Total-Count\":1},{\"X-Result-Count\":1},{\"Link\":\"<http://localhost:8632/tmf-api/partyManagement/v5/organization/?limit=250>; rel=\\\"self\\\"\"}]"}
+{"level":"info","message":"Service::show: retrieveOrganization Organization"}
+{"level":"info","message":"getSingleKey:: #1 res=8beac1c7-8e62-4e7b-95bc-2c4afabaa470"}
+{"level":"info","message":"show:: resourceType=Organization query={\"criteria\":{\"id\":\"8beac1c7-8e62-4e7b-95bc-2c4afabaa470\"},\"options\":{\"projection\":{},\"limit\":250}}"}
+{"level":"info","message":"NotificationHandler:: publish ri-internal-event OrganizationNotification"}
+{"level":"info","message":"Service::show: retrieveOrganization Organization"}
+{"level":"info","message":"getSingleKey:: #1 res=8beac1c7-8e62-4e7b-95bc-2c4afabaa470"}
+{"level":"info","message":"show:: resourceType=Organization query={\"criteria\":{\"id\":\"8beac1c7-8e62-4e7b-95bc-2c4afabaa470\"},\"options\":{\"projection\":{\"tradingName\":1,\"id\":1,\"href\":1,\"@type\":1},\"limit\":250}}"}
+{"level":"info","message":"NotificationHandler:: publish ri-internal-event OrganizationNotification"}
+{"level":"info","message":"Service::index: listOrganization Organization"}
+{"level":"info","message":"mongo::findMany query={\n  \"criteria\": {},\n  \"options\": {\n    \"projection\": {\n      \"tradingName\": 1,\n      \"id\": 1,\n      \"href\": 1,\n      \"@type\": 1\n    },\n    \"limit\": 250\n  }\n}"}
+{"level":"info","message":"NotificationHandler:: publish ri-internal-event OrganizationNotification"}
+{"level":"info","message":"responseHeaderParams=[{\"X-Total-Count\":1},{\"X-Result-Count\":1},{\"Link\":\"<http://localhost:8632/tmf-api/partyManagement/v5/organization/?fields=tradingName,id,href,@type&limit=250>; rel=\\\"self\\\"\"}]"}
+{"level":"info","message":"Service::show: retrieveOrganization Organization"}
+{"level":"info","message":"getSingleKey:: #1 res=8beac1c7-8e62-4e7b-95bc-2c4afabaa470"}
+{"level":"info","message":"show:: resourceType=Organization query={\"criteria\":{\"id\":\"8beac1c7-8e62-4e7b-95bc-2c4afabaa470\"},\"options\":{\"projection\":{\"tradingName\":1,\"id\":1,\"href\":1,\"@type\":1},\"limit\":250}}"}
+{"level":"info","message":"NotificationHandler:: publish ri-internal-event OrganizationNotification"}
+{"level":"info","message":"Service::index: listOrganization Organization"}
+{"level":"info","message":"mongo::findMany query={\n  \"criteria\": {},\n  \"options\": {\n    \"projection\": {\n      \"tradingName\": 1,\n      \"id\": 1,\n      \"href\": 1,\n      \"@type\": 1\n    },\n    \"limit\": 250\n  }\n}"}
+{"level":"info","message":"NotificationHandler:: publish ri-internal-event OrganizationNotification"}
+{"level":"info","message":"responseHeaderParams=[{\"X-Total-Count\":1},{\"X-Result-Count\":1},{\"Link\":\"<http://localhost:8632/tmf-api/partyManagement/v5/organization/?fields=tradingName,id,href,@type&limit=250>; rel=\\\"self\\\"\"}]"}
+{"level":"info","message":"Service::update: patchOrganization Organization"}
+{"level":"info","message":"getSingleKey:: #1 res=8beac1c7-8e62-4e7b-95bc-2c4afabaa470"}
+{"level":"info","message":"NotificationHandler:: publish ri-internal-event OrganizationAttributeValueChangeNotification"}
+{"level":"info","message":"Service::remove: deleteOrganization Organization"}
+{"level":"info","message":"getSingleKey:: #1 res=8beac1c7-8e62-4e7b-95bc-2c4afabaa470"}
+{"level":"info","message":"NotificationHandler:: publish ri-internal-event OrganizationRemoveNotification"}
+{"level":"info","message":"Service::create: createIndividual Individual"}
+{"level":"info","message":"getResponseType: path not found (path=/tmf-api/partyManagement/v5/individual/)"}
+{"level":"info","message":"... processMissingProperties: Individual"}
+{"level":"info","message":"populateMandatoryAttributes: type=Individual"}
+{"level":"info","message":"... processExcludedInPost: Individual Individual_Create"}
+{"level":"info","message":"... processExcludedInPost: undefined not found"}
+{"level":"info","message":"NotificationHandler:: publish ri-internal-event IndividualCreationNotification"}
+{"level":"info","message":"Service::index: listIndividual Individual"}
+{"level":"info","message":"mongo::findMany query={\n  \"criteria\": {},\n  \"options\": {\n    \"projection\": {},\n    \"limit\": 250\n  }\n}"}
+{"level":"info","message":"NotificationHandler:: publish ri-internal-event IndividualNotification"}
+{"level":"info","message":"responseHeaderParams=[{\"X-Total-Count\":2},{\"X-Result-Count\":2},{\"Link\":\"<http://localhost:8632/tmf-api/partyManagement/v5/individual/?limit=250>; rel=\\\"self\\\"\"}]"}
+{"level":"info","message":"Service::show: retrieveIndividual Individual"}
+{"level":"info","message":"getSingleKey:: #1 res=fc31a391-62dc-45d4-b1e4-89323f7178a2"}
+{"level":"info","message":"show:: resourceType=Individual query={\"criteria\":{\"id\":\"fc31a391-62dc-45d4-b1e4-89323f7178a2\"},\"options\":{\"projection\":{},\"limit\":250}}"}
+{"level":"info","message":"NotificationHandler:: publish ri-internal-event IndividualNotification"}
+{"level":"info","message":"Service::show: retrieveIndividual Individual"}
+{"level":"info","message":"getSingleKey:: #1 res=fc31a391-62dc-45d4-b1e4-89323f7178a2"}
+{"level":"info","message":"show:: resourceType=Individual query={\"criteria\":{\"id\":\"fc31a391-62dc-45d4-b1e4-89323f7178a2\"},\"options\":{\"projection\":{\"familyName\":1,\"id\":1,\"href\":1,\"@type\":1},\"limit\":250}}"}
+{"level":"info","message":"NotificationHandler:: publish ri-internal-event IndividualNotification"}
+{"level":"info","message":"Service::index: listIndividual Individual"}
+{"level":"info","message":"mongo::findMany query={\n  \"criteria\": {},\n  \"options\": {\n    \"projection\": {\n      \"familyName\": 1,\n      \"id\": 1,\n      \"href\": 1,\n      \"@type\": 1\n    },\n    \"limit\": 250\n  }\n}"}
+{"level":"info","message":"NotificationHandler:: publish ri-internal-event IndividualNotification"}
+{"level":"info","message":"responseHeaderParams=[{\"X-Total-Count\":2},{\"X-Result-Count\":2},{\"Link\":\"<http://localhost:8632/tmf-api/partyManagement/v5/individual/?fields=familyName,id,href,@type&limit=250>; rel=\\\"self\\\"\"}]"}
+{"level":"info","message":"Service::show: retrieveIndividual Individual"}
+{"level":"info","message":"getSingleKey:: #1 res=fc31a391-62dc-45d4-b1e4-89323f7178a2"}
+{"level":"info","message":"show:: resourceType=Individual query={\"criteria\":{\"id\":\"fc31a391-62dc-45d4-b1e4-89323f7178a2\"},\"options\":{\"projection\":{\"familyName\":1,\"id\":1,\"href\":1,\"@type\":1},\"limit\":250}}"}
+{"level":"info","message":"NotificationHandler:: publish ri-internal-event IndividualNotification"}
+{"level":"info","message":"Service::index: listIndividual Individual"}
+{"level":"info","message":"mongo::findMany query={\n  \"criteria\": {},\n  \"options\": {\n    \"projection\": {\n      \"familyName\": 1,\n      \"id\": 1,\n      \"href\": 1,\n      \"@type\": 1\n    },\n    \"limit\": 250\n  }\n}"}
+{"level":"info","message":"NotificationHandler:: publish ri-internal-event IndividualNotification"}
+{"level":"info","message":"responseHeaderParams=[{\"X-Total-Count\":2},{\"X-Result-Count\":2},{\"Link\":\"<http://localhost:8632/tmf-api/partyManagement/v5/individual/?fields=familyName,id,href,@type&limit=250>; rel=\\\"self\\\"\"}]"}
+{"level":"info","message":"Service::show: retrieveIndividual Individual"}
+{"level":"info","message":"getSingleKey:: #1 res=fc31a391-62dc-45d4-b1e4-89323f7178a2"}
+{"level":"info","message":"show:: resourceType=Individual query={\"criteria\":{\"id\":\"fc31a391-62dc-45d4-b1e4-89323f7178a2\"},\"options\":{\"projection\":{\"givenName\":1,\"id\":1,\"href\":1,\"@type\":1},\"limit\":250}}"}
+{"level":"info","message":"NotificationHandler:: publish ri-internal-event IndividualNotification"}
+{"level":"info","message":"Service::index: listIndividual Individual"}
+{"level":"info","message":"mongo::findMany query={\n  \"criteria\": {},\n  \"options\": {\n    \"projection\": {\n      \"givenName\": 1,\n      \"id\": 1,\n      \"href\": 1,\n      \"@type\": 1\n    },\n    \"limit\": 250\n  }\n}"}
+{"level":"info","message":"NotificationHandler:: publish ri-internal-event IndividualNotification"}
+{"level":"info","message":"responseHeaderParams=[{\"X-Total-Count\":2},{\"X-Result-Count\":2},{\"Link\":\"<http://localhost:8632/tmf-api/partyManagement/v5/individual/?fields=givenName,id,href,@type&limit=250>; rel=\\\"self\\\"\"}]"}
+{"level":"info","message":"Service::show: retrieveIndividual Individual"}
+{"level":"info","message":"getSingleKey:: #1 res=fc31a391-62dc-45d4-b1e4-89323f7178a2"}
+{"level":"info","message":"show:: resourceType=Individual query={\"criteria\":{\"id\":\"fc31a391-62dc-45d4-b1e4-89323f7178a2\"},\"options\":{\"projection\":{\"givenName\":1,\"id\":1,\"href\":1,\"@type\":1},\"limit\":250}}"}
+{"level":"info","message":"NotificationHandler:: publish ri-internal-event IndividualNotification"}
+{"level":"info","message":"Service::index: listIndividual Individual"}
+{"level":"info","message":"mongo::findMany query={\n  \"criteria\": {},\n  \"options\": {\n    \"projection\": {\n      \"givenName\": 1,\n      \"id\": 1,\n      \"href\": 1,\n      \"@type\": 1\n    },\n    \"limit\": 250\n  }\n}"}
+{"level":"info","message":"NotificationHandler:: publish ri-internal-event IndividualNotification"}
+{"level":"info","message":"responseHeaderParams=[{\"X-Total-Count\":2},{\"X-Result-Count\":2},{\"Link\":\"<http://localhost:8632/tmf-api/partyManagement/v5/individual/?fields=givenName,id,href,@type&limit=250>; rel=\\\"self\\\"\"}]"}
+{"level":"info","message":"Service::update: patchIndividual Individual"}
+{"level":"info","message":"getSingleKey:: #1 res=fc31a391-62dc-45d4-b1e4-89323f7178a2"}
+{"level":"info","message":"NotificationHandler:: publish ri-internal-event IndividualAttributeValueChangeNotification"}
+{"level":"info","message":"Service::remove: deleteIndividual Individual"}
+{"level":"info","message":"getSingleKey:: #1 res=fc31a391-62dc-45d4-b1e4-89323f7178a2"}
+{"level":"info","message":"NotificationHandler:: publish ri-internal-event IndividualRemoveNotification"}
+{"level":"error","message":"could not write message KafkaJSNumberOfRetriesExceeded: Connection error: "}
+{"level":"error","message":"could not write message KafkaJSNumberOfRetriesExceeded: Connection error: "}
+{"level":"error","message":"could not write message KafkaJSNumberOfRetriesExceeded: Connection error: "}
+{"level":"error","message":"could not write message KafkaJSNumberOfRetriesExceeded: Connection error: "}
+{"level":"error","message":"could not write message KafkaJSNumberOfRetriesExceeded: Connection error: "}
+{"level":"error","message":"could not write message KafkaJSNumberOfRetriesExceeded: Connection error: "}
+{"level":"error","message":"could not write message KafkaJSNumberOfRetriesExceeded: Connection error: "}
+{"level":"error","message":"could not write message KafkaJSNumberOfRetriesExceeded: Connection error: "}
+{"level":"error","message":"could not write message KafkaJSNumberOfRetriesExceeded: Connection error: "}
+{"level":"error","message":"could not write message KafkaJSNumberOfRetriesExceeded: Connection error: "}
+{"level":"error","message":"could not write message KafkaJSNumberOfRetriesExceeded: Connection error: "}
+{"level":"error","message":"could not write message KafkaJSNumberOfRetriesExceeded: Connection error: "}
+{"level":"error","message":"could not write message KafkaJSNumberOfRetriesExceeded: Connection error: "}
+{"level":"error","message":"could not write message KafkaJSNumberOfRetriesExceeded: Connection error: "}
+{"level":"error","message":"could not write message KafkaJSNumberOfRetriesExceeded: Connection error: "}
+{"level":"error","message":"could not write message KafkaJSNumberOfRetriesExceeded: Connection error: "}
+{"level":"error","message":"could not write message KafkaJSNumberOfRetriesExceeded: Connection error: "}
+{"level":"error","message":"could not write message KafkaJSNumberOfRetriesExceeded: Connection error: "}
+{"level":"error","message":"could not write message KafkaJSNumberOfRetriesExceeded: Connection error: "}
+{"level":"error","message":"could not write message KafkaJSNumberOfRetriesExceeded: Connection error: "}
+{"level":"error","message":"could not write message KafkaJSNumberOfRetriesExceeded: Connection error: "}
+{"level":"error","message":"could not write message KafkaJSNumberOfRetriesExceeded: Connection error: "}
+{"level":"info","message":"Service::create: createOrganization Organization"}
+{"level":"info","message":"getResponseType: path not found (path=/tmf-api/partyManagement/v5/organization/)"}
+{"level":"info","message":"... processMissingProperties: Organization"}
+{"level":"info","message":"populateMandatoryAttributes: type=Organization"}
+{"level":"info","message":"... processExcludedInPost: Organization Organization_Create"}
+{"level":"info","message":"... processExcludedInPost: undefined not found"}
+{"level":"info","message":"NotificationHandler:: publish ri-internal-event OrganizationCreationNotification"}
+{"level":"info","message":"Service::index: listOrganization Organization"}
+{"level":"info","message":"mongo::findMany query={\n  \"criteria\": {},\n  \"options\": {\n    \"projection\": {},\n    \"limit\": 250\n  }\n}"}
+{"level":"info","message":"NotificationHandler:: publish ri-internal-event OrganizationNotification"}
+{"level":"info","message":"responseHeaderParams=[{\"X-Total-Count\":1},{\"X-Result-Count\":1},{\"Link\":\"<http://localhost:8632/tmf-api/partyManagement/v5/organization/?limit=250>; rel=\\\"self\\\"\"}]"}
+{"level":"info","message":"Service::show: retrieveOrganization Organization"}
+{"level":"info","message":"getSingleKey:: #1 res=2f1f19ac-0ce9-45c7-9787-af8b60236866"}
+{"level":"info","message":"show:: resourceType=Organization query={\"criteria\":{\"id\":\"2f1f19ac-0ce9-45c7-9787-af8b60236866\"},\"options\":{\"projection\":{},\"limit\":250}}"}
+{"level":"info","message":"NotificationHandler:: publish ri-internal-event OrganizationNotification"}
+{"level":"info","message":"Service::show: retrieveOrganization Organization"}
+{"level":"info","message":"getSingleKey:: #1 res=2f1f19ac-0ce9-45c7-9787-af8b60236866"}
+{"level":"info","message":"show:: resourceType=Organization query={\"criteria\":{\"id\":\"2f1f19ac-0ce9-45c7-9787-af8b60236866\"},\"options\":{\"projection\":{\"tradingName\":1,\"id\":1,\"href\":1,\"@type\":1},\"limit\":250}}"}
+{"level":"info","message":"NotificationHandler:: publish ri-internal-event OrganizationNotification"}
+{"level":"info","message":"Service::index: listOrganization Organization"}
+{"level":"info","message":"mongo::findMany query={\n  \"criteria\": {},\n  \"options\": {\n    \"projection\": {\n      \"tradingName\": 1,\n      \"id\": 1,\n      \"href\": 1,\n      \"@type\": 1\n    },\n    \"limit\": 250\n  }\n}"}
+{"level":"info","message":"NotificationHandler:: publish ri-internal-event OrganizationNotification"}
+{"level":"info","message":"responseHeaderParams=[{\"X-Total-Count\":1},{\"X-Result-Count\":1},{\"Link\":\"<http://localhost:8632/tmf-api/partyManagement/v5/organization/?fields=tradingName,id,href,@type&limit=250>; rel=\\\"self\\\"\"}]"}
+{"level":"info","message":"Service::show: retrieveOrganization Organization"}
+{"level":"info","message":"getSingleKey:: #1 res=2f1f19ac-0ce9-45c7-9787-af8b60236866"}
+{"level":"info","message":"show:: resourceType=Organization query={\"criteria\":{\"id\":\"2f1f19ac-0ce9-45c7-9787-af8b60236866\"},\"options\":{\"projection\":{\"tradingName\":1,\"id\":1,\"href\":1,\"@type\":1},\"limit\":250}}"}
+{"level":"info","message":"NotificationHandler:: publish ri-internal-event OrganizationNotification"}
+{"level":"info","message":"Service::index: listOrganization Organization"}
+{"level":"info","message":"mongo::findMany query={\n  \"criteria\": {},\n  \"options\": {\n    \"projection\": {\n      \"tradingName\": 1,\n      \"id\": 1,\n      \"href\": 1,\n      \"@type\": 1\n    },\n    \"limit\": 250\n  }\n}"}
+{"level":"info","message":"NotificationHandler:: publish ri-internal-event OrganizationNotification"}
+{"level":"info","message":"responseHeaderParams=[{\"X-Total-Count\":1},{\"X-Result-Count\":1},{\"Link\":\"<http://localhost:8632/tmf-api/partyManagement/v5/organization/?fields=tradingName,id,href,@type&limit=250>; rel=\\\"self\\\"\"}]"}
+{"level":"info","message":"Service::update: patchOrganization Organization"}
+{"level":"info","message":"getSingleKey:: #1 res=2f1f19ac-0ce9-45c7-9787-af8b60236866"}
+{"level":"info","message":"NotificationHandler:: publish ri-internal-event OrganizationAttributeValueChangeNotification"}
+{"level":"info","message":"Service::remove: deleteOrganization Organization"}
+{"level":"info","message":"getSingleKey:: #1 res=2f1f19ac-0ce9-45c7-9787-af8b60236866"}
+{"level":"info","message":"NotificationHandler:: publish ri-internal-event OrganizationRemoveNotification"}
+{"level":"info","message":"Service::create: createIndividual Individual"}
+{"level":"info","message":"getResponseType: path not found (path=/tmf-api/partyManagement/v5/individual/)"}
+{"level":"info","message":"... processMissingProperties: Individual"}
+{"level":"info","message":"populateMandatoryAttributes: type=Individual"}
+{"level":"info","message":"... processExcludedInPost: Individual Individual_Create"}
+{"level":"info","message":"... processExcludedInPost: undefined not found"}
+{"level":"info","message":"NotificationHandler:: publish ri-internal-event IndividualCreationNotification"}
+{"level":"info","message":"Service::index: listIndividual Individual"}
+{"level":"info","message":"mongo::findMany query={\n  \"criteria\": {},\n  \"options\": {\n    \"projection\": {},\n    \"limit\": 250\n  }\n}"}
+{"level":"info","message":"NotificationHandler:: publish ri-internal-event IndividualNotification"}
+{"level":"info","message":"responseHeaderParams=[{\"X-Total-Count\":2},{\"X-Result-Count\":2},{\"Link\":\"<http://localhost:8632/tmf-api/partyManagement/v5/individual/?limit=250>; rel=\\\"self\\\"\"}]"}
+{"level":"info","message":"Service::show: retrieveIndividual Individual"}
+{"level":"info","message":"getSingleKey:: #1 res=2ced270d-dae4-46d1-a0d9-10ff8d929c7d"}
+{"level":"info","message":"show:: resourceType=Individual query={\"criteria\":{\"id\":\"2ced270d-dae4-46d1-a0d9-10ff8d929c7d\"},\"options\":{\"projection\":{},\"limit\":250}}"}
+{"level":"info","message":"NotificationHandler:: publish ri-internal-event IndividualNotification"}
+{"level":"info","message":"Service::show: retrieveIndividual Individual"}
+{"level":"info","message":"getSingleKey:: #1 res=2ced270d-dae4-46d1-a0d9-10ff8d929c7d"}
+{"level":"info","message":"show:: resourceType=Individual query={\"criteria\":{\"id\":\"2ced270d-dae4-46d1-a0d9-10ff8d929c7d\"},\"options\":{\"projection\":{\"familyName\":1,\"id\":1,\"href\":1,\"@type\":1},\"limit\":250}}"}
+{"level":"info","message":"NotificationHandler:: publish ri-internal-event IndividualNotification"}
+{"level":"info","message":"Service::index: listIndividual Individual"}
+{"level":"info","message":"mongo::findMany query={\n  \"criteria\": {},\n  \"options\": {\n    \"projection\": {\n      \"familyName\": 1,\n      \"id\": 1,\n      \"href\": 1,\n      \"@type\": 1\n    },\n    \"limit\": 250\n  }\n}"}
+{"level":"info","message":"NotificationHandler:: publish ri-internal-event IndividualNotification"}
+{"level":"info","message":"responseHeaderParams=[{\"X-Total-Count\":2},{\"X-Result-Count\":2},{\"Link\":\"<http://localhost:8632/tmf-api/partyManagement/v5/individual/?fields=familyName,id,href,@type&limit=250>; rel=\\\"self\\\"\"}]"}
+{"level":"info","message":"Service::show: retrieveIndividual Individual"}
+{"level":"info","message":"getSingleKey:: #1 res=2ced270d-dae4-46d1-a0d9-10ff8d929c7d"}
+{"level":"info","message":"show:: resourceType=Individual query={\"criteria\":{\"id\":\"2ced270d-dae4-46d1-a0d9-10ff8d929c7d\"},\"options\":{\"projection\":{\"familyName\":1,\"id\":1,\"href\":1,\"@type\":1},\"limit\":250}}"}
+{"level":"info","message":"NotificationHandler:: publish ri-internal-event IndividualNotification"}
+{"level":"info","message":"Service::index: listIndividual Individual"}
+{"level":"info","message":"mongo::findMany query={\n  \"criteria\": {},\n  \"options\": {\n    \"projection\": {\n      \"familyName\": 1,\n      \"id\": 1,\n      \"href\": 1,\n      \"@type\": 1\n    },\n    \"limit\": 250\n  }\n}"}
+{"level":"info","message":"NotificationHandler:: publish ri-internal-event IndividualNotification"}
+{"level":"info","message":"responseHeaderParams=[{\"X-Total-Count\":2},{\"X-Result-Count\":2},{\"Link\":\"<http://localhost:8632/tmf-api/partyManagement/v5/individual/?fields=familyName,id,href,@type&limit=250>; rel=\\\"self\\\"\"}]"}
+{"level":"info","message":"Service::show: retrieveIndividual Individual"}
+{"level":"info","message":"getSingleKey:: #1 res=2ced270d-dae4-46d1-a0d9-10ff8d929c7d"}
+{"level":"info","message":"show:: resourceType=Individual query={\"criteria\":{\"id\":\"2ced270d-dae4-46d1-a0d9-10ff8d929c7d\"},\"options\":{\"projection\":{\"givenName\":1,\"id\":1,\"href\":1,\"@type\":1},\"limit\":250}}"}
+{"level":"info","message":"NotificationHandler:: publish ri-internal-event IndividualNotification"}
+{"level":"info","message":"Service::index: listIndividual Individual"}
+{"level":"info","message":"mongo::findMany query={\n  \"criteria\": {},\n  \"options\": {\n    \"projection\": {\n      \"givenName\": 1,\n      \"id\": 1,\n      \"href\": 1,\n      \"@type\": 1\n    },\n    \"limit\": 250\n  }\n}"}
+{"level":"info","message":"NotificationHandler:: publish ri-internal-event IndividualNotification"}
+{"level":"info","message":"responseHeaderParams=[{\"X-Total-Count\":2},{\"X-Result-Count\":2},{\"Link\":\"<http://localhost:8632/tmf-api/partyManagement/v5/individual/?fields=givenName,id,href,@type&limit=250>; rel=\\\"self\\\"\"}]"}
+{"level":"error","message":"could not write message KafkaJSNumberOfRetriesExceeded: Connection error: "}
+{"level":"info","message":"Service::show: retrieveIndividual Individual"}
+{"level":"info","message":"getSingleKey:: #1 res=2ced270d-dae4-46d1-a0d9-10ff8d929c7d"}
+{"level":"info","message":"show:: resourceType=Individual query={\"criteria\":{\"id\":\"2ced270d-dae4-46d1-a0d9-10ff8d929c7d\"},\"options\":{\"projection\":{\"givenName\":1,\"id\":1,\"href\":1,\"@type\":1},\"limit\":250}}"}
+{"level":"info","message":"NotificationHandler:: publish ri-internal-event IndividualNotification"}
+{"level":"info","message":"Service::index: listIndividual Individual"}
+{"level":"info","message":"mongo::findMany query={\n  \"criteria\": {},\n  \"options\": {\n    \"projection\": {\n      \"givenName\": 1,\n      \"id\": 1,\n      \"href\": 1,\n      \"@type\": 1\n    },\n    \"limit\": 250\n  }\n}"}
+{"level":"info","message":"NotificationHandler:: publish ri-internal-event IndividualNotification"}
+{"level":"info","message":"responseHeaderParams=[{\"X-Total-Count\":2},{\"X-Result-Count\":2},{\"Link\":\"<http://localhost:8632/tmf-api/partyManagement/v5/individual/?fields=givenName,id,href,@type&limit=250>; rel=\\\"self\\\"\"}]"}
+{"level":"info","message":"Service::update: patchIndividual Individual"}
+{"level":"info","message":"getSingleKey:: #1 res=2ced270d-dae4-46d1-a0d9-10ff8d929c7d"}
+{"level":"info","message":"NotificationHandler:: publish ri-internal-event IndividualAttributeValueChangeNotification"}
+{"level":"info","message":"Service::remove: deleteIndividual Individual"}
+{"level":"info","message":"getSingleKey:: #1 res=2ced270d-dae4-46d1-a0d9-10ff8d929c7d"}
+{"level":"info","message":"NotificationHandler:: publish ri-internal-event IndividualRemoveNotification"}
+{"level":"error","message":"could not write message KafkaJSNumberOfRetriesExceeded: Connection error: "}
+{"level":"error","message":"could not write message KafkaJSNumberOfRetriesExceeded: Connection error: "}
+{"level":"error","message":"could not write message KafkaJSNumberOfRetriesExceeded: Connection error: "}
+{"level":"error","message":"could not write message KafkaJSNumberOfRetriesExceeded: Connection error: "}
+{"level":"error","message":"could not write message KafkaJSNumberOfRetriesExceeded: Connection error: "}
+{"level":"error","message":"could not write message KafkaJSNumberOfRetriesExceeded: Connection error: "}
+{"level":"error","message":"could not write message KafkaJSNumberOfRetriesExceeded: Connection error: "}
+{"level":"error","message":"could not write message KafkaJSNumberOfRetriesExceeded: Connection error: "}
+{"level":"error","message":"could not write message KafkaJSNumberOfRetriesExceeded: Connection error: "}
+{"level":"error","message":"could not write message KafkaJSNumberOfRetriesExceeded: Connection error: "}
+{"level":"error","message":"could not write message KafkaJSNumberOfRetriesExceeded: Connection error: "}
+{"level":"error","message":"could not write message KafkaJSNumberOfRetriesExceeded: Connection error: "}
+{"level":"error","message":"could not write message KafkaJSNumberOfRetriesExceeded: Connection error: "}
+{"level":"error","message":"could not write message KafkaJSNumberOfRetriesExceeded: Connection error: "}
+{"level":"error","message":"could not write message KafkaJSNumberOfRetriesExceeded: Connection error: "}
+{"level":"error","message":"could not write message KafkaJSNumberOfRetriesExceeded: Connection error: "}
+{"level":"error","message":"could not write message KafkaJSNumberOfRetriesExceeded: Connection error: "}
+{"level":"error","message":"could not write message KafkaJSNumberOfRetriesExceeded: Connection error: "}
+{"level":"error","message":"could not write message KafkaJSNumberOfRetriesExceeded: Connection error: "}
+{"level":"error","message":"could not write message KafkaJSNumberOfRetriesExceeded: Connection error: "}
+{"level":"error","message":"could not write message KafkaJSNumberOfRetriesExceeded: Connection error: "}
+{"level":"info","message":"Service::create: createOrganization Organization"}
+{"level":"info","message":"getResponseType: path not found (path=/tmf-api/partyManagement/v5/organization/)"}
+{"level":"info","message":"... processMissingProperties: Organization"}
+{"level":"info","message":"populateMandatoryAttributes: type=Organization"}
+{"level":"info","message":"... processExcludedInPost: Organization Organization_Create"}
+{"level":"info","message":"... processExcludedInPost: undefined not found"}
+{"level":"info","message":"NotificationHandler:: publish ri-internal-event OrganizationCreationNotification"}
+{"level":"info","message":"Service::index: listOrganization Organization"}
+{"level":"info","message":"mongo::findMany query={\n  \"criteria\": {},\n  \"options\": {\n    \"projection\": {},\n    \"limit\": 250\n  }\n}"}
+{"level":"info","message":"NotificationHandler:: publish ri-internal-event OrganizationNotification"}
+{"level":"info","message":"responseHeaderParams=[{\"X-Total-Count\":1},{\"X-Result-Count\":1},{\"Link\":\"<http://localhost:8632/tmf-api/partyManagement/v5/organization/?limit=250>; rel=\\\"self\\\"\"}]"}
+{"level":"info","message":"Service::show: retrieveOrganization Organization"}
+{"level":"info","message":"getSingleKey:: #1 res=8fc43924-450e-4997-b108-ce4785b197a3"}
+{"level":"info","message":"show:: resourceType=Organization query={\"criteria\":{\"id\":\"8fc43924-450e-4997-b108-ce4785b197a3\"},\"options\":{\"projection\":{},\"limit\":250}}"}
+{"level":"info","message":"NotificationHandler:: publish ri-internal-event OrganizationNotification"}
+{"level":"info","message":"Service::show: retrieveOrganization Organization"}
+{"level":"info","message":"getSingleKey:: #1 res=8fc43924-450e-4997-b108-ce4785b197a3"}
+{"level":"info","message":"show:: resourceType=Organization query={\"criteria\":{\"id\":\"8fc43924-450e-4997-b108-ce4785b197a3\"},\"options\":{\"projection\":{\"tradingName\":1,\"id\":1,\"href\":1,\"@type\":1},\"limit\":250}}"}
+{"level":"info","message":"NotificationHandler:: publish ri-internal-event OrganizationNotification"}
+{"level":"info","message":"Service::index: listOrganization Organization"}
+{"level":"info","message":"mongo::findMany query={\n  \"criteria\": {},\n  \"options\": {\n    \"projection\": {\n      \"tradingName\": 1,\n      \"id\": 1,\n      \"href\": 1,\n      \"@type\": 1\n    },\n    \"limit\": 250\n  }\n}"}
+{"level":"info","message":"NotificationHandler:: publish ri-internal-event OrganizationNotification"}
+{"level":"info","message":"responseHeaderParams=[{\"X-Total-Count\":1},{\"X-Result-Count\":1},{\"Link\":\"<http://localhost:8632/tmf-api/partyManagement/v5/organization/?fields=tradingName,id,href,@type&limit=250>; rel=\\\"self\\\"\"}]"}
+{"level":"info","message":"Service::index: listOrganization Organization"}
+{"level":"info","message":"mongo::findMany query={\n  \"criteria\": {},\n  \"options\": {\n    \"projection\": {\n      \"tradingName\": 1,\n      \"id\": 1,\n      \"href\": 1,\n      \"@type\": 1\n    },\n    \"limit\": 250\n  }\n}"}
+{"level":"info","message":"NotificationHandler:: publish ri-internal-event OrganizationNotification"}
+{"level":"info","message":"responseHeaderParams=[{\"X-Total-Count\":1},{\"X-Result-Count\":1},{\"Link\":\"<http://localhost:8632/tmf-api/partyManagement/v5/organization/?fields=tradingName,id,href,@type&limit=250>; rel=\\\"self\\\"\"}]"}
+{"level":"info","message":"Service::update: patchOrganization Organization"}
+{"level":"info","message":"getSingleKey:: #1 res=8fc43924-450e-4997-b108-ce4785b197a3"}
+{"level":"info","message":"NotificationHandler:: publish ri-internal-event OrganizationAttributeValueChangeNotification"}
+{"level":"info","message":"Service::remove: deleteOrganization Organization"}
+{"level":"info","message":"getSingleKey:: #1 res=8fc43924-450e-4997-b108-ce4785b197a3"}
+{"level":"info","message":"NotificationHandler:: publish ri-internal-event OrganizationRemoveNotification"}
+{"level":"info","message":"Service::create: createIndividual Individual"}
+{"level":"info","message":"getResponseType: path not found (path=/tmf-api/partyManagement/v5/individual/)"}
+{"level":"info","message":"... processMissingProperties: Individual"}
+{"level":"info","message":"populateMandatoryAttributes: type=Individual"}
+{"level":"info","message":"... processExcludedInPost: Individual Individual_Create"}
+{"level":"info","message":"... processExcludedInPost: undefined not found"}
+{"level":"info","message":"NotificationHandler:: publish ri-internal-event IndividualCreationNotification"}
+{"level":"info","message":"Service::index: listIndividual Individual"}
+{"level":"info","message":"mongo::findMany query={\n  \"criteria\": {},\n  \"options\": {\n    \"projection\": {},\n    \"limit\": 250\n  }\n}"}
+{"level":"info","message":"NotificationHandler:: publish ri-internal-event IndividualNotification"}
+{"level":"info","message":"responseHeaderParams=[{\"X-Total-Count\":2},{\"X-Result-Count\":2},{\"Link\":\"<http://localhost:8632/tmf-api/partyManagement/v5/individual/?limit=250>; rel=\\\"self\\\"\"}]"}
+{"level":"info","message":"Service::show: retrieveIndividual Individual"}
+{"level":"info","message":"getSingleKey:: #1 res=580bc303-05ee-4372-8d61-8d63c3901116"}
+{"level":"info","message":"show:: resourceType=Individual query={\"criteria\":{\"id\":\"580bc303-05ee-4372-8d61-8d63c3901116\"},\"options\":{\"projection\":{},\"limit\":250}}"}
+{"level":"info","message":"NotificationHandler:: publish ri-internal-event IndividualNotification"}
+{"level":"info","message":"Service::show: retrieveIndividual Individual"}
+{"level":"info","message":"getSingleKey:: #1 res=580bc303-05ee-4372-8d61-8d63c3901116"}
+{"level":"info","message":"show:: resourceType=Individual query={\"criteria\":{\"id\":\"580bc303-05ee-4372-8d61-8d63c3901116\"},\"options\":{\"projection\":{\"familyName\":1,\"id\":1,\"href\":1,\"@type\":1},\"limit\":250}}"}
+{"level":"info","message":"NotificationHandler:: publish ri-internal-event IndividualNotification"}
+{"level":"info","message":"Service::index: listIndividual Individual"}
+{"level":"info","message":"mongo::findMany query={\n  \"criteria\": {},\n  \"options\": {\n    \"projection\": {\n      \"familyName\": 1,\n      \"id\": 1,\n      \"href\": 1,\n      \"@type\": 1\n    },\n    \"limit\": 250\n  }\n}"}
+{"level":"info","message":"NotificationHandler:: publish ri-internal-event IndividualNotification"}
+{"level":"info","message":"responseHeaderParams=[{\"X-Total-Count\":2},{\"X-Result-Count\":2},{\"Link\":\"<http://localhost:8632/tmf-api/partyManagement/v5/individual/?fields=familyName,id,href,@type&limit=250>; rel=\\\"self\\\"\"}]"}
+{"level":"info","message":"Service::show: retrieveIndividual Individual"}
+{"level":"info","message":"getSingleKey:: #1 res=580bc303-05ee-4372-8d61-8d63c3901116"}
+{"level":"info","message":"show:: resourceType=Individual query={\"criteria\":{\"id\":\"580bc303-05ee-4372-8d61-8d63c3901116\"},\"options\":{\"projection\":{\"familyName\":1,\"id\":1,\"href\":1,\"@type\":1},\"limit\":250}}"}
+{"level":"info","message":"NotificationHandler:: publish ri-internal-event IndividualNotification"}
+{"level":"info","message":"Service::show: retrieveIndividual Individual"}
+{"level":"info","message":"getSingleKey:: #1 res=580bc303-05ee-4372-8d61-8d63c3901116"}
+{"level":"info","message":"show:: resourceType=Individual query={\"criteria\":{\"id\":\"580bc303-05ee-4372-8d61-8d63c3901116\"},\"options\":{\"projection\":{\"givenName\":1,\"id\":1,\"href\":1,\"@type\":1},\"limit\":250}}"}
+{"level":"info","message":"NotificationHandler:: publish ri-internal-event IndividualNotification"}
+{"level":"info","message":"Service::index: listIndividual Individual"}
+{"level":"info","message":"mongo::findMany query={\n  \"criteria\": {},\n  \"options\": {\n    \"projection\": {\n      \"givenName\": 1,\n      \"id\": 1,\n      \"href\": 1,\n      \"@type\": 1\n    },\n    \"limit\": 250\n  }\n}"}
+{"level":"info","message":"NotificationHandler:: publish ri-internal-event IndividualNotification"}
+{"level":"info","message":"responseHeaderParams=[{\"X-Total-Count\":2},{\"X-Result-Count\":2},{\"Link\":\"<http://localhost:8632/tmf-api/partyManagement/v5/individual/?fields=givenName,id,href,@type&limit=250>; rel=\\\"self\\\"\"}]"}
+{"level":"info","message":"Service::show: retrieveIndividual Individual"}
+{"level":"info","message":"getSingleKey:: #1 res=580bc303-05ee-4372-8d61-8d63c3901116"}
+{"level":"info","message":"show:: resourceType=Individual query={\"criteria\":{\"id\":\"580bc303-05ee-4372-8d61-8d63c3901116\"},\"options\":{\"projection\":{\"givenName\":1,\"id\":1,\"href\":1,\"@type\":1},\"limit\":250}}"}
+{"level":"info","message":"NotificationHandler:: publish ri-internal-event IndividualNotification"}
+{"level":"info","message":"Service::index: listIndividual Individual"}
+{"level":"info","message":"mongo::findMany query={\n  \"criteria\": {},\n  \"options\": {\n    \"projection\": {\n      \"givenName\": 1,\n      \"id\": 1,\n      \"href\": 1,\n      \"@type\": 1\n    },\n    \"limit\": 250\n  }\n}"}
+{"level":"info","message":"NotificationHandler:: publish ri-internal-event IndividualNotification"}
+{"level":"info","message":"responseHeaderParams=[{\"X-Total-Count\":2},{\"X-Result-Count\":2},{\"Link\":\"<http://localhost:8632/tmf-api/partyManagement/v5/individual/?fields=givenName,id,href,@type&limit=250>; rel=\\\"self\\\"\"}]"}
+{"level":"info","message":"Service::update: patchIndividual Individual"}
+{"level":"info","message":"getSingleKey:: #1 res=580bc303-05ee-4372-8d61-8d63c3901116"}
+{"level":"info","message":"NotificationHandler:: publish ri-internal-event IndividualAttributeValueChangeNotification"}
+{"level":"info","message":"Service::remove: deleteIndividual Individual"}
+{"level":"info","message":"getSingleKey:: #1 res=580bc303-05ee-4372-8d61-8d63c3901116"}
+{"level":"info","message":"NotificationHandler:: publish ri-internal-event IndividualRemoveNotification"}
+{"level":"error","message":"could not write message KafkaJSNumberOfRetriesExceeded: Connection error: "}
+{"level":"error","message":"could not write message KafkaJSNumberOfRetriesExceeded: Connection error: "}
+{"level":"error","message":"could not write message KafkaJSNumberOfRetriesExceeded: Connection error: "}
+{"level":"error","message":"could not write message KafkaJSNumberOfRetriesExceeded: Connection error: "}
+{"level":"error","message":"could not write message KafkaJSNumberOfRetriesExceeded: Connection error: "}
+{"level":"error","message":"could not write message KafkaJSNumberOfRetriesExceeded: Connection error: "}
+{"level":"error","message":"could not write message KafkaJSNumberOfRetriesExceeded: Connection error: "}
+{"level":"error","message":"could not write message KafkaJSNumberOfRetriesExceeded: Connection error: "}
+{"level":"error","message":"could not write message KafkaJSNumberOfRetriesExceeded: Connection error: "}
+{"level":"error","message":"could not write message KafkaJSNumberOfRetriesExceeded: Connection error: "}
+{"level":"error","message":"could not write message KafkaJSNumberOfRetriesExceeded: Connection error: "}
+{"level":"error","message":"could not write message KafkaJSNumberOfRetriesExceeded: Connection error: "}
+{"level":"error","message":"could not write message KafkaJSNumberOfRetriesExceeded: Connection error: "}
+{"level":"error","message":"could not write message KafkaJSNumberOfRetriesExceeded: Connection error: "}
+{"level":"error","message":"could not write message KafkaJSNumberOfRetriesExceeded: Connection error: "}
+{"level":"error","message":"could not write message KafkaJSNumberOfRetriesExceeded: Connection error: "}
+{"level":"error","message":"could not write message KafkaJSNumberOfRetriesExceeded: Connection error: "}
+{"level":"error","message":"could not write message KafkaJSNumberOfRetriesExceeded: Connection error: "}
+{"level":"error","message":"could not write message KafkaJSNumberOfRetriesExceeded: Connection error: "}
+{"level":"error","message":"could not write message KafkaJSNumberOfRetriesExceeded: Connection error: "}
+{"level":"info","message":"Service::create: createOrganization Organization"}
+{"level":"info","message":"getResponseType: path not found (path=/tmf-api/partyManagement/v5/organization/)"}
+{"level":"info","message":"... processMissingProperties: Organization"}
+{"level":"info","message":"populateMandatoryAttributes: type=Organization"}
+{"level":"info","message":"... processExcludedInPost: Organization Organization_Create"}
+{"level":"info","message":"... processExcludedInPost: undefined not found"}
+{"level":"info","message":"NotificationHandler:: publish ri-internal-event OrganizationCreationNotification"}
+{"level":"info","message":"Service::index: listOrganization Organization"}
+{"level":"info","message":"mongo::findMany query={\n  \"criteria\": {},\n  \"options\": {\n    \"projection\": {},\n    \"limit\": 250\n  }\n}"}
+{"level":"info","message":"NotificationHandler:: publish ri-internal-event OrganizationNotification"}
+{"level":"info","message":"responseHeaderParams=[{\"X-Total-Count\":1},{\"X-Result-Count\":1},{\"Link\":\"<http://localhost:8632/tmf-api/partyManagement/v5/organization/?limit=250>; rel=\\\"self\\\"\"}]"}
+{"level":"info","message":"Service::show: retrieveOrganization Organization"}
+{"level":"info","message":"getSingleKey:: #1 res=2fadb030-3ecd-4c6b-8aa6-77cd3a9b62d5"}
+{"level":"info","message":"show:: resourceType=Organization query={\"criteria\":{\"id\":\"2fadb030-3ecd-4c6b-8aa6-77cd3a9b62d5\"},\"options\":{\"projection\":{},\"limit\":250}}"}
+{"level":"info","message":"NotificationHandler:: publish ri-internal-event OrganizationNotification"}
+{"level":"info","message":"Service::show: retrieveOrganization Organization"}
+{"level":"info","message":"getSingleKey:: #1 res=2fadb030-3ecd-4c6b-8aa6-77cd3a9b62d5"}
+{"level":"info","message":"show:: resourceType=Organization query={\"criteria\":{\"id\":\"2fadb030-3ecd-4c6b-8aa6-77cd3a9b62d5\"},\"options\":{\"projection\":{\"tradingName\":1,\"id\":1,\"href\":1,\"@type\":1},\"limit\":250}}"}
+{"level":"info","message":"NotificationHandler:: publish ri-internal-event OrganizationNotification"}
+{"level":"info","message":"Service::index: listOrganization Organization"}
+{"level":"info","message":"mongo::findMany query={\n  \"criteria\": {},\n  \"options\": {\n    \"projection\": {\n      \"tradingName\": 1,\n      \"id\": 1,\n      \"href\": 1,\n      \"@type\": 1\n    },\n    \"limit\": 250\n  }\n}"}
+{"level":"info","message":"NotificationHandler:: publish ri-internal-event OrganizationNotification"}
+{"level":"info","message":"responseHeaderParams=[{\"X-Total-Count\":1},{\"X-Result-Count\":1},{\"Link\":\"<http://localhost:8632/tmf-api/partyManagement/v5/organization/?fields=tradingName,id,href,@type&limit=250>; rel=\\\"self\\\"\"}]"}
+{"level":"info","message":"Service::update: patchOrganization Organization"}
+{"level":"info","message":"getSingleKey:: #1 res=2fadb030-3ecd-4c6b-8aa6-77cd3a9b62d5"}
+{"level":"info","message":"NotificationHandler:: publish ri-internal-event OrganizationAttributeValueChangeNotification"}
+{"level":"info","message":"Service::remove: deleteOrganization Organization"}
+{"level":"info","message":"getSingleKey:: #1 res=2fadb030-3ecd-4c6b-8aa6-77cd3a9b62d5"}
+{"level":"info","message":"NotificationHandler:: publish ri-internal-event OrganizationRemoveNotification"}
+{"level":"info","message":"Service::create: createIndividual Individual"}
+{"level":"info","message":"getResponseType: path not found (path=/tmf-api/partyManagement/v5/individual/)"}
+{"level":"info","message":"... processMissingProperties: Individual"}
+{"level":"info","message":"populateMandatoryAttributes: type=Individual"}
+{"level":"info","message":"... processExcludedInPost: Individual Individual_Create"}
+{"level":"info","message":"... processExcludedInPost: undefined not found"}
+{"level":"info","message":"NotificationHandler:: publish ri-internal-event IndividualCreationNotification"}
+{"level":"info","message":"Service::index: listIndividual Individual"}
+{"level":"info","message":"mongo::findMany query={\n  \"criteria\": {},\n  \"options\": {\n    \"projection\": {},\n    \"limit\": 250\n  }\n}"}
+{"level":"info","message":"NotificationHandler:: publish ri-internal-event IndividualNotification"}
+{"level":"info","message":"responseHeaderParams=[{\"X-Total-Count\":2},{\"X-Result-Count\":2},{\"Link\":\"<http://localhost:8632/tmf-api/partyManagement/v5/individual/?limit=250>; rel=\\\"self\\\"\"}]"}
+{"level":"info","message":"Service::show: retrieveIndividual Individual"}
+{"level":"info","message":"getSingleKey:: #1 res=104961f1-6ce4-4407-9686-762923db4822"}
+{"level":"info","message":"show:: resourceType=Individual query={\"criteria\":{\"id\":\"104961f1-6ce4-4407-9686-762923db4822\"},\"options\":{\"projection\":{},\"limit\":250}}"}
+{"level":"info","message":"NotificationHandler:: publish ri-internal-event IndividualNotification"}
+{"level":"info","message":"Service::show: retrieveIndividual Individual"}
+{"level":"info","message":"getSingleKey:: #1 res=104961f1-6ce4-4407-9686-762923db4822"}
+{"level":"info","message":"show:: resourceType=Individual query={\"criteria\":{\"id\":\"104961f1-6ce4-4407-9686-762923db4822\"},\"options\":{\"projection\":{\"familyName\":1,\"id\":1,\"href\":1,\"@type\":1},\"limit\":250}}"}
+{"level":"info","message":"NotificationHandler:: publish ri-internal-event IndividualNotification"}
+{"level":"info","message":"Service::index: listIndividual Individual"}
+{"level":"info","message":"mongo::findMany query={\n  \"criteria\": {},\n  \"options\": {\n    \"projection\": {\n      \"familyName\": 1,\n      \"id\": 1,\n      \"href\": 1,\n      \"@type\": 1\n    },\n    \"limit\": 250\n  }\n}"}
+{"level":"info","message":"NotificationHandler:: publish ri-internal-event IndividualNotification"}
+{"level":"info","message":"responseHeaderParams=[{\"X-Total-Count\":2},{\"X-Result-Count\":2},{\"Link\":\"<http://localhost:8632/tmf-api/partyManagement/v5/individual/?fields=familyName,id,href,@type&limit=250>; rel=\\\"self\\\"\"}]"}
+{"level":"info","message":"Service::index: listIndividual Individual"}
+{"level":"info","message":"mongo::findMany query={\n  \"criteria\": {},\n  \"options\": {\n    \"projection\": {\n      \"familyName\": 1,\n      \"id\": 1,\n      \"href\": 1,\n      \"@type\": 1\n    },\n    \"limit\": 250\n  }\n}"}
+{"level":"info","message":"NotificationHandler:: publish ri-internal-event IndividualNotification"}
+{"level":"info","message":"responseHeaderParams=[{\"X-Total-Count\":2},{\"X-Result-Count\":2},{\"Link\":\"<http://localhost:8632/tmf-api/partyManagement/v5/individual/?fields=familyName,id,href,@type&limit=250>; rel=\\\"self\\\"\"}]"}
+{"level":"info","message":"Service::show: retrieveIndividual Individual"}
+{"level":"info","message":"getSingleKey:: #1 res=104961f1-6ce4-4407-9686-762923db4822"}
+{"level":"info","message":"show:: resourceType=Individual query={\"criteria\":{\"id\":\"104961f1-6ce4-4407-9686-762923db4822\"},\"options\":{\"projection\":{\"givenName\":1,\"id\":1,\"href\":1,\"@type\":1},\"limit\":250}}"}
+{"level":"info","message":"NotificationHandler:: publish ri-internal-event IndividualNotification"}
+{"level":"info","message":"Service::update: patchIndividual Individual"}
+{"level":"info","message":"getSingleKey:: #1 res=104961f1-6ce4-4407-9686-762923db4822"}
+{"level":"info","message":"NotificationHandler:: publish ri-internal-event IndividualAttributeValueChangeNotification"}
+{"level":"info","message":"Service::remove: deleteIndividual Individual"}
+{"level":"info","message":"getSingleKey:: #1 res=104961f1-6ce4-4407-9686-762923db4822"}
+{"level":"info","message":"NotificationHandler:: publish ri-internal-event IndividualRemoveNotification"}
+{"level":"error","message":"could not write message KafkaJSNumberOfRetriesExceeded: Connection error: "}
+{"level":"error","message":"could not write message KafkaJSNumberOfRetriesExceeded: Connection error: "}
+{"level":"error","message":"could not write message KafkaJSNumberOfRetriesExceeded: Connection error: "}
+{"level":"error","message":"could not write message KafkaJSNumberOfRetriesExceeded: Connection error: "}
+{"level":"error","message":"could not write message KafkaJSNumberOfRetriesExceeded: Connection error: "}
+{"level":"error","message":"could not write message KafkaJSNumberOfRetriesExceeded: Connection error: "}
+{"level":"error","message":"could not write message KafkaJSNumberOfRetriesExceeded: Connection error: "}
+{"level":"error","message":"could not write message KafkaJSNumberOfRetriesExceeded: Connection error: "}
+{"level":"error","message":"could not write message KafkaJSNumberOfRetriesExceeded: Connection error: "}
+{"level":"error","message":"could not write message KafkaJSNumberOfRetriesExceeded: Connection error: "}
+{"level":"error","message":"could not write message KafkaJSNumberOfRetriesExceeded: Connection error: "}
+{"level":"error","message":"could not write message KafkaJSNumberOfRetriesExceeded: Connection error: "}
+{"level":"error","message":"could not write message KafkaJSNumberOfRetriesExceeded: Connection error: "}
+{"level":"error","message":"could not write message KafkaJSNumberOfRetriesExceeded: Connection error: "}
+{"level":"error","message":"could not write message KafkaJSNumberOfRetriesExceeded: Connection error: "}
+{"level":"error","message":"could not write message KafkaJSNumberOfRetriesExceeded: Connection error: "}
+{"level":"info","message":"Service::create: createOrganization Organization"}
+{"level":"info","message":"getResponseType: path not found (path=/tmf-api/partyManagement/v5/organization/)"}
+{"level":"info","message":"... processMissingProperties: Organization"}
+{"level":"info","message":"populateMandatoryAttributes: type=Organization"}
+{"level":"info","message":"... processExcludedInPost: Organization Organization_Create"}
+{"level":"info","message":"... processExcludedInPost: undefined not found"}
+{"level":"info","message":"NotificationHandler:: publish ri-internal-event OrganizationCreationNotification"}
+{"level":"info","message":"Service::index: listOrganization Organization"}
+{"level":"info","message":"mongo::findMany query={\n  \"criteria\": {},\n  \"options\": {\n    \"projection\": {},\n    \"limit\": 250\n  }\n}"}
+{"level":"info","message":"NotificationHandler:: publish ri-internal-event OrganizationNotification"}
+{"level":"info","message":"responseHeaderParams=[{\"X-Total-Count\":1},{\"X-Result-Count\":1},{\"Link\":\"<http://localhost:8632/tmf-api/partyManagement/v5/organization/?limit=250>; rel=\\\"self\\\"\"}]"}
+{"level":"info","message":"Service::show: retrieveOrganization Organization"}
+{"level":"info","message":"getSingleKey:: #1 res=37f542ac-f602-40b6-b72a-c00091d7fa3b"}
+{"level":"info","message":"show:: resourceType=Organization query={\"criteria\":{\"id\":\"37f542ac-f602-40b6-b72a-c00091d7fa3b\"},\"options\":{\"projection\":{},\"limit\":250}}"}
+{"level":"info","message":"NotificationHandler:: publish ri-internal-event OrganizationNotification"}
+{"level":"info","message":"Service::show: retrieveOrganization Organization"}
+{"level":"info","message":"getSingleKey:: #1 res=37f542ac-f602-40b6-b72a-c00091d7fa3b"}
+{"level":"info","message":"show:: resourceType=Organization query={\"criteria\":{\"id\":\"37f542ac-f602-40b6-b72a-c00091d7fa3b\",\"tradingName\":\"{tradingName}\"},\"options\":{\"projection\":{\"tradingName\":1,\"id\":1,\"href\":1,\"@type\":1},\"limit\":250}}"}
+{"level":"info","message":"show:: resourceType=Organization: error=Not found \"Resource not found\""}
+{"level":"info","message":"handleRequest:: error={\n  \"error\": {\n    \"code\": \"60\",\n    \"reason\": \"Not found\",\n    \"message\": \"Resource not found\"\n  },\n  \"code\": 404\n}"}
+{"level":"info","message":"Service::index: listOrganization Organization"}
+{"level":"info","message":"mongo::findMany query={\n  \"criteria\": {},\n  \"options\": {\n    \"projection\": {\n      \"tradingName\": 1,\n      \"id\": 1,\n      \"href\": 1,\n      \"@type\": 1\n    },\n    \"limit\": 250\n  }\n}"}
+{"level":"info","message":"NotificationHandler:: publish ri-internal-event OrganizationNotification"}
+{"level":"info","message":"responseHeaderParams=[{\"X-Total-Count\":1},{\"X-Result-Count\":1},{\"Link\":\"<http://localhost:8632/tmf-api/partyManagement/v5/organization/?fields=tradingName,id,href,@type&limit=250>; rel=\\\"self\\\"\"}]"}
+{"level":"info","message":"Service::update: patchOrganization Organization"}
+{"level":"info","message":"getSingleKey:: #1 res=37f542ac-f602-40b6-b72a-c00091d7fa3b"}
+{"level":"info","message":"NotificationHandler:: publish ri-internal-event OrganizationAttributeValueChangeNotification"}
+{"level":"info","message":"Service::remove: deleteOrganization Organization"}
+{"level":"info","message":"getSingleKey:: #1 res=37f542ac-f602-40b6-b72a-c00091d7fa3b"}
+{"level":"info","message":"NotificationHandler:: publish ri-internal-event OrganizationRemoveNotification"}
+{"level":"info","message":"Service::create: createIndividual Individual"}
+{"level":"info","message":"getResponseType: path not found (path=/tmf-api/partyManagement/v5/individual/)"}
+{"level":"info","message":"... processMissingProperties: Individual"}
+{"level":"info","message":"populateMandatoryAttributes: type=Individual"}
+{"level":"info","message":"... processExcludedInPost: Individual Individual_Create"}
+{"level":"info","message":"... processExcludedInPost: undefined not found"}
+{"level":"info","message":"NotificationHandler:: publish ri-internal-event IndividualCreationNotification"}
+{"level":"info","message":"Service::index: listIndividual Individual"}
+{"level":"info","message":"mongo::findMany query={\n  \"criteria\": {},\n  \"options\": {\n    \"projection\": {},\n    \"limit\": 250\n  }\n}"}
+{"level":"info","message":"NotificationHandler:: publish ri-internal-event IndividualNotification"}
+{"level":"info","message":"responseHeaderParams=[{\"X-Total-Count\":2},{\"X-Result-Count\":2},{\"Link\":\"<http://localhost:8632/tmf-api/partyManagement/v5/individual/?limit=250>; rel=\\\"self\\\"\"}]"}
+{"level":"info","message":"Service::show: retrieveIndividual Individual"}
+{"level":"info","message":"getSingleKey:: #1 res=4cc63cf3-aa91-4662-b7a9-a4846e130640"}
+{"level":"info","message":"show:: resourceType=Individual query={\"criteria\":{\"id\":\"4cc63cf3-aa91-4662-b7a9-a4846e130640\"},\"options\":{\"projection\":{},\"limit\":250}}"}
+{"level":"info","message":"NotificationHandler:: publish ri-internal-event IndividualNotification"}
+{"level":"info","message":"Service::show: retrieveIndividual Individual"}
+{"level":"info","message":"getSingleKey:: #1 res=4cc63cf3-aa91-4662-b7a9-a4846e130640"}
+{"level":"info","message":"show:: resourceType=Individual query={\"criteria\":{\"id\":\"4cc63cf3-aa91-4662-b7a9-a4846e130640\"},\"options\":{\"projection\":{\"familyName\":1,\"id\":1,\"href\":1,\"@type\":1},\"limit\":250}}"}
+{"level":"info","message":"NotificationHandler:: publish ri-internal-event IndividualNotification"}
+{"level":"info","message":"Service::index: listIndividual Individual"}
+{"level":"info","message":"mongo::findMany query={\n  \"criteria\": {},\n  \"options\": {\n    \"projection\": {\n      \"familyName\": 1,\n      \"id\": 1,\n      \"href\": 1,\n      \"@type\": 1\n    },\n    \"limit\": 250\n  }\n}"}
+{"level":"info","message":"NotificationHandler:: publish ri-internal-event IndividualNotification"}
+{"level":"info","message":"responseHeaderParams=[{\"X-Total-Count\":2},{\"X-Result-Count\":2},{\"Link\":\"<http://localhost:8632/tmf-api/partyManagement/v5/individual/?fields=familyName,id,href,@type&limit=250>; rel=\\\"self\\\"\"}]"}
+{"level":"info","message":"Service::index: listIndividual Individual"}
+{"level":"info","message":"mongo::findMany query={\n  \"criteria\": {},\n  \"options\": {\n    \"projection\": {\n      \"familyName\": 1,\n      \"id\": 1,\n      \"href\": 1,\n      \"@type\": 1\n    },\n    \"limit\": 250\n  }\n}"}
+{"level":"info","message":"NotificationHandler:: publish ri-internal-event IndividualNotification"}
+{"level":"info","message":"responseHeaderParams=[{\"X-Total-Count\":2},{\"X-Result-Count\":2},{\"Link\":\"<http://localhost:8632/tmf-api/partyManagement/v5/individual/?fields=familyName,id,href,@type&limit=250>; rel=\\\"self\\\"\"}]"}
+{"level":"info","message":"Service::show: retrieveIndividual Individual"}
+{"level":"info","message":"getSingleKey:: #1 res=4cc63cf3-aa91-4662-b7a9-a4846e130640"}
+{"level":"info","message":"show:: resourceType=Individual query={\"criteria\":{\"id\":\"4cc63cf3-aa91-4662-b7a9-a4846e130640\"},\"options\":{\"projection\":{\"givenName\":1,\"id\":1,\"href\":1,\"@type\":1},\"limit\":250}}"}
+{"level":"info","message":"NotificationHandler:: publish ri-internal-event IndividualNotification"}
+{"level":"info","message":"Service::update: patchIndividual Individual"}
+{"level":"info","message":"getSingleKey:: #1 res=4cc63cf3-aa91-4662-b7a9-a4846e130640"}
+{"level":"info","message":"NotificationHandler:: publish ri-internal-event IndividualAttributeValueChangeNotification"}
+{"level":"info","message":"Service::remove: deleteIndividual Individual"}
+{"level":"info","message":"getSingleKey:: #1 res=4cc63cf3-aa91-4662-b7a9-a4846e130640"}
+{"level":"info","message":"NotificationHandler:: publish ri-internal-event IndividualRemoveNotification"}
+{"level":"error","message":"could not write message KafkaJSNumberOfRetriesExceeded: Connection error: "}
+{"level":"error","message":"could not write message KafkaJSNumberOfRetriesExceeded: Connection error: "}
+{"level":"error","message":"could not write message KafkaJSNumberOfRetriesExceeded: Connection error: "}
+{"level":"error","message":"could not write message KafkaJSNumberOfRetriesExceeded: Connection error: "}
+{"level":"error","message":"could not write message KafkaJSNumberOfRetriesExceeded: Connection error: "}
+{"level":"error","message":"could not write message KafkaJSNumberOfRetriesExceeded: Connection error: "}
+{"level":"error","message":"could not write message KafkaJSNumberOfRetriesExceeded: Connection error: "}
+{"level":"error","message":"could not write message KafkaJSNumberOfRetriesExceeded: Connection error: "}
+{"level":"error","message":"could not write message KafkaJSNumberOfRetriesExceeded: Connection error: "}
+{"level":"error","message":"could not write message KafkaJSNumberOfRetriesExceeded: Connection error: "}
+{"level":"error","message":"could not write message KafkaJSNumberOfRetriesExceeded: Connection error: "}
+{"level":"error","message":"could not write message KafkaJSNumberOfRetriesExceeded: Connection error: "}
+{"level":"error","message":"could not write message KafkaJSNumberOfRetriesExceeded: Connection error: "}
+{"level":"error","message":"could not write message KafkaJSNumberOfRetriesExceeded: Connection error: "}
+{"level":"error","message":"could not write message KafkaJSNumberOfRetriesExceeded: Connection error: "}
+{"level":"info","message":"Service::create: createOrganization Organization"}
+{"level":"info","message":"getResponseType: path not found (path=/tmf-api/partyManagement/v5/organization/)"}
+{"level":"info","message":"... processMissingProperties: Organization"}
+{"level":"info","message":"populateMandatoryAttributes: type=Organization"}
+{"level":"info","message":"... processExcludedInPost: Organization Organization_Create"}
+{"level":"info","message":"... processExcludedInPost: undefined not found"}
+{"level":"info","message":"NotificationHandler:: publish ri-internal-event OrganizationCreationNotification"}
+{"level":"info","message":"Service::index: listOrganization Organization"}
+{"level":"info","message":"mongo::findMany query={\n  \"criteria\": {},\n  \"options\": {\n    \"projection\": {},\n    \"limit\": 250\n  }\n}"}
+{"level":"info","message":"NotificationHandler:: publish ri-internal-event OrganizationNotification"}
+{"level":"info","message":"responseHeaderParams=[{\"X-Total-Count\":1},{\"X-Result-Count\":1},{\"Link\":\"<http://localhost:8632/tmf-api/partyManagement/v5/organization/?limit=250>; rel=\\\"self\\\"\"}]"}
+{"level":"info","message":"Service::show: retrieveOrganization Organization"}
+{"level":"info","message":"getSingleKey:: #1 res=535d2e7a-fbf4-4606-8469-d1a414f23fef"}
+{"level":"info","message":"show:: resourceType=Organization query={\"criteria\":{\"id\":\"535d2e7a-fbf4-4606-8469-d1a414f23fef\"},\"options\":{\"projection\":{},\"limit\":250}}"}
+{"level":"info","message":"NotificationHandler:: publish ri-internal-event OrganizationNotification"}
+{"level":"info","message":"Service::show: retrieveOrganization Organization"}
+{"level":"info","message":"getSingleKey:: #1 res=535d2e7a-fbf4-4606-8469-d1a414f23fef"}
+{"level":"info","message":"show:: resourceType=Organization query={\"criteria\":{\"id\":\"535d2e7a-fbf4-4606-8469-d1a414f23fef\",\"tradingName\":\"Coffee Do Brazil\"},\"options\":{\"projection\":{\"tradingName\":1,\"id\":1,\"href\":1,\"@type\":1},\"limit\":250}}"}
+{"level":"info","message":"show:: resourceType=Organization: error=Not found \"Resource not found\""}
+{"level":"info","message":"handleRequest:: error={\n  \"error\": {\n    \"code\": \"60\",\n    \"reason\": \"Not found\",\n    \"message\": \"Resource not found\"\n  },\n  \"code\": 404\n}"}
+{"level":"info","message":"Service::index: listOrganization Organization"}
+{"level":"info","message":"mongo::findMany query={\n  \"criteria\": {},\n  \"options\": {\n    \"projection\": {\n      \"tradingName\": 1,\n      \"id\": 1,\n      \"href\": 1,\n      \"@type\": 1\n    },\n    \"limit\": 250\n  }\n}"}
+{"level":"info","message":"NotificationHandler:: publish ri-internal-event OrganizationNotification"}
+{"level":"info","message":"responseHeaderParams=[{\"X-Total-Count\":1},{\"X-Result-Count\":1},{\"Link\":\"<http://localhost:8632/tmf-api/partyManagement/v5/organization/?fields=tradingName,id,href,@type&limit=250>; rel=\\\"self\\\"\"}]"}
+{"level":"info","message":"Service::update: patchOrganization Organization"}
+{"level":"info","message":"getSingleKey:: #1 res=535d2e7a-fbf4-4606-8469-d1a414f23fef"}
+{"level":"info","message":"NotificationHandler:: publish ri-internal-event OrganizationAttributeValueChangeNotification"}
+{"level":"info","message":"Service::remove: deleteOrganization Organization"}
+{"level":"info","message":"getSingleKey:: #1 res=535d2e7a-fbf4-4606-8469-d1a414f23fef"}
+{"level":"info","message":"NotificationHandler:: publish ri-internal-event OrganizationRemoveNotification"}
+{"level":"info","message":"Service::create: createIndividual Individual"}
+{"level":"info","message":"getResponseType: path not found (path=/tmf-api/partyManagement/v5/individual/)"}
+{"level":"info","message":"... processMissingProperties: Individual"}
+{"level":"info","message":"populateMandatoryAttributes: type=Individual"}
+{"level":"info","message":"... processExcludedInPost: Individual Individual_Create"}
+{"level":"info","message":"... processExcludedInPost: undefined not found"}
+{"level":"info","message":"NotificationHandler:: publish ri-internal-event IndividualCreationNotification"}
+{"level":"info","message":"Service::index: listIndividual Individual"}
+{"level":"info","message":"mongo::findMany query={\n  \"criteria\": {},\n  \"options\": {\n    \"projection\": {},\n    \"limit\": 250\n  }\n}"}
+{"level":"info","message":"NotificationHandler:: publish ri-internal-event IndividualNotification"}
+{"level":"info","message":"responseHeaderParams=[{\"X-Total-Count\":2},{\"X-Result-Count\":2},{\"Link\":\"<http://localhost:8632/tmf-api/partyManagement/v5/individual/?limit=250>; rel=\\\"self\\\"\"}]"}
+{"level":"info","message":"Service::show: retrieveIndividual Individual"}
+{"level":"info","message":"getSingleKey:: #1 res=0a0a9959-fbfc-450b-8aa8-3aa0b9bdfa82"}
+{"level":"info","message":"show:: resourceType=Individual query={\"criteria\":{\"id\":\"0a0a9959-fbfc-450b-8aa8-3aa0b9bdfa82\"},\"options\":{\"projection\":{},\"limit\":250}}"}
+{"level":"info","message":"NotificationHandler:: publish ri-internal-event IndividualNotification"}
+{"level":"info","message":"Service::show: retrieveIndividual Individual"}
+{"level":"info","message":"getSingleKey:: #1 res=0a0a9959-fbfc-450b-8aa8-3aa0b9bdfa82"}
+{"level":"info","message":"show:: resourceType=Individual query={\"criteria\":{\"id\":\"0a0a9959-fbfc-450b-8aa8-3aa0b9bdfa82\"},\"options\":{\"projection\":{\"familyName\":1,\"id\":1,\"href\":1,\"@type\":1},\"limit\":250}}"}
+{"level":"info","message":"NotificationHandler:: publish ri-internal-event IndividualNotification"}
+{"level":"info","message":"Service::index: listIndividual Individual"}
+{"level":"info","message":"mongo::findMany query={\n  \"criteria\": {},\n  \"options\": {\n    \"projection\": {\n      \"familyName\": 1,\n      \"id\": 1,\n      \"href\": 1,\n      \"@type\": 1\n    },\n    \"limit\": 250\n  }\n}"}
+{"level":"info","message":"NotificationHandler:: publish ri-internal-event IndividualNotification"}
+{"level":"info","message":"responseHeaderParams=[{\"X-Total-Count\":2},{\"X-Result-Count\":2},{\"Link\":\"<http://localhost:8632/tmf-api/partyManagement/v5/individual/?fields=familyName,id,href,@type&limit=250>; rel=\\\"self\\\"\"}]"}
+{"level":"info","message":"Service::index: listIndividual Individual"}
+{"level":"info","message":"mongo::findMany query={\n  \"criteria\": {},\n  \"options\": {\n    \"projection\": {\n      \"familyName\": 1,\n      \"id\": 1,\n      \"href\": 1,\n      \"@type\": 1\n    },\n    \"limit\": 250\n  }\n}"}
+{"level":"info","message":"NotificationHandler:: publish ri-internal-event IndividualNotification"}
+{"level":"info","message":"responseHeaderParams=[{\"X-Total-Count\":2},{\"X-Result-Count\":2},{\"Link\":\"<http://localhost:8632/tmf-api/partyManagement/v5/individual/?fields=familyName,id,href,@type&limit=250>; rel=\\\"self\\\"\"}]"}
+{"level":"info","message":"Service::show: retrieveIndividual Individual"}
+{"level":"info","message":"getSingleKey:: #1 res=0a0a9959-fbfc-450b-8aa8-3aa0b9bdfa82"}
+{"level":"info","message":"show:: resourceType=Individual query={\"criteria\":{\"id\":\"0a0a9959-fbfc-450b-8aa8-3aa0b9bdfa82\"},\"options\":{\"projection\":{\"givenName\":1,\"id\":1,\"href\":1,\"@type\":1},\"limit\":250}}"}
+{"level":"info","message":"NotificationHandler:: publish ri-internal-event IndividualNotification"}
+{"level":"info","message":"Service::update: patchIndividual Individual"}
+{"level":"info","message":"getSingleKey:: #1 res=0a0a9959-fbfc-450b-8aa8-3aa0b9bdfa82"}
+{"level":"info","message":"NotificationHandler:: publish ri-internal-event IndividualAttributeValueChangeNotification"}
+{"level":"info","message":"Service::remove: deleteIndividual Individual"}
+{"level":"info","message":"getSingleKey:: #1 res=0a0a9959-fbfc-450b-8aa8-3aa0b9bdfa82"}
+{"level":"info","message":"NotificationHandler:: publish ri-internal-event IndividualRemoveNotification"}
+{"level":"error","message":"could not write message KafkaJSNumberOfRetriesExceeded: Connection error: "}
+{"level":"error","message":"could not write message KafkaJSNumberOfRetriesExceeded: Connection error: "}
+{"level":"error","message":"could not write message KafkaJSNumberOfRetriesExceeded: Connection error: "}
+{"level":"error","message":"could not write message KafkaJSNumberOfRetriesExceeded: Connection error: "}
+{"level":"error","message":"could not write message KafkaJSNumberOfRetriesExceeded: Connection error: "}
+{"level":"error","message":"could not write message KafkaJSNumberOfRetriesExceeded: Connection error: "}
+{"level":"error","message":"could not write message KafkaJSNumberOfRetriesExceeded: Connection error: "}
+{"level":"error","message":"could not write message KafkaJSNumberOfRetriesExceeded: Connection error: "}
+{"level":"error","message":"could not write message KafkaJSNumberOfRetriesExceeded: Connection error: "}
+{"level":"error","message":"could not write message KafkaJSNumberOfRetriesExceeded: Connection error: "}
+{"level":"error","message":"could not write message KafkaJSNumberOfRetriesExceeded: Connection error: "}
+{"level":"error","message":"could not write message KafkaJSNumberOfRetriesExceeded: Connection error: "}
+{"level":"error","message":"could not write message KafkaJSNumberOfRetriesExceeded: Connection error: "}
+{"level":"error","message":"could not write message KafkaJSNumberOfRetriesExceeded: Connection error: "}
+{"level":"error","message":"could not write message KafkaJSNumberOfRetriesExceeded: Connection error: "}
+{"level":"info","message":"Service::create: createOrganization Organization"}
+{"level":"info","message":"getResponseType: path not found (path=/tmf-api/partyManagement/v5/organization/)"}
+{"level":"info","message":"... processMissingProperties: Organization"}
+{"level":"info","message":"populateMandatoryAttributes: type=Organization"}
+{"level":"info","message":"... processExcludedInPost: Organization Organization_Create"}
+{"level":"info","message":"... processExcludedInPost: undefined not found"}
+{"level":"info","message":"NotificationHandler:: publish ri-internal-event OrganizationCreationNotification"}
+{"level":"info","message":"Service::index: listOrganization Organization"}
+{"level":"info","message":"mongo::findMany query={\n  \"criteria\": {},\n  \"options\": {\n    \"projection\": {},\n    \"limit\": 250\n  }\n}"}
+{"level":"info","message":"NotificationHandler:: publish ri-internal-event OrganizationNotification"}
+{"level":"info","message":"responseHeaderParams=[{\"X-Total-Count\":1},{\"X-Result-Count\":1},{\"Link\":\"<http://localhost:8632/tmf-api/partyManagement/v5/organization/?limit=250>; rel=\\\"self\\\"\"}]"}
+{"level":"info","message":"Service::show: retrieveOrganization Organization"}
+{"level":"info","message":"getSingleKey:: #1 res=1ada2000-1e39-4ca5-811c-2454d60242a0"}
+{"level":"info","message":"show:: resourceType=Organization query={\"criteria\":{\"id\":\"1ada2000-1e39-4ca5-811c-2454d60242a0\"},\"options\":{\"projection\":{},\"limit\":250}}"}
+{"level":"info","message":"NotificationHandler:: publish ri-internal-event OrganizationNotification"}
+{"level":"info","message":"Service::show: retrieveOrganization Organization"}
+{"level":"info","message":"getSingleKey:: #1 res=1ada2000-1e39-4ca5-811c-2454d60242a0"}
+{"level":"info","message":"show:: resourceType=Organization query={\"criteria\":{\"id\":\"1ada2000-1e39-4ca5-811c-2454d60242a0\",\"tradingName\":\"Coffee Do Brazil\"},\"options\":{\"projection\":{\"tradingName\":1,\"id\":1,\"href\":1,\"@type\":1},\"limit\":250}}"}
+{"level":"info","message":"show:: resourceType=Organization: error=Not found \"Resource not found\""}
+{"level":"info","message":"handleRequest:: error={\n  \"error\": {\n    \"code\": \"60\",\n    \"reason\": \"Not found\",\n    \"message\": \"Resource not found\"\n  },\n  \"code\": 404\n}"}
+{"level":"info","message":"Service::index: listOrganization Organization"}
+{"level":"info","message":"mongo::findMany query={\n  \"criteria\": {},\n  \"options\": {\n    \"projection\": {\n      \"tradingName\": 1,\n      \"id\": 1,\n      \"href\": 1,\n      \"@type\": 1\n    },\n    \"limit\": 250\n  }\n}"}
+{"level":"info","message":"NotificationHandler:: publish ri-internal-event OrganizationNotification"}
+{"level":"info","message":"responseHeaderParams=[{\"X-Total-Count\":1},{\"X-Result-Count\":1},{\"Link\":\"<http://localhost:8632/tmf-api/partyManagement/v5/organization/?fields=tradingName,id,href,@type&limit=250>; rel=\\\"self\\\"\"}]"}
+{"level":"info","message":"Service::update: patchOrganization Organization"}
+{"level":"info","message":"getSingleKey:: #1 res=1ada2000-1e39-4ca5-811c-2454d60242a0"}
+{"level":"info","message":"NotificationHandler:: publish ri-internal-event OrganizationAttributeValueChangeNotification"}
+{"level":"info","message":"Service::remove: deleteOrganization Organization"}
+{"level":"info","message":"getSingleKey:: #1 res=1ada2000-1e39-4ca5-811c-2454d60242a0"}
+{"level":"info","message":"NotificationHandler:: publish ri-internal-event OrganizationRemoveNotification"}
+{"level":"info","message":"Service::create: createIndividual Individual"}
+{"level":"info","message":"getResponseType: path not found (path=/tmf-api/partyManagement/v5/individual/)"}
+{"level":"info","message":"... processMissingProperties: Individual"}
+{"level":"info","message":"populateMandatoryAttributes: type=Individual"}
+{"level":"info","message":"... processExcludedInPost: Individual Individual_Create"}
+{"level":"info","message":"... processExcludedInPost: undefined not found"}
+{"level":"info","message":"NotificationHandler:: publish ri-internal-event IndividualCreationNotification"}
+{"level":"info","message":"Service::index: listIndividual Individual"}
+{"level":"info","message":"mongo::findMany query={\n  \"criteria\": {},\n  \"options\": {\n    \"projection\": {},\n    \"limit\": 250\n  }\n}"}
+{"level":"info","message":"NotificationHandler:: publish ri-internal-event IndividualNotification"}
+{"level":"info","message":"responseHeaderParams=[{\"X-Total-Count\":2},{\"X-Result-Count\":2},{\"Link\":\"<http://localhost:8632/tmf-api/partyManagement/v5/individual/?limit=250>; rel=\\\"self\\\"\"}]"}
+{"level":"info","message":"Service::show: retrieveIndividual Individual"}
+{"level":"info","message":"getSingleKey:: #1 res=d4fc78ec-92e4-4ac4-9a5d-63a8cbf891ce"}
+{"level":"info","message":"show:: resourceType=Individual query={\"criteria\":{\"id\":\"d4fc78ec-92e4-4ac4-9a5d-63a8cbf891ce\"},\"options\":{\"projection\":{},\"limit\":250}}"}
+{"level":"info","message":"NotificationHandler:: publish ri-internal-event IndividualNotification"}
+{"level":"info","message":"Service::show: retrieveIndividual Individual"}
+{"level":"info","message":"getSingleKey:: #1 res=d4fc78ec-92e4-4ac4-9a5d-63a8cbf891ce"}
+{"level":"info","message":"show:: resourceType=Individual query={\"criteria\":{\"id\":\"d4fc78ec-92e4-4ac4-9a5d-63a8cbf891ce\"},\"options\":{\"projection\":{\"familyName\":1,\"id\":1,\"href\":1,\"@type\":1},\"limit\":250}}"}
+{"level":"info","message":"NotificationHandler:: publish ri-internal-event IndividualNotification"}
+{"level":"info","message":"Service::index: listIndividual Individual"}
+{"level":"info","message":"mongo::findMany query={\n  \"criteria\": {},\n  \"options\": {\n    \"projection\": {\n      \"familyName\": 1,\n      \"id\": 1,\n      \"href\": 1,\n      \"@type\": 1\n    },\n    \"limit\": 250\n  }\n}"}
+{"level":"info","message":"NotificationHandler:: publish ri-internal-event IndividualNotification"}
+{"level":"info","message":"responseHeaderParams=[{\"X-Total-Count\":2},{\"X-Result-Count\":2},{\"Link\":\"<http://localhost:8632/tmf-api/partyManagement/v5/individual/?fields=familyName,id,href,@type&limit=250>; rel=\\\"self\\\"\"}]"}
+{"level":"info","message":"Service::index: listIndividual Individual"}
+{"level":"info","message":"mongo::findMany query={\n  \"criteria\": {},\n  \"options\": {\n    \"projection\": {\n      \"familyName\": 1,\n      \"id\": 1,\n      \"href\": 1,\n      \"@type\": 1\n    },\n    \"limit\": 250\n  }\n}"}
+{"level":"info","message":"NotificationHandler:: publish ri-internal-event IndividualNotification"}
+{"level":"info","message":"responseHeaderParams=[{\"X-Total-Count\":2},{\"X-Result-Count\":2},{\"Link\":\"<http://localhost:8632/tmf-api/partyManagement/v5/individual/?fields=familyName,id,href,@type&limit=250>; rel=\\\"self\\\"\"}]"}
+{"level":"info","message":"Service::show: retrieveIndividual Individual"}
+{"level":"info","message":"getSingleKey:: #1 res=d4fc78ec-92e4-4ac4-9a5d-63a8cbf891ce"}
+{"level":"info","message":"show:: resourceType=Individual query={\"criteria\":{\"id\":\"d4fc78ec-92e4-4ac4-9a5d-63a8cbf891ce\"},\"options\":{\"projection\":{\"givenName\":1,\"id\":1,\"href\":1,\"@type\":1},\"limit\":250}}"}
+{"level":"info","message":"NotificationHandler:: publish ri-internal-event IndividualNotification"}
+{"level":"info","message":"Service::update: patchIndividual Individual"}
+{"level":"info","message":"getSingleKey:: #1 res=d4fc78ec-92e4-4ac4-9a5d-63a8cbf891ce"}
+{"level":"info","message":"NotificationHandler:: publish ri-internal-event IndividualAttributeValueChangeNotification"}
+{"level":"info","message":"Service::remove: deleteIndividual Individual"}
+{"level":"info","message":"getSingleKey:: #1 res=d4fc78ec-92e4-4ac4-9a5d-63a8cbf891ce"}
+{"level":"info","message":"NotificationHandler:: publish ri-internal-event IndividualRemoveNotification"}
+{"level":"error","message":"could not write message KafkaJSNumberOfRetriesExceeded: Connection error: "}
+{"level":"error","message":"could not write message KafkaJSNumberOfRetriesExceeded: Connection error: "}
+{"level":"error","message":"could not write message KafkaJSNumberOfRetriesExceeded: Connection error: "}
+{"level":"error","message":"could not write message KafkaJSNumberOfRetriesExceeded: Connection error: "}
+{"level":"error","message":"could not write message KafkaJSNumberOfRetriesExceeded: Connection error: "}
+{"level":"error","message":"could not write message KafkaJSNumberOfRetriesExceeded: Connection error: "}
+{"level":"error","message":"could not write message KafkaJSNumberOfRetriesExceeded: Connection error: "}
+{"level":"error","message":"could not write message KafkaJSNumberOfRetriesExceeded: Connection error: "}
+{"level":"error","message":"could not write message KafkaJSNumberOfRetriesExceeded: Connection error: "}
+{"level":"error","message":"could not write message KafkaJSNumberOfRetriesExceeded: Connection error: "}
+{"level":"error","message":"could not write message KafkaJSNumberOfRetriesExceeded: Connection error: "}
+{"level":"error","message":"could not write message KafkaJSNumberOfRetriesExceeded: Connection error: "}
+{"level":"error","message":"could not write message KafkaJSNumberOfRetriesExceeded: Connection error: "}
+{"level":"error","message":"could not write message KafkaJSNumberOfRetriesExceeded: Connection error: "}
+{"level":"error","message":"could not write message KafkaJSNumberOfRetriesExceeded: Connection error: "}
+{"level":"info","message":"Service::create: createOrganization Organization"}
+{"level":"info","message":"getResponseType: path not found (path=/tmf-api/partyManagement/v5/organization/)"}
+{"level":"info","message":"... processMissingProperties: Organization"}
+{"level":"info","message":"populateMandatoryAttributes: type=Organization"}
+{"level":"info","message":"... processExcludedInPost: Organization Organization_Create"}
+{"level":"info","message":"... processExcludedInPost: undefined not found"}
+{"level":"info","message":"NotificationHandler:: publish ri-internal-event OrganizationCreationNotification"}
+{"level":"info","message":"Service::index: listOrganization Organization"}
+{"level":"info","message":"mongo::findMany query={\n  \"criteria\": {},\n  \"options\": {\n    \"projection\": {},\n    \"limit\": 250\n  }\n}"}
+{"level":"info","message":"NotificationHandler:: publish ri-internal-event OrganizationNotification"}
+{"level":"info","message":"responseHeaderParams=[{\"X-Total-Count\":1},{\"X-Result-Count\":1},{\"Link\":\"<http://localhost:8632/tmf-api/partyManagement/v5/organization/?limit=250>; rel=\\\"self\\\"\"}]"}
+{"level":"info","message":"Service::show: retrieveOrganization Organization"}
+{"level":"info","message":"getSingleKey:: #1 res=01003f0d-baa5-426f-9bff-e0f3563f9597"}
+{"level":"info","message":"show:: resourceType=Organization query={\"criteria\":{\"id\":\"01003f0d-baa5-426f-9bff-e0f3563f9597\"},\"options\":{\"projection\":{},\"limit\":250}}"}
+{"level":"info","message":"NotificationHandler:: publish ri-internal-event OrganizationNotification"}
+{"level":"info","message":"Service::show: retrieveOrganization Organization"}
+{"level":"info","message":"getSingleKey:: #1 res=01003f0d-baa5-426f-9bff-e0f3563f9597"}
+{"level":"info","message":"show:: resourceType=Organization query={\"criteria\":{\"id\":\"01003f0d-baa5-426f-9bff-e0f3563f9597\",\"tradingName\":\"Coffee Do Brazil\"},\"options\":{\"projection\":{},\"limit\":250}}"}
+{"level":"info","message":"show:: resourceType=Organization: error=Not found \"Resource not found\""}
+{"level":"info","message":"handleRequest:: error={\n  \"error\": {\n    \"code\": \"60\",\n    \"reason\": \"Not found\",\n    \"message\": \"Resource not found\"\n  },\n  \"code\": 404\n}"}
+{"level":"info","message":"Service::index: listOrganization Organization"}
+{"level":"info","message":"mongo::findMany query={\n  \"criteria\": {},\n  \"options\": {\n    \"projection\": {\n      \"tradingName\": 1,\n      \"id\": 1,\n      \"href\": 1,\n      \"@type\": 1\n    },\n    \"limit\": 250\n  }\n}"}
+{"level":"info","message":"NotificationHandler:: publish ri-internal-event OrganizationNotification"}
+{"level":"info","message":"responseHeaderParams=[{\"X-Total-Count\":1},{\"X-Result-Count\":1},{\"Link\":\"<http://localhost:8632/tmf-api/partyManagement/v5/organization/?fields=tradingName,id,href,@type&limit=250>; rel=\\\"self\\\"\"}]"}
+{"level":"info","message":"Service::update: patchOrganization Organization"}
+{"level":"info","message":"getSingleKey:: #1 res=01003f0d-baa5-426f-9bff-e0f3563f9597"}
+{"level":"info","message":"NotificationHandler:: publish ri-internal-event OrganizationAttributeValueChangeNotification"}
+{"level":"info","message":"Service::remove: deleteOrganization Organization"}
+{"level":"info","message":"getSingleKey:: #1 res=01003f0d-baa5-426f-9bff-e0f3563f9597"}
+{"level":"info","message":"NotificationHandler:: publish ri-internal-event OrganizationRemoveNotification"}
+{"level":"info","message":"Service::create: createIndividual Individual"}
+{"level":"info","message":"getResponseType: path not found (path=/tmf-api/partyManagement/v5/individual/)"}
+{"level":"info","message":"... processMissingProperties: Individual"}
+{"level":"info","message":"populateMandatoryAttributes: type=Individual"}
+{"level":"info","message":"... processExcludedInPost: Individual Individual_Create"}
+{"level":"info","message":"... processExcludedInPost: undefined not found"}
+{"level":"info","message":"NotificationHandler:: publish ri-internal-event IndividualCreationNotification"}
+{"level":"info","message":"Service::index: listIndividual Individual"}
+{"level":"info","message":"mongo::findMany query={\n  \"criteria\": {},\n  \"options\": {\n    \"projection\": {},\n    \"limit\": 250\n  }\n}"}
+{"level":"info","message":"NotificationHandler:: publish ri-internal-event IndividualNotification"}
+{"level":"info","message":"responseHeaderParams=[{\"X-Total-Count\":2},{\"X-Result-Count\":2},{\"Link\":\"<http://localhost:8632/tmf-api/partyManagement/v5/individual/?limit=250>; rel=\\\"self\\\"\"}]"}
+{"level":"info","message":"Service::show: retrieveIndividual Individual"}
+{"level":"info","message":"getSingleKey:: #1 res=acb436b0-c0d6-4cfb-a259-be4358de3041"}
+{"level":"info","message":"show:: resourceType=Individual query={\"criteria\":{\"id\":\"acb436b0-c0d6-4cfb-a259-be4358de3041\"},\"options\":{\"projection\":{},\"limit\":250}}"}
+{"level":"info","message":"NotificationHandler:: publish ri-internal-event IndividualNotification"}
+{"level":"info","message":"Service::show: retrieveIndividual Individual"}
+{"level":"info","message":"getSingleKey:: #1 res=acb436b0-c0d6-4cfb-a259-be4358de3041"}
+{"level":"info","message":"show:: resourceType=Individual query={\"criteria\":{\"id\":\"acb436b0-c0d6-4cfb-a259-be4358de3041\"},\"options\":{\"projection\":{\"familyName\":1,\"id\":1,\"href\":1,\"@type\":1},\"limit\":250}}"}
+{"level":"info","message":"NotificationHandler:: publish ri-internal-event IndividualNotification"}
+{"level":"info","message":"Service::index: listIndividual Individual"}
+{"level":"info","message":"mongo::findMany query={\n  \"criteria\": {},\n  \"options\": {\n    \"projection\": {\n      \"familyName\": 1,\n      \"id\": 1,\n      \"href\": 1,\n      \"@type\": 1\n    },\n    \"limit\": 250\n  }\n}"}
+{"level":"info","message":"NotificationHandler:: publish ri-internal-event IndividualNotification"}
+{"level":"info","message":"responseHeaderParams=[{\"X-Total-Count\":2},{\"X-Result-Count\":2},{\"Link\":\"<http://localhost:8632/tmf-api/partyManagement/v5/individual/?fields=familyName,id,href,@type&limit=250>; rel=\\\"self\\\"\"}]"}
+{"level":"info","message":"Service::index: listIndividual Individual"}
+{"level":"info","message":"mongo::findMany query={\n  \"criteria\": {},\n  \"options\": {\n    \"projection\": {\n      \"familyName\": 1,\n      \"id\": 1,\n      \"href\": 1,\n      \"@type\": 1\n    },\n    \"limit\": 250\n  }\n}"}
+{"level":"info","message":"NotificationHandler:: publish ri-internal-event IndividualNotification"}
+{"level":"info","message":"responseHeaderParams=[{\"X-Total-Count\":2},{\"X-Result-Count\":2},{\"Link\":\"<http://localhost:8632/tmf-api/partyManagement/v5/individual/?fields=familyName,id,href,@type&limit=250>; rel=\\\"self\\\"\"}]"}
+{"level":"info","message":"Service::show: retrieveIndividual Individual"}
+{"level":"info","message":"getSingleKey:: #1 res=acb436b0-c0d6-4cfb-a259-be4358de3041"}
+{"level":"info","message":"show:: resourceType=Individual query={\"criteria\":{\"id\":\"acb436b0-c0d6-4cfb-a259-be4358de3041\"},\"options\":{\"projection\":{\"givenName\":1,\"id\":1,\"href\":1,\"@type\":1},\"limit\":250}}"}
+{"level":"info","message":"NotificationHandler:: publish ri-internal-event IndividualNotification"}
+{"level":"info","message":"Service::update: patchIndividual Individual"}
+{"level":"info","message":"getSingleKey:: #1 res=acb436b0-c0d6-4cfb-a259-be4358de3041"}
+{"level":"info","message":"NotificationHandler:: publish ri-internal-event IndividualAttributeValueChangeNotification"}
+{"level":"info","message":"Service::remove: deleteIndividual Individual"}
+{"level":"info","message":"getSingleKey:: #1 res=acb436b0-c0d6-4cfb-a259-be4358de3041"}
+{"level":"info","message":"NotificationHandler:: publish ri-internal-event IndividualRemoveNotification"}
+{"level":"error","message":"could not write message KafkaJSNumberOfRetriesExceeded: Connection error: "}
+{"level":"error","message":"could not write message KafkaJSNumberOfRetriesExceeded: Connection error: "}
+{"level":"error","message":"could not write message KafkaJSNumberOfRetriesExceeded: Connection error: "}
+{"level":"error","message":"could not write message KafkaJSNumberOfRetriesExceeded: Connection error: "}
+{"level":"error","message":"could not write message KafkaJSNumberOfRetriesExceeded: Connection error: "}
+{"level":"error","message":"could not write message KafkaJSNumberOfRetriesExceeded: Connection error: "}
+{"level":"error","message":"could not write message KafkaJSNumberOfRetriesExceeded: Connection error: "}
+{"level":"error","message":"could not write message KafkaJSNumberOfRetriesExceeded: Connection error: "}
+{"level":"error","message":"could not write message KafkaJSNumberOfRetriesExceeded: Connection error: "}
+{"level":"error","message":"could not write message KafkaJSNumberOfRetriesExceeded: Connection error: "}
+{"level":"error","message":"could not write message KafkaJSNumberOfRetriesExceeded: Connection error: "}
+{"level":"error","message":"could not write message KafkaJSNumberOfRetriesExceeded: Connection error: "}
+{"level":"error","message":"could not write message KafkaJSNumberOfRetriesExceeded: Connection error: "}
+{"level":"error","message":"could not write message KafkaJSNumberOfRetriesExceeded: Connection error: "}
+{"level":"error","message":"could not write message KafkaJSNumberOfRetriesExceeded: Connection error: "}
+{"level":"info","message":"Service::create: createOrganization Organization"}
+{"level":"info","message":"getResponseType: path not found (path=/tmf-api/partyManagement/v5/organization/)"}
+{"level":"info","message":"... processMissingProperties: Organization"}
+{"level":"info","message":"populateMandatoryAttributes: type=Organization"}
+{"level":"info","message":"... processExcludedInPost: Organization Organization_Create"}
+{"level":"info","message":"... processExcludedInPost: undefined not found"}
+{"level":"info","message":"NotificationHandler:: publish ri-internal-event OrganizationCreationNotification"}
+{"level":"info","message":"Service::index: listOrganization Organization"}
+{"level":"info","message":"mongo::findMany query={\n  \"criteria\": {},\n  \"options\": {\n    \"projection\": {},\n    \"limit\": 250\n  }\n}"}
+{"level":"info","message":"NotificationHandler:: publish ri-internal-event OrganizationNotification"}
+{"level":"info","message":"responseHeaderParams=[{\"X-Total-Count\":1},{\"X-Result-Count\":1},{\"Link\":\"<http://localhost:8632/tmf-api/partyManagement/v5/organization/?limit=250>; rel=\\\"self\\\"\"}]"}
+{"level":"info","message":"Service::show: retrieveOrganization Organization"}
+{"level":"info","message":"getSingleKey:: #1 res=f8bdaea3-c5a3-423b-aaf0-bdde5e1342bf"}
+{"level":"info","message":"show:: resourceType=Organization query={\"criteria\":{\"id\":\"f8bdaea3-c5a3-423b-aaf0-bdde5e1342bf\"},\"options\":{\"projection\":{},\"limit\":250}}"}
+{"level":"info","message":"NotificationHandler:: publish ri-internal-event OrganizationNotification"}
+{"level":"info","message":"Service::show: retrieveOrganization Organization"}
+{"level":"info","message":"getSingleKey:: #1 res=f8bdaea3-c5a3-423b-aaf0-bdde5e1342bf"}
+{"level":"info","message":"show:: resourceType=Organization query={\"criteria\":{\"id\":\"f8bdaea3-c5a3-423b-aaf0-bdde5e1342bf\"},\"options\":{\"projection\":{\"tradingName\":1,\"id\":1,\"href\":1,\"@type\":1},\"limit\":250}}"}
+{"level":"info","message":"NotificationHandler:: publish ri-internal-event OrganizationNotification"}
+{"level":"info","message":"Service::index: listOrganization Organization"}
+{"level":"info","message":"mongo::findMany query={\n  \"criteria\": {},\n  \"options\": {\n    \"projection\": {\n      \"tradingName\": 1,\n      \"id\": 1,\n      \"href\": 1,\n      \"@type\": 1\n    },\n    \"limit\": 250\n  }\n}"}
+{"level":"info","message":"NotificationHandler:: publish ri-internal-event OrganizationNotification"}
+{"level":"info","message":"responseHeaderParams=[{\"X-Total-Count\":1},{\"X-Result-Count\":1},{\"Link\":\"<http://localhost:8632/tmf-api/partyManagement/v5/organization/?fields=tradingName,id,href,@type&limit=250>; rel=\\\"self\\\"\"}]"}
+{"level":"info","message":"Service::update: patchOrganization Organization"}
+{"level":"info","message":"getSingleKey:: #1 res=f8bdaea3-c5a3-423b-aaf0-bdde5e1342bf"}
+{"level":"info","message":"NotificationHandler:: publish ri-internal-event OrganizationAttributeValueChangeNotification"}
+{"level":"info","message":"Service::remove: deleteOrganization Organization"}
+{"level":"info","message":"getSingleKey:: #1 res=f8bdaea3-c5a3-423b-aaf0-bdde5e1342bf"}
+{"level":"info","message":"NotificationHandler:: publish ri-internal-event OrganizationRemoveNotification"}
+{"level":"info","message":"Service::create: createIndividual Individual"}
+{"level":"info","message":"getResponseType: path not found (path=/tmf-api/partyManagement/v5/individual/)"}
+{"level":"info","message":"... processMissingProperties: Individual"}
+{"level":"info","message":"populateMandatoryAttributes: type=Individual"}
+{"level":"info","message":"... processExcludedInPost: Individual Individual_Create"}
+{"level":"info","message":"... processExcludedInPost: undefined not found"}
+{"level":"info","message":"NotificationHandler:: publish ri-internal-event IndividualCreationNotification"}
+{"level":"info","message":"Service::index: listIndividual Individual"}
+{"level":"info","message":"mongo::findMany query={\n  \"criteria\": {},\n  \"options\": {\n    \"projection\": {},\n    \"limit\": 250\n  }\n}"}
+{"level":"info","message":"NotificationHandler:: publish ri-internal-event IndividualNotification"}
+{"level":"info","message":"responseHeaderParams=[{\"X-Total-Count\":2},{\"X-Result-Count\":2},{\"Link\":\"<http://localhost:8632/tmf-api/partyManagement/v5/individual/?limit=250>; rel=\\\"self\\\"\"}]"}
+{"level":"info","message":"Service::show: retrieveIndividual Individual"}
+{"level":"info","message":"getSingleKey:: #1 res=78be1d84-e32c-4cf1-b6e1-c6506dd3e982"}
+{"level":"info","message":"show:: resourceType=Individual query={\"criteria\":{\"id\":\"78be1d84-e32c-4cf1-b6e1-c6506dd3e982\"},\"options\":{\"projection\":{},\"limit\":250}}"}
+{"level":"info","message":"NotificationHandler:: publish ri-internal-event IndividualNotification"}
+{"level":"info","message":"Service::show: retrieveIndividual Individual"}
+{"level":"info","message":"getSingleKey:: #1 res=78be1d84-e32c-4cf1-b6e1-c6506dd3e982"}
+{"level":"info","message":"show:: resourceType=Individual query={\"criteria\":{\"id\":\"78be1d84-e32c-4cf1-b6e1-c6506dd3e982\"},\"options\":{\"projection\":{\"familyName\":1,\"id\":1,\"href\":1,\"@type\":1},\"limit\":250}}"}
+{"level":"info","message":"NotificationHandler:: publish ri-internal-event IndividualNotification"}
+{"level":"info","message":"Service::index: listIndividual Individual"}
+{"level":"info","message":"mongo::findMany query={\n  \"criteria\": {},\n  \"options\": {\n    \"projection\": {\n      \"familyName\": 1,\n      \"id\": 1,\n      \"href\": 1,\n      \"@type\": 1\n    },\n    \"limit\": 250\n  }\n}"}
+{"level":"info","message":"NotificationHandler:: publish ri-internal-event IndividualNotification"}
+{"level":"info","message":"responseHeaderParams=[{\"X-Total-Count\":2},{\"X-Result-Count\":2},{\"Link\":\"<http://localhost:8632/tmf-api/partyManagement/v5/individual/?fields=familyName,id,href,@type&limit=250>; rel=\\\"self\\\"\"}]"}
+{"level":"info","message":"Service::index: listIndividual Individual"}
+{"level":"info","message":"mongo::findMany query={\n  \"criteria\": {},\n  \"options\": {\n    \"projection\": {\n      \"familyName\": 1,\n      \"id\": 1,\n      \"href\": 1,\n      \"@type\": 1\n    },\n    \"limit\": 250\n  }\n}"}
+{"level":"info","message":"NotificationHandler:: publish ri-internal-event IndividualNotification"}
+{"level":"info","message":"responseHeaderParams=[{\"X-Total-Count\":2},{\"X-Result-Count\":2},{\"Link\":\"<http://localhost:8632/tmf-api/partyManagement/v5/individual/?fields=familyName,id,href,@type&limit=250>; rel=\\\"self\\\"\"}]"}
+{"level":"info","message":"Service::show: retrieveIndividual Individual"}
+{"level":"info","message":"getSingleKey:: #1 res=78be1d84-e32c-4cf1-b6e1-c6506dd3e982"}
+{"level":"info","message":"show:: resourceType=Individual query={\"criteria\":{\"id\":\"78be1d84-e32c-4cf1-b6e1-c6506dd3e982\"},\"options\":{\"projection\":{\"givenName\":1,\"id\":1,\"href\":1,\"@type\":1},\"limit\":250}}"}
+{"level":"info","message":"NotificationHandler:: publish ri-internal-event IndividualNotification"}
+{"level":"info","message":"Service::update: patchIndividual Individual"}
+{"level":"info","message":"getSingleKey:: #1 res=78be1d84-e32c-4cf1-b6e1-c6506dd3e982"}
+{"level":"info","message":"NotificationHandler:: publish ri-internal-event IndividualAttributeValueChangeNotification"}
+{"level":"info","message":"Service::remove: deleteIndividual Individual"}
+{"level":"info","message":"getSingleKey:: #1 res=78be1d84-e32c-4cf1-b6e1-c6506dd3e982"}
+{"level":"info","message":"NotificationHandler:: publish ri-internal-event IndividualRemoveNotification"}
+{"level":"error","message":"could not write message KafkaJSNumberOfRetriesExceeded: Connection error: "}
+{"level":"error","message":"could not write message KafkaJSNumberOfRetriesExceeded: Connection error: "}
+{"level":"error","message":"could not write message KafkaJSNumberOfRetriesExceeded: Connection error: "}
+{"level":"error","message":"could not write message KafkaJSNumberOfRetriesExceeded: Connection error: "}
+{"level":"error","message":"could not write message KafkaJSNumberOfRetriesExceeded: Connection error: "}
+{"level":"error","message":"could not write message KafkaJSNumberOfRetriesExceeded: Connection error: "}
+{"level":"error","message":"could not write message KafkaJSNumberOfRetriesExceeded: Connection error: "}
+{"level":"error","message":"could not write message KafkaJSNumberOfRetriesExceeded: Connection error: "}
+{"level":"error","message":"could not write message KafkaJSNumberOfRetriesExceeded: Connection error: "}
+{"level":"error","message":"could not write message KafkaJSNumberOfRetriesExceeded: Connection error: "}
+{"level":"error","message":"could not write message KafkaJSNumberOfRetriesExceeded: Connection error: "}
+{"level":"error","message":"could not write message KafkaJSNumberOfRetriesExceeded: Connection error: "}
+{"level":"error","message":"could not write message KafkaJSNumberOfRetriesExceeded: Connection error: "}
+{"level":"error","message":"could not write message KafkaJSNumberOfRetriesExceeded: Connection error: "}
+{"level":"error","message":"could not write message KafkaJSNumberOfRetriesExceeded: Connection error: "}
+{"level":"error","message":"could not write message KafkaJSNumberOfRetriesExceeded: Connection error: "}
+{"level":"info","message":"Service::create: createOrganization Organization"}
+{"level":"info","message":"getResponseType: path not found (path=/tmf-api/partyManagement/v5/organization/)"}
+{"level":"info","message":"... processMissingProperties: Organization"}
+{"level":"info","message":"populateMandatoryAttributes: type=Organization"}
+{"level":"info","message":"... processExcludedInPost: Organization Organization_Create"}
+{"level":"info","message":"... processExcludedInPost: undefined not found"}
+{"level":"info","message":"NotificationHandler:: publish ri-internal-event OrganizationCreationNotification"}
+{"level":"info","message":"Service::index: listOrganization Organization"}
+{"level":"info","message":"mongo::findMany query={\n  \"criteria\": {},\n  \"options\": {\n    \"projection\": {},\n    \"limit\": 250\n  }\n}"}
+{"level":"info","message":"NotificationHandler:: publish ri-internal-event OrganizationNotification"}
+{"level":"info","message":"responseHeaderParams=[{\"X-Total-Count\":1},{\"X-Result-Count\":1},{\"Link\":\"<http://localhost:8632/tmf-api/partyManagement/v5/organization/?limit=250>; rel=\\\"self\\\"\"}]"}
+{"level":"info","message":"Service::show: retrieveOrganization Organization"}
+{"level":"info","message":"getSingleKey:: #1 res=b5409b9d-c654-4bf3-a123-a44aaa93078c"}
+{"level":"info","message":"show:: resourceType=Organization query={\"criteria\":{\"id\":\"b5409b9d-c654-4bf3-a123-a44aaa93078c\"},\"options\":{\"projection\":{},\"limit\":250}}"}
+{"level":"info","message":"NotificationHandler:: publish ri-internal-event OrganizationNotification"}
+{"level":"info","message":"Service::show: retrieveOrganization Organization"}
+{"level":"info","message":"getSingleKey:: #1 res=b5409b9d-c654-4bf3-a123-a44aaa93078c"}
+{"level":"info","message":"show:: resourceType=Organization query={\"criteria\":{\"id\":\"b5409b9d-c654-4bf3-a123-a44aaa93078c\"},\"options\":{\"projection\":{\"tradingName\":1,\"id\":1,\"href\":1,\"@type\":1},\"limit\":250}}"}
+{"level":"info","message":"NotificationHandler:: publish ri-internal-event OrganizationNotification"}
+{"level":"info","message":"Service::index: listOrganization Organization"}
+{"level":"info","message":"mongo::findMany query={\n  \"criteria\": {},\n  \"options\": {\n    \"projection\": {\n      \"tradingName\": 1,\n      \"id\": 1,\n      \"href\": 1,\n      \"@type\": 1\n    },\n    \"limit\": 250\n  }\n}"}
+{"level":"info","message":"NotificationHandler:: publish ri-internal-event OrganizationNotification"}
+{"level":"info","message":"responseHeaderParams=[{\"X-Total-Count\":1},{\"X-Result-Count\":1},{\"Link\":\"<http://localhost:8632/tmf-api/partyManagement/v5/organization/?fields=tradingName,id,href,@type&limit=250>; rel=\\\"self\\\"\"}]"}
+{"level":"info","message":"Service::update: patchOrganization Organization"}
+{"level":"info","message":"getSingleKey:: #1 res=b5409b9d-c654-4bf3-a123-a44aaa93078c"}
+{"level":"info","message":"NotificationHandler:: publish ri-internal-event OrganizationAttributeValueChangeNotification"}
+{"level":"info","message":"Service::remove: deleteOrganization Organization"}
+{"level":"info","message":"getSingleKey:: #1 res=b5409b9d-c654-4bf3-a123-a44aaa93078c"}
+{"level":"info","message":"NotificationHandler:: publish ri-internal-event OrganizationRemoveNotification"}
+{"level":"info","message":"Service::create: createIndividual Individual"}
+{"level":"info","message":"getResponseType: path not found (path=/tmf-api/partyManagement/v5/individual/)"}
+{"level":"info","message":"... processMissingProperties: Individual"}
+{"level":"info","message":"populateMandatoryAttributes: type=Individual"}
+{"level":"info","message":"... processExcludedInPost: Individual Individual_Create"}
+{"level":"info","message":"... processExcludedInPost: undefined not found"}
+{"level":"info","message":"NotificationHandler:: publish ri-internal-event IndividualCreationNotification"}
+{"level":"info","message":"Service::index: listIndividual Individual"}
+{"level":"info","message":"mongo::findMany query={\n  \"criteria\": {},\n  \"options\": {\n    \"projection\": {},\n    \"limit\": 250\n  }\n}"}
+{"level":"info","message":"NotificationHandler:: publish ri-internal-event IndividualNotification"}
+{"level":"info","message":"responseHeaderParams=[{\"X-Total-Count\":2},{\"X-Result-Count\":2},{\"Link\":\"<http://localhost:8632/tmf-api/partyManagement/v5/individual/?limit=250>; rel=\\\"self\\\"\"}]"}
+{"level":"info","message":"Service::show: retrieveIndividual Individual"}
+{"level":"info","message":"getSingleKey:: #1 res=fbf8156d-7570-4731-b262-08ec7a08515a"}
+{"level":"info","message":"show:: resourceType=Individual query={\"criteria\":{\"id\":\"fbf8156d-7570-4731-b262-08ec7a08515a\"},\"options\":{\"projection\":{},\"limit\":250}}"}
+{"level":"info","message":"NotificationHandler:: publish ri-internal-event IndividualNotification"}
+{"level":"info","message":"Service::show: retrieveIndividual Individual"}
+{"level":"info","message":"getSingleKey:: #1 res=fbf8156d-7570-4731-b262-08ec7a08515a"}
+{"level":"info","message":"show:: resourceType=Individual query={\"criteria\":{\"id\":\"fbf8156d-7570-4731-b262-08ec7a08515a\"},\"options\":{\"projection\":{\"familyName\":1,\"id\":1,\"href\":1,\"@type\":1},\"limit\":250}}"}
+{"level":"info","message":"NotificationHandler:: publish ri-internal-event IndividualNotification"}
+{"level":"info","message":"Service::index: listIndividual Individual"}
+{"level":"info","message":"mongo::findMany query={\n  \"criteria\": {},\n  \"options\": {\n    \"projection\": {\n      \"familyName\": 1,\n      \"id\": 1,\n      \"href\": 1,\n      \"@type\": 1\n    },\n    \"limit\": 250\n  }\n}"}
+{"level":"info","message":"NotificationHandler:: publish ri-internal-event IndividualNotification"}
+{"level":"info","message":"responseHeaderParams=[{\"X-Total-Count\":2},{\"X-Result-Count\":2},{\"Link\":\"<http://localhost:8632/tmf-api/partyManagement/v5/individual/?fields=familyName,id,href,@type&limit=250>; rel=\\\"self\\\"\"}]"}
+{"level":"info","message":"Service::index: listIndividual Individual"}
+{"level":"info","message":"mongo::findMany query={\n  \"criteria\": {},\n  \"options\": {\n    \"projection\": {\n      \"familyName\": 1,\n      \"id\": 1,\n      \"href\": 1,\n      \"@type\": 1\n    },\n    \"limit\": 250\n  }\n}"}
+{"level":"info","message":"NotificationHandler:: publish ri-internal-event IndividualNotification"}
+{"level":"info","message":"responseHeaderParams=[{\"X-Total-Count\":2},{\"X-Result-Count\":2},{\"Link\":\"<http://localhost:8632/tmf-api/partyManagement/v5/individual/?fields=familyName,id,href,@type&limit=250>; rel=\\\"self\\\"\"}]"}
+{"level":"info","message":"Service::show: retrieveIndividual Individual"}
+{"level":"info","message":"getSingleKey:: #1 res=fbf8156d-7570-4731-b262-08ec7a08515a"}
+{"level":"info","message":"show:: resourceType=Individual query={\"criteria\":{\"id\":\"fbf8156d-7570-4731-b262-08ec7a08515a\"},\"options\":{\"projection\":{\"givenName\":1,\"id\":1,\"href\":1,\"@type\":1},\"limit\":250}}"}
+{"level":"info","message":"NotificationHandler:: publish ri-internal-event IndividualNotification"}
+{"level":"info","message":"Service::update: patchIndividual Individual"}
+{"level":"info","message":"getSingleKey:: #1 res=fbf8156d-7570-4731-b262-08ec7a08515a"}
+{"level":"info","message":"NotificationHandler:: publish ri-internal-event IndividualAttributeValueChangeNotification"}
+{"level":"info","message":"Service::remove: deleteIndividual Individual"}
+{"level":"info","message":"getSingleKey:: #1 res=fbf8156d-7570-4731-b262-08ec7a08515a"}
+{"level":"info","message":"NotificationHandler:: publish ri-internal-event IndividualRemoveNotification"}
+{"level":"error","message":"could not write message KafkaJSNumberOfRetriesExceeded: Connection error: "}
+{"level":"error","message":"could not write message KafkaJSNumberOfRetriesExceeded: Connection error: "}
+{"level":"error","message":"could not write message KafkaJSNumberOfRetriesExceeded: Connection error: "}
+{"level":"error","message":"could not write message KafkaJSNumberOfRetriesExceeded: Connection error: "}
+{"level":"error","message":"could not write message KafkaJSNumberOfRetriesExceeded: Connection error: "}
+{"level":"error","message":"could not write message KafkaJSNumberOfRetriesExceeded: Connection error: "}
+{"level":"error","message":"could not write message KafkaJSNumberOfRetriesExceeded: Connection error: "}
+{"level":"error","message":"could not write message KafkaJSNumberOfRetriesExceeded: Connection error: "}
+{"level":"error","message":"could not write message KafkaJSNumberOfRetriesExceeded: Connection error: "}
+{"level":"error","message":"could not write message KafkaJSNumberOfRetriesExceeded: Connection error: "}
+{"level":"error","message":"could not write message KafkaJSNumberOfRetriesExceeded: Connection error: "}
+{"level":"error","message":"could not write message KafkaJSNumberOfRetriesExceeded: Connection error: "}
+{"level":"error","message":"could not write message KafkaJSNumberOfRetriesExceeded: Connection error: "}
+{"level":"error","message":"could not write message KafkaJSNumberOfRetriesExceeded: Connection error: "}
+{"level":"error","message":"could not write message KafkaJSNumberOfRetriesExceeded: Connection error: "}
+{"level":"error","message":"could not write message KafkaJSNumberOfRetriesExceeded: Connection error: "}
+{"level":"info","message":"Service::create: createOrganization Organization"}
+{"level":"info","message":"getResponseType: path not found (path=/tmf-api/partyManagement/v5/organization/)"}
+{"level":"info","message":"... processMissingProperties: Organization"}
+{"level":"info","message":"populateMandatoryAttributes: type=Organization"}
+{"level":"info","message":"... processExcludedInPost: Organization Organization_Create"}
+{"level":"info","message":"... processExcludedInPost: undefined not found"}
+{"level":"info","message":"NotificationHandler:: publish ri-internal-event OrganizationCreationNotification"}
+{"level":"info","message":"Service::index: listOrganization Organization"}
+{"level":"info","message":"mongo::findMany query={\n  \"criteria\": {},\n  \"options\": {\n    \"projection\": {},\n    \"limit\": 250\n  }\n}"}
+{"level":"info","message":"NotificationHandler:: publish ri-internal-event OrganizationNotification"}
+{"level":"info","message":"responseHeaderParams=[{\"X-Total-Count\":1},{\"X-Result-Count\":1},{\"Link\":\"<http://localhost:8632/tmf-api/partyManagement/v5/organization/?limit=250>; rel=\\\"self\\\"\"}]"}
+{"level":"info","message":"Service::show: retrieveOrganization Organization"}
+{"level":"info","message":"getSingleKey:: #1 res=33f2ecd5-13ac-450d-9268-fd72ef0d15e2"}
+{"level":"info","message":"show:: resourceType=Organization query={\"criteria\":{\"id\":\"33f2ecd5-13ac-450d-9268-fd72ef0d15e2\"},\"options\":{\"projection\":{},\"limit\":250}}"}
+{"level":"info","message":"NotificationHandler:: publish ri-internal-event OrganizationNotification"}
+{"level":"info","message":"Service::show: retrieveOrganization Organization"}
+{"level":"info","message":"getSingleKey:: #1 res=33f2ecd5-13ac-450d-9268-fd72ef0d15e2"}
+{"level":"info","message":"show:: resourceType=Organization query={\"criteria\":{\"id\":\"33f2ecd5-13ac-450d-9268-fd72ef0d15e2\"},\"options\":{\"projection\":{\"tradingName\":1,\"id\":1,\"href\":1,\"@type\":1},\"limit\":250}}"}
+{"level":"info","message":"NotificationHandler:: publish ri-internal-event OrganizationNotification"}
+{"level":"info","message":"Service::index: listOrganization Organization"}
+{"level":"info","message":"mongo::findMany query={\n  \"criteria\": {},\n  \"options\": {\n    \"projection\": {\n      \"tradingName\": 1,\n      \"id\": 1,\n      \"href\": 1,\n      \"@type\": 1\n    },\n    \"limit\": 250\n  }\n}"}
+{"level":"info","message":"NotificationHandler:: publish ri-internal-event OrganizationNotification"}
+{"level":"info","message":"responseHeaderParams=[{\"X-Total-Count\":1},{\"X-Result-Count\":1},{\"Link\":\"<http://localhost:8632/tmf-api/partyManagement/v5/organization/?fields=tradingName,id,href,@type&limit=250>; rel=\\\"self\\\"\"}]"}
+{"level":"info","message":"Service::update: patchOrganization Organization"}
+{"level":"info","message":"getSingleKey:: #1 res=33f2ecd5-13ac-450d-9268-fd72ef0d15e2"}
+{"level":"info","message":"NotificationHandler:: publish ri-internal-event OrganizationAttributeValueChangeNotification"}
+{"level":"info","message":"Service::remove: deleteOrganization Organization"}
+{"level":"info","message":"getSingleKey:: #1 res=33f2ecd5-13ac-450d-9268-fd72ef0d15e2"}
+{"level":"info","message":"NotificationHandler:: publish ri-internal-event OrganizationRemoveNotification"}
+{"level":"info","message":"Service::create: createIndividual Individual"}
+{"level":"info","message":"getResponseType: path not found (path=/tmf-api/partyManagement/v5/individual/)"}
+{"level":"info","message":"... processMissingProperties: Individual"}
+{"level":"info","message":"populateMandatoryAttributes: type=Individual"}
+{"level":"info","message":"... processExcludedInPost: Individual Individual_Create"}
+{"level":"info","message":"... processExcludedInPost: undefined not found"}
+{"level":"info","message":"NotificationHandler:: publish ri-internal-event IndividualCreationNotification"}
+{"level":"info","message":"Service::index: listIndividual Individual"}
+{"level":"info","message":"mongo::findMany query={\n  \"criteria\": {},\n  \"options\": {\n    \"projection\": {},\n    \"limit\": 250\n  }\n}"}
+{"level":"info","message":"NotificationHandler:: publish ri-internal-event IndividualNotification"}
+{"level":"info","message":"responseHeaderParams=[{\"X-Total-Count\":2},{\"X-Result-Count\":2},{\"Link\":\"<http://localhost:8632/tmf-api/partyManagement/v5/individual/?limit=250>; rel=\\\"self\\\"\"}]"}
+{"level":"info","message":"Service::show: retrieveIndividual Individual"}
+{"level":"info","message":"getSingleKey:: #1 res=5f69795e-f701-4053-ac8b-9ebb805b98e4"}
+{"level":"info","message":"show:: resourceType=Individual query={\"criteria\":{\"id\":\"5f69795e-f701-4053-ac8b-9ebb805b98e4\"},\"options\":{\"projection\":{},\"limit\":250}}"}
+{"level":"info","message":"NotificationHandler:: publish ri-internal-event IndividualNotification"}
+{"level":"info","message":"Service::show: retrieveIndividual Individual"}
+{"level":"info","message":"getSingleKey:: #1 res=5f69795e-f701-4053-ac8b-9ebb805b98e4"}
+{"level":"info","message":"show:: resourceType=Individual query={\"criteria\":{\"id\":\"5f69795e-f701-4053-ac8b-9ebb805b98e4\"},\"options\":{\"projection\":{\"familyName\":1,\"id\":1,\"href\":1,\"@type\":1},\"limit\":250}}"}
+{"level":"info","message":"NotificationHandler:: publish ri-internal-event IndividualNotification"}
+{"level":"info","message":"Service::index: listIndividual Individual"}
+{"level":"info","message":"mongo::findMany query={\n  \"criteria\": {\n    \"familyName\": \"Lamborgizzia\"\n  },\n  \"options\": {\n    \"projection\": {\n      \"familyName\": 1,\n      \"id\": 1,\n      \"href\": 1,\n      \"@type\": 1\n    },\n    \"limit\": 250\n  }\n}"}
+{"level":"info","message":"NotificationHandler:: publish ri-internal-event IndividualNotification"}
+{"level":"info","message":"responseHeaderParams=[{\"X-Total-Count\":2},{\"X-Result-Count\":2},{\"Link\":\"<http://localhost:8632/tmf-api/partyManagement/v5/individual/?fields=familyName,id,href,@type&familyName=Lamborgizzia&limit=250>; rel=\\\"self\\\"\"}]"}
+{"level":"info","message":"Service::index: listIndividual Individual"}
+{"level":"info","message":"mongo::findMany query={\n  \"criteria\": {},\n  \"options\": {\n    \"projection\": {\n      \"familyName\": 1,\n      \"id\": 1,\n      \"href\": 1,\n      \"@type\": 1\n    },\n    \"limit\": 250\n  }\n}"}
+{"level":"info","message":"NotificationHandler:: publish ri-internal-event IndividualNotification"}
+{"level":"info","message":"responseHeaderParams=[{\"X-Total-Count\":2},{\"X-Result-Count\":2},{\"Link\":\"<http://localhost:8632/tmf-api/partyManagement/v5/individual/?fields=familyName,id,href,@type&limit=250>; rel=\\\"self\\\"\"}]"}
+{"level":"info","message":"Service::show: retrieveIndividual Individual"}
+{"level":"info","message":"getSingleKey:: #1 res=5f69795e-f701-4053-ac8b-9ebb805b98e4"}
+{"level":"info","message":"show:: resourceType=Individual query={\"criteria\":{\"id\":\"5f69795e-f701-4053-ac8b-9ebb805b98e4\"},\"options\":{\"projection\":{\"givenName\":1,\"id\":1,\"href\":1,\"@type\":1},\"limit\":250}}"}
+{"level":"info","message":"NotificationHandler:: publish ri-internal-event IndividualNotification"}
+{"level":"info","message":"Service::update: patchIndividual Individual"}
+{"level":"info","message":"getSingleKey:: #1 res=5f69795e-f701-4053-ac8b-9ebb805b98e4"}
+{"level":"info","message":"NotificationHandler:: publish ri-internal-event IndividualAttributeValueChangeNotification"}
+{"level":"info","message":"Service::remove: deleteIndividual Individual"}
+{"level":"info","message":"getSingleKey:: #1 res=5f69795e-f701-4053-ac8b-9ebb805b98e4"}
+{"level":"info","message":"NotificationHandler:: publish ri-internal-event IndividualRemoveNotification"}
+{"level":"error","message":"could not write message KafkaJSNumberOfRetriesExceeded: Connection error: "}
+{"level":"error","message":"could not write message KafkaJSNumberOfRetriesExceeded: Connection error: "}
+{"level":"error","message":"could not write message KafkaJSNumberOfRetriesExceeded: Connection error: "}
+{"level":"error","message":"could not write message KafkaJSNumberOfRetriesExceeded: Connection error: "}
+{"level":"error","message":"could not write message KafkaJSNumberOfRetriesExceeded: Connection error: "}
+{"level":"error","message":"could not write message KafkaJSNumberOfRetriesExceeded: Connection error: "}
+{"level":"error","message":"could not write message KafkaJSNumberOfRetriesExceeded: Connection error: "}
+{"level":"error","message":"could not write message KafkaJSNumberOfRetriesExceeded: Connection error: "}
+{"level":"error","message":"could not write message KafkaJSNumberOfRetriesExceeded: Connection error: "}
+{"level":"error","message":"could not write message KafkaJSNumberOfRetriesExceeded: Connection error: "}
+{"level":"error","message":"could not write message KafkaJSNumberOfRetriesExceeded: Connection error: "}
+{"level":"error","message":"could not write message KafkaJSNumberOfRetriesExceeded: Connection error: "}
+{"level":"error","message":"could not write message KafkaJSNumberOfRetriesExceeded: Connection error: "}
+{"level":"error","message":"could not write message KafkaJSNumberOfRetriesExceeded: Connection error: "}
+{"level":"error","message":"could not write message KafkaJSNumberOfRetriesExceeded: Connection error: "}
+{"level":"error","message":"could not write message KafkaJSNumberOfRetriesExceeded: Connection error: "}
