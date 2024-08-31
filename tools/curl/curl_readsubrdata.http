@@ -1,7 +1,0 @@
-curl -X POST    -H "Content-Type:application/json"  
--d 
-'{
-    "subr_numb": "66876801466", 
-    "user_code": "LLTEST"
-}'  
-http://localhost:8080/ReadSubrData

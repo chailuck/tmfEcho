@@ -12,3 +12,13 @@ func IsNotEmptyString(s ...string) bool {
 	}
 	return true
 }
+
+func ConvertCommaStringToMap(s string) map[string]bool {
+	m := make(map[string]bool)
+	if strings.Trim(s, " ") != "" {
+		for _, p := range strings.Split(s, ",") {
+			m[p] = true
+		}
+	}
+	return m
+}

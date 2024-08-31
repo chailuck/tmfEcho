@@ -76,7 +76,7 @@ func GenErrLog(log_message string, lt LogTracing, e Global_error, er error) LogM
 	}
 	if er != nil {
 		m.ErrorObject = er
-		m.ErrorMessage = m.ErrorMessage + ":" + er.Error()
+		m.LogMessage = m.LogMessage + " [ " + er.Error() + " ]"
 	} else {
 		m.ErrorObject = errors.New("Error: " + e.message)
 	}

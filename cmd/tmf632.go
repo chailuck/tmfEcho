@@ -25,6 +25,7 @@ func main() {
 	h.Initialize(db)
 
 	e.GET("/individual", h.GetIndividual)
+	e.GET("/individual/:id", h.GetIndividualById)
 	/*	e.POST("/customers", h.SaveCustomer)
 		e.GET("/customers/:id", h.GetCustomer)
 		e.PUT("/customers/:id", h.UpdateCustomer)
