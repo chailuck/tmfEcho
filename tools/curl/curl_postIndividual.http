@@ -1,0 +1,12 @@
+curl -X POST    -H "Content-Type:application/json"  
+-d 
+'{
+  "@type": "Individual",
+  "@baseType": "Party",
+  "givenName": "dtac",
+  "familyName": "trinet"
+}'  
+http://localhost:8081/partyManagement/v5/individual
+
+
+

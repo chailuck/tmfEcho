@@ -12,6 +12,7 @@ import (
 )
 
 const TMFno = "TMF632"
+const maxLimit = 50
 
 type PartyHandler struct {
 	DB     *sqlx.DB
@@ -38,19 +39,25 @@ func (h *PartyHandler) callAPIStart(c echo.Context, lt log.LogTracing) {
 	limitStr := c.QueryParam("limit")
 	limit, err := strconv.Atoi(limitStr)
 	if err != nil {
-		logmessage := log.GenErrLog("ERROR:limit is not int", lt, log.E000000, err)
-		log.AppTraceLog.Error(logmessage)
-		limit = -1
+		logmessage := log.GenAppLog("ERROR:limit is not int "+err.Error(), lt)
+		log.AppTraceLog.Debug(logmessage)
+		limit = maxLimit
 	}
 	h.limit = limit
 	offsetStr := c.QueryParam("offset")
 	offset, err := strconv.Atoi(offsetStr)
 	if err != nil {
-		logmessage := log.GenErrLog("ERROR:offset is not int", lt, log.E000000, err)
-		log.AppTraceLog.Error(logmessage)
+		logmessage := log.GenAppLog("ERROR:offset is not int "+err.Error(), lt)
+		log.AppTraceLog.Debug(logmessage)
 		offset = -1
 	}
 	h.offset = offset
+}
+
+func (h *PartyHandler) SaveIndividual(c echo.Context) error {
+	lt := log.LogTracing{ApiName: TMFno + "-" + "SaveIndividual"}
+	h.callAPIStart(c, lt)
+	return SaveIndividualService(h, c, lt)
 }
 
 func (h *PartyHandler) GetIndividual(c echo.Context) error {

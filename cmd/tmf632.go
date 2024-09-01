@@ -24,14 +24,14 @@ func main() {
 
 	h.Initialize(db)
 
-	e.GET("/individual", h.GetIndividual)
-	e.GET("/individual/:id", h.GetIndividualById)
-	/*	e.POST("/customers", h.SaveCustomer)
-		e.GET("/customers/:id", h.GetCustomer)
+	e.GET("/partyManagement/v5/individual", h.GetIndividual)
+	e.GET("/partyManagement/v5/individual/:id", h.GetIndividualById)
+	e.POST("/partyManagement/v5/individual", h.SaveIndividual)
+	/*	e.GET("/customers/:id", h.GetCustomer)
 		e.PUT("/customers/:id", h.UpdateCustomer)
 		e.DELETE("/customers/:id", h.DeleteCustomer)
 	*/
-	e.Logger.Fatal(e.Start(":8080"))
+	e.Logger.Fatal(e.Start(":8081"))
 
 	// Create service
 

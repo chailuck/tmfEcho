@@ -2,7 +2,10 @@ package party
 
 import (
 	"database/sql"
+	"fmt"
 	"net/http"
+	"strconv"
+	"strings"
 	"tmfEcho/internal/api/apihelper"
 	"tmfEcho/internal/database"
 	"tmfEcho/internal/log"
@@ -13,52 +16,95 @@ import (
 
 type IndividualData struct {
 	Id         string `json:"id,omitempty"`
+	Type       string `json:"@type"`
+	BaseType   string `json:"@baseType"`
 	GivenName  string `json:"givenName,omitempty"`
 	FamilyName string `json:"familyName,omitempty"`
 	Name       string `json:"name,omitempty"`
-	Age        int    `json:"age,omitempty"`
 }
 
-// func omitFilteredData(fieldFilter map[string]bool, data *IndividualData) {
-
-func GetIndividualService(s *PartyHandler, c echo.Context, lt log.LogTracing) error {
-	//a := IndividualData{Id: "1", GivenName: "John", FamilyName: "Doe", Name: "John Doe"}
-	data := IndividualData{Age: 40}
-	sqlStmt := "SELECT cust_numb, frst_name, last_name " +
-		"FROM cs_cust " +
-		"ORDER BY CUST_NUMB "
-	sqlStmt = database.AddLimitOffset(sqlStmt, s.limit, s.offset)
-
-	log.AppTraceLog.Debug(log.GenAppLog("Execute SQL: "+sqlStmt, lt))
-	sqlErr := s.DB.QueryRowx(sqlStmt).Scan(&data.Id, &data.GivenName, &data.FamilyName)
-	if sqlErr != nil {
-		if sqlErr == sql.ErrNoRows {
-			lg := log.GenErrLog("SQL:"+sqlStmt, lt, log.E100017, sqlErr)
+func SaveIndividualService(s *PartyHandler, c echo.Context, lt log.LogTracing) error {
+	var data IndividualData
+	if err := c.Bind(&data); err != nil {
+		lg := log.GenErrLog("Wrong Request payload", lt, log.E201434, err)
+		log.AppTraceLog.Error(lg)
+		omErr := util.NewOMError(lg)
+		return c.JSON(http.StatusBadRequest, omErr.ErrorReponsTMFJSON())
+	}
+	sqlStmt := "select max(cust_numb) from cs_cust"
+	var custNumb string
+	err := s.DB.QueryRow(sqlStmt).Scan(&custNumb)
+	if err != nil {
+		if err == sql.ErrNoRows {
+			custNumb = "100000"
+		} else {
+			lg := log.GenErrLog("SQL:"+sqlStmt, lt, log.E000000, err)
 			log.AppTraceLog.Error(lg)
 			omErr := util.NewOMError(lg)
-			return c.JSON(http.StatusNotFound, omErr.ErrorReponsTMFJSON())
+			return c.JSON(http.StatusInternalServerError, omErr.ErrorReponsTMFJSON())
 		}
+	}
+	custNumbInt, _ := strconv.Atoi(custNumb)
+	custNumbInt++
+	custNumb = strconv.Itoa(custNumbInt)
+	data.Id = custNumb
+	data.BaseType = "Party"
+	data.Type = "Individual"
+	sqlStmt = "INSERT INTO cs_cust " +
+		"(cust_numb, frst_name, last_name, blpd_code, comp_code, cust_stts, id_type, id_numb,lang, grup_code, grup_levl, rprt_levl_flag, pmnt_levl_flag, grup_subr_indc, docm_addr_type, crtd_dttm, crtd_by,last_chng_dttm, last_chng_by) " +
+		"VALUES ($1, $2, $3,'02',20,'A','01','-', 'T',0,1,'1','1','0','1',current_timestamp,'ADMIN',current_timestamp,'ADMIN')"
+	_, sqlErr := s.DB.Exec(sqlStmt, data.Id, data.GivenName, data.FamilyName)
+	if sqlErr != nil {
 		lg := log.GenErrLog("SQL:"+sqlStmt, lt, log.E000000, sqlErr)
 		log.AppTraceLog.Error(lg)
 		omErr := util.NewOMError(lg)
 		return c.JSON(http.StatusInternalServerError, omErr.ErrorReponsTMFJSON())
 	}
-	data.Name = data.GivenName + " " + data.FamilyName
 
-	apihelper.JSONOmitFilteredData(s.fields, &data)
 	return c.JSON(http.StatusOK, data)
+
+}
+
+func GetIndividualService(s *PartyHandler, c echo.Context, lt log.LogTracing) error {
+	cond := make(map[string]interface{})
+	sqlOrder := " ORDER BY CUST_NUMB "
+	return get(s, c, sqlOrder, cond, lt)
 }
 
 func GetIndividualByIdService(s *PartyHandler, c echo.Context, id string, lt log.LogTracing) error {
-	data := IndividualData{Id: id, Age: 40}
-	sqlStmt := "SELECT frst_name, last_name " +
-		"FROM cs_cust" +
-		"WHERE cust_numb = " + database.DB_CONST_TERM_VAR_PREFIX + "1" +
-		"ORDER BY CUST_NUMB "
+	cond := make(map[string]interface{})
+	if !util.IsNotEmptyString(id) {
+		lg := log.GenErrLog("ID is empty", lt, log.E000000, nil)
+		log.AppTraceLog.Error(lg)
+		omErr := util.NewOMError(lg)
+		return c.JSON(http.StatusBadRequest, omErr.ErrorReponsTMFJSON())
+	}
+	lt.CcbUser = id
+	cond["cust_numb"] = id
+	sqlOrder := " ORDER BY CUST_NUMB "
+	return get(s, c, sqlOrder, cond, lt)
+}
+
+func get(s *PartyHandler, c echo.Context, sqlOrder string, cond map[string]interface{}, lt log.LogTracing) error {
+	var values []interface{}
+	var where []string
+	i := 1
+	for k, v := range cond {
+		values = append(values, v)
+		w := fmt.Sprintf("%s = %s%v", k, database.DB_CONST_TERM_VAR_PREFIX, i)
+		where = append(where, w)
+	}
+	sqlStmt := "SELECT cust_numb,frst_name, last_name FROM cs_cust"
+
+	if len(where) > 0 {
+		sqlStmt += " WHERE " + strings.Join(where, " AND ")
+	}
+	sqlStmt += sqlOrder
 	sqlStmt = database.AddLimitOffset(sqlStmt, s.limit, s.offset)
 
 	log.AppTraceLog.Debug(log.GenAppLog("Execute SQL: "+sqlStmt, lt))
-	sqlErr := s.DB.QueryRowx(sqlStmt, id).Scan(&data.GivenName, &data.FamilyName)
+
+	rows, sqlErr := s.DB.Queryx(sqlStmt, values...)
 	if sqlErr != nil {
 		if sqlErr == sql.ErrNoRows {
 			lg := log.GenErrLog("SQL:"+sqlStmt, lt, log.E100017, sqlErr)
@@ -71,9 +117,30 @@ func GetIndividualByIdService(s *PartyHandler, c echo.Context, id string, lt log
 		omErr := util.NewOMError(lg)
 		return c.JSON(http.StatusInternalServerError, omErr.ErrorReponsTMFJSON())
 	}
-	data.Name = data.GivenName + " " + data.FamilyName
 
-	//a := IndividualData{Id: id, GivenName: "John", FamilyName: "Doe", Name: "John Doe", Age: 30}
-	apihelper.JSONOmitFilteredData(s.fields, &data)
-	return c.JSON(http.StatusOK, data)
+	dataSet := []IndividualData{}
+
+	for rows.Next() {
+		var data IndividualData
+		rowErr := rows.Scan(&data.Id, &data.GivenName, &data.FamilyName)
+		if rowErr != nil {
+			lg := log.GenErrLog("SQL:"+sqlStmt, lt, log.E000000, rowErr)
+			log.AppTraceLog.Error(lg)
+			omErr := util.NewOMError(lg)
+			return c.JSON(http.StatusInternalServerError, omErr.ErrorReponsTMFJSON())
+		}
+		data.Name = data.GivenName + " " + data.FamilyName
+		apihelper.JSONOmitFilteredData(s.fields, &data)
+		data.BaseType = "Party"
+		data.Type = "Individual"
+		dataSet = append(dataSet, data)
+	}
+	//sqlErr := s.DB.QueryRowx(sqlStmt, values...).Scan(&data.Id, &data.GivenName, &data.FamilyName)
+	if len(dataSet) == 1 {
+		return c.JSON(http.StatusOK, dataSet[0])
+	}
+	if len(dataSet) == 0 {
+		return c.NoContent(http.StatusOK)
+	}
+	return c.JSON(http.StatusOK, dataSet)
 }
