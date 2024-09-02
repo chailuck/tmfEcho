@@ -80,3 +80,10 @@ func (h *PartyHandler) GetIndividualById(c echo.Context) error {
 	h.callAPIStart(c, lt)
 	return GetIndividualByIdService(h, c, id, lt)
 }
+
+func (h *PartyHandler) DeleteIndividual(c echo.Context) error {
+	id := c.Param("id")
+	lt := log.LogTracing{ApiName: TMFno + "-" + "DeleteIndividualService", CustNumb: id}
+	h.callAPIStart(c, lt)
+	return DeleteIndividualService(h, c, id, lt)
+}

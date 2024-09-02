@@ -23,6 +23,66 @@ type IndividualData struct {
 	Name       string `json:"name,omitempty"  db:""`
 }
 
+func DeleteIndividualService(s *PartyHandler, c echo.Context, id string, lt log.LogTracing) error {
+	rowCnt := 0
+	sqlStmt := "select count(*) cnt from cs_cust where cust_numb = " + database.DB_CONST_TERM_VAR_PREFIX + "1"
+
+	sqlErr := s.DB.QueryRowx(sqlStmt, id).Scan(&rowCnt)
+	if sqlErr != nil {
+		if sqlErr == sql.ErrNoRows {
+			lg := log.GenErrLog("SQL:"+sqlStmt, lt, log.E100017, sqlErr)
+			log.AppTraceLog.Error(lg)
+			omErr := util.NewOMError(lg)
+			return c.JSON(http.StatusNotFound, omErr.ErrorReponsTMFJSON())
+		}
+		lg := log.GenErrLog("SQL:"+sqlStmt, lt, log.E000000, sqlErr)
+		log.AppTraceLog.Error(lg)
+		omErr := util.NewOMError(lg)
+		return c.JSON(http.StatusInternalServerError, omErr.ErrorReponsTMFJSON())
+	}
+	if rowCnt <= 0 {
+		return c.NoContent(http.StatusNotFound)
+	}
+
+	ctx := c.Request().Context()
+	sqlStmt = "delete from cs_cust where cust_numb = " + database.DB_CONST_TERM_VAR_PREFIX + "1"
+	tx, err := s.DB.BeginTx(ctx, nil)
+	if err != nil {
+		lg := log.GenErrLog("Begin DB transaction: ", lt, log.E000000, err)
+		log.AppTraceLog.Error(lg)
+		omErr := util.NewOMError(lg)
+		return c.JSON(http.StatusInternalServerError, omErr.ErrorReponsTMFJSON())
+	}
+	// Defer a rollback in case anything fails.
+	defer tx.Rollback()
+	stmt1, err := tx.Prepare(sqlStmt)
+	if err != nil {
+		lg := log.GenErrLog("SQL : "+sqlStmt, lt, log.E000000, err)
+		log.AppTraceLog.Error(lg)
+		omErr := util.NewOMError(lg)
+		return c.JSON(http.StatusInternalServerError, omErr.ErrorReponsTMFJSON())
+	}
+	defer stmt1.Close()
+
+	log.AppTraceLog.Debug(log.GenAppLog("Execute SQL: "+sqlStmt, lt))
+	_, err = stmt1.Exec(id)
+	if err != nil {
+		lg := log.GenErrLog("SQL : "+sqlStmt, lt, log.E000000, err)
+		log.AppTraceLog.Error(lg)
+		omErr := util.NewOMError(lg)
+		return c.JSON(http.StatusInternalServerError, omErr.ErrorReponsTMFJSON())
+	}
+	if err = tx.Commit(); err != nil {
+		lg := log.GenErrLog("Commit transaction", lt, log.E000000, err)
+		log.AppTraceLog.Error(lg)
+		omErr := util.NewOMError(lg)
+		return c.JSON(http.StatusInternalServerError, omErr.ErrorReponsTMFJSON())
+	}
+
+	return c.NoContent(http.StatusOK)
+
+}
+
 func UpdateIndividualService(s *PartyHandler, c echo.Context, id string, lt log.LogTracing) error {
 	var data IndividualData
 	requestMap := make(map[string]interface{})

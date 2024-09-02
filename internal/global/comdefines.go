@@ -31,12 +31,14 @@ const (
 	CONF_DEFAULT_FILE     = "\\..\\..\\configs\\default.conf"
 	CONF_LOCAL_FILE       = "\\..\\..\\configs\\local.conf"
 	CONF_LOCAL_DEBUG_FILE = "\\..\\..\\configs\\local_debug.conf"
+
 	/*
-		// Linue format
+		// Linux format
 		CONF_DEFAULT_FILE     = "/../../configs/default.conf"
 		CONF_LOCAL_FILE       = "/../../configs/local.conf"
 		CONF_LOCAL_DEBUG_FILE = "/../../configs/local_debug.conf"
 	*/
+
 	DBMS_NAME_ORACLE     = "Oracle"
 	DBMS_NAME_POSTGRESQL = "PostgreSQL"
 )

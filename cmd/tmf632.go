@@ -28,6 +28,7 @@ func main() {
 	e.GET("/partyManagement/v5/individual/:id", h.GetIndividualById)
 	e.POST("/partyManagement/v5/individual", h.SaveIndividual)
 	e.PATCH("/partyManagement/v5/individual/:id", h.UpdateIndividual)
+	e.DELETE("/partyManagement/v5/individual/:id", h.DeleteIndividual)
 	/*	e.GET("/customers/:id", h.GetCustomer)
 		e.PUT("/customers/:id", h.UpdateCustomer)
 		e.DELETE("/customers/:id", h.DeleteCustomer)
