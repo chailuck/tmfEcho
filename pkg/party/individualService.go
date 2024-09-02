@@ -15,12 +15,82 @@ import (
 )
 
 type IndividualData struct {
-	Id         string `json:"id,omitempty"`
-	Type       string `json:"@type"`
-	BaseType   string `json:"@baseType"`
-	GivenName  string `json:"givenName,omitempty"`
-	FamilyName string `json:"familyName,omitempty"`
-	Name       string `json:"name,omitempty"`
+	Id         string `json:"id,omitempty" db:"cust_numb"`
+	Type       string `json:"@type"  db:""`
+	BaseType   string `json:"@baseType"  db:""`
+	GivenName  string `json:"givenName,omitempty"  db:"frst_name"`
+	FamilyName string `json:"familyName,omitempty"  db:"last_name"`
+	Name       string `json:"name,omitempty"  db:""`
+}
+
+func UpdateIndividualService(s *PartyHandler, c echo.Context, id string, lt log.LogTracing) error {
+	var data IndividualData
+	requestMap := make(map[string]interface{})
+
+	if bErr := c.Bind(&requestMap); bErr != nil {
+		lg := log.GenErrLog("Wrong Request payload (Binding MAP)", lt, log.E201434, bErr)
+		log.AppTraceLog.Error(lg)
+		omErr := util.NewOMError(lg)
+		return c.JSON(http.StatusBadRequest, omErr.ErrorReponsTMFJSON())
+	}
+	log.AppTraceLog.Debug(log.GenAppLog(fmt.Sprintf("CONTEXT MAP: %v\n", requestMap), lt))
+	if !util.IsNotEmptyString(id) {
+		lg := log.GenErrLog("ID is empty", lt, log.E206247, nil)
+		log.AppTraceLog.Error(lg)
+		omErr := util.NewOMError(lg)
+		return c.JSON(http.StatusBadRequest, omErr.ErrorReponsTMFJSON())
+	}
+	sqlUpdate, OMerr := apihelper.JSONconverToUpdateValue(requestMap, &data, lt)
+	if OMerr.Err != nil {
+		lg := log.GenErrLog("Wrong Request payload (Binding SQL Update)", lt, log.E201434, OMerr.Err)
+		log.AppTraceLog.Error(lg)
+		omErr := util.NewOMError(lg)
+		return c.JSON(http.StatusBadRequest, omErr.ErrorReponsTMFJSON())
+	}
+	sqlStmt := "update CS_CUST "
+	if len(sqlUpdate) > 0 {
+		sqlStmt += " SET " + strings.Join(sqlUpdate, " , ")
+	}
+	sqlStmt += " WHERE cust_numb = " + id
+	data.Id = id
+	log.AppTraceLog.Debug(log.GenAppLog("SQL STMT:"+sqlStmt, lt))
+
+	// BEGIN TRANSACTIONS
+	ctx := c.Request().Context()
+	tx, err := s.DB.BeginTx(ctx, nil)
+	if err != nil {
+		lg := log.GenErrLog("Begin DB transaction: ", lt, log.E000000, err)
+		log.AppTraceLog.Error(lg)
+		omErr := util.NewOMError(lg)
+		return c.JSON(http.StatusInternalServerError, omErr.ErrorReponsTMFJSON())
+	}
+	// Defer a rollback in case anything fails.
+	defer tx.Rollback()
+	stmt1, err := tx.Prepare(sqlStmt)
+	if err != nil {
+		lg := log.GenErrLog("SQL : "+sqlStmt, lt, log.E000000, err)
+		log.AppTraceLog.Error(lg)
+		omErr := util.NewOMError(lg)
+		return c.JSON(http.StatusInternalServerError, omErr.ErrorReponsTMFJSON())
+	}
+	defer stmt1.Close()
+
+	log.AppTraceLog.Debug(log.GenAppLog("Execute SQL: "+sqlStmt, lt))
+	_, err = stmt1.Exec()
+	if err != nil {
+		lg := log.GenErrLog("SQL : "+sqlStmt, lt, log.E000000, err)
+		log.AppTraceLog.Error(lg)
+		omErr := util.NewOMError(lg)
+		return c.JSON(http.StatusInternalServerError, omErr.ErrorReponsTMFJSON())
+	}
+	if err = tx.Commit(); err != nil {
+		lg := log.GenErrLog("Commit transaction", lt, log.E000000, err)
+		log.AppTraceLog.Error(lg)
+		omErr := util.NewOMError(lg)
+		return c.JSON(http.StatusInternalServerError, omErr.ErrorReponsTMFJSON())
+	}
+
+	return c.JSON(http.StatusOK, data)
 }
 
 func SaveIndividualService(s *PartyHandler, c echo.Context, lt log.LogTracing) error {
@@ -74,7 +144,7 @@ func GetIndividualService(s *PartyHandler, c echo.Context, lt log.LogTracing) er
 func GetIndividualByIdService(s *PartyHandler, c echo.Context, id string, lt log.LogTracing) error {
 	cond := make(map[string]interface{})
 	if !util.IsNotEmptyString(id) {
-		lg := log.GenErrLog("ID is empty", lt, log.E000000, nil)
+		lg := log.GenErrLog("ID is empty", lt, log.E206247, nil)
 		log.AppTraceLog.Error(lg)
 		omErr := util.NewOMError(lg)
 		return c.JSON(http.StatusBadRequest, omErr.ErrorReponsTMFJSON())
@@ -135,7 +205,6 @@ func get(s *PartyHandler, c echo.Context, sqlOrder string, cond map[string]inter
 		data.Type = "Individual"
 		dataSet = append(dataSet, data)
 	}
-	//sqlErr := s.DB.QueryRowx(sqlStmt, values...).Scan(&data.Id, &data.GivenName, &data.FamilyName)
 	if len(dataSet) == 1 {
 		return c.JSON(http.StatusOK, dataSet[0])
 	}

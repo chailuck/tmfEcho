@@ -1,0 +1,13 @@
+curl -X PATCH    -H "Content-Type:application/json"  
+-d 
+'{
+  "@type": "Individual",
+  "@baseType": "Party",
+  "familyName": "test patch",
+  "givenName" : "TESTGIVENT",
+  "name": "in json not in sql"
+}'  
+http://localhost:8080/partyManagement/v5/individual/500606518
+
+
+

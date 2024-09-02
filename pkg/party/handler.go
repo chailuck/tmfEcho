@@ -60,8 +60,16 @@ func (h *PartyHandler) SaveIndividual(c echo.Context) error {
 	return SaveIndividualService(h, c, lt)
 }
 
+func (h *PartyHandler) UpdateIndividual(c echo.Context) error {
+	lt := log.LogTracing{ApiName: TMFno + "-" + "UpdateIndividual"}
+	h.callAPIStart(c, lt)
+	id := c.Param("id")
+	return UpdateIndividualService(h, c, id, lt)
+}
+
 func (h *PartyHandler) GetIndividual(c echo.Context) error {
 	lt := log.LogTracing{ApiName: TMFno + "-" + "GetIndividual"}
+
 	h.callAPIStart(c, lt)
 	return GetIndividualService(h, c, lt)
 }
