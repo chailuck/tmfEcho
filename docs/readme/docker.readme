@@ -1,1 +1,8 @@
-RUN go build -o main ./cmd/tmf632.go
+docker build --progress plain --pull --rm -f "Dockerfile" -t chailuck/tmfecho:v1 "."
+
+docker run --rm -ti chailuck/tmfecho:v1 
+
+PS D:\Documents\Pop\Knowledge\Programming\GO lang\tmfEcho> docker network create popNetwork
+7833b5bfa648f0354a0913cb1c188b7c089104b61145065bea296e7a6237b89b
+PS D:\Documents\Pop\Knowledge\Programming\GO lang\tmfEcho> docker network connect popNetwork postgres-migration
+PS D:\Documents\Pop\Knowledge\Programming\GO lang\tmfEcho> docker network connect popNetwork TMF632 

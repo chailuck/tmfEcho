@@ -31,7 +31,7 @@ func main() {
 		e.PUT("/customers/:id", h.UpdateCustomer)
 		e.DELETE("/customers/:id", h.DeleteCustomer)
 	*/
-	e.Logger.Fatal(e.Start(":8081"))
+	e.Logger.Fatal(e.Start(":8080"))
 
 	// Create service
 
