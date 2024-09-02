@@ -29,11 +29,14 @@ func main() {
 	e.POST("/partyManagement/v5/individual", h.SaveIndividual)
 	e.PATCH("/partyManagement/v5/individual/:id", h.UpdateIndividual)
 	e.DELETE("/partyManagement/v5/individual/:id", h.DeleteIndividual)
-	/*	e.GET("/customers/:id", h.GetCustomer)
-		e.PUT("/customers/:id", h.UpdateCustomer)
-		e.DELETE("/customers/:id", h.DeleteCustomer)
-	*/
-	e.Logger.Fatal(e.Start(":8080"))
+
+	e.GET("/partyManagement/v5/organization", h.GetOrganization)
+	e.GET("/partyManagement/v5/organization/:id", h.GetOrganizationById)
+	e.POST("/partyManagement/v5/organization", h.SaveOrganization)
+	e.PATCH("/partyManagement/v5/organization/:id", h.UpdateOrganization)
+	e.DELETE("/partyManagement/v5/organization/:id", h.DeleteOrganization)
+
+	e.Logger.Fatal(e.Start(":8082"))
 
 	// Create service
 

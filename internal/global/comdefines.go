@@ -26,18 +26,17 @@ const (
 
 	LOG_LEVEL_APP_TRACE = -1 // debug: -1, info = 0, Warn = 1, error = 2, DPanic = 3, Panic = 4, Fetal = 5
 	LOG_LEVEL_API_TRACE = 0  // debug: -1, info = 0, Warn = 1, error = 2, DPanic = 3, Panic = 4, Fetal = 5
-
-	// Windows format
-	CONF_DEFAULT_FILE     = "\\..\\..\\configs\\default.conf"
-	CONF_LOCAL_FILE       = "\\..\\..\\configs\\local.conf"
-	CONF_LOCAL_DEBUG_FILE = "\\..\\..\\configs\\local_debug.conf"
-
 	/*
-		// Linux format
-		CONF_DEFAULT_FILE     = "/../../configs/default.conf"
-		CONF_LOCAL_FILE       = "/../../configs/local.conf"
-		CONF_LOCAL_DEBUG_FILE = "/../../configs/local_debug.conf"
+		// Windows format
+		CONF_DEFAULT_FILE     = "\\..\\..\\configs\\default.conf"
+		CONF_LOCAL_FILE       = "\\..\\..\\configs\\local.conf"
+		CONF_LOCAL_DEBUG_FILE = "\\..\\..\\configs\\local_debug.conf"
 	*/
+
+	// Linux format
+	CONF_DEFAULT_FILE     = "/../../configs/default.conf"
+	CONF_LOCAL_FILE       = "/../../configs/local.conf"
+	CONF_LOCAL_DEBUG_FILE = "/../../configs/local_debug.conf"
 
 	DBMS_NAME_ORACLE     = "Oracle"
 	DBMS_NAME_POSTGRESQL = "PostgreSQL"

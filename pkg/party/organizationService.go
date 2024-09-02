@@ -14,16 +14,15 @@ import (
 	"github.com/labstack/echo"
 )
 
-type IndividualData struct {
-	Id         string `json:"id,omitempty" db:"cust_numb"`
-	Type       string `json:"@type"  db:""`
-	BaseType   string `json:"@baseType"  db:""`
-	GivenName  string `json:"givenName,omitempty"  db:"frst_name"`
-	FamilyName string `json:"familyName,omitempty"  db:"last_name"`
-	Name       string `json:"name,omitempty"  db:""`
+type OrganizationData struct {
+	Id          string `json:"id,omitempty" db:"cust_numb"`
+	Type        string `json:"@type"  db:""`
+	BaseType    string `json:"@baseType"  db:""`
+	Name        string `json:"name,omitempty"  db:"frst_name"`
+	TradingName string `json:"tradingName,omitempty"  db:""`
 }
 
-func DeleteIndividualService(s *PartyHandler, c echo.Context, id string, lt log.LogTracing) error {
+func DeleteOrganizationService(s *PartyHandler, c echo.Context, id string, lt log.LogTracing) error {
 	rowCnt := 0
 	sqlStmt := "select count(*) cnt from cs_cust where cust_numb = " + database.DB_CONST_TERM_VAR_PREFIX + "1"
 
@@ -83,8 +82,8 @@ func DeleteIndividualService(s *PartyHandler, c echo.Context, id string, lt log.
 
 }
 
-func UpdateIndividualService(s *PartyHandler, c echo.Context, id string, lt log.LogTracing) error {
-	var data IndividualData
+func UpdateOrganizationService(s *PartyHandler, c echo.Context, id string, lt log.LogTracing) error {
+	var data OrganizationData
 	requestMap := make(map[string]interface{})
 
 	if bErr := c.Bind(&requestMap); bErr != nil {
@@ -153,8 +152,8 @@ func UpdateIndividualService(s *PartyHandler, c echo.Context, id string, lt log.
 	return c.JSON(http.StatusOK, data)
 }
 
-func SaveIndividualService(s *PartyHandler, c echo.Context, lt log.LogTracing) error {
-	var data IndividualData
+func SaveOrganizationService(s *PartyHandler, c echo.Context, lt log.LogTracing) error {
+	var data OrganizationData
 	if err := c.Bind(&data); err != nil {
 		lg := log.GenErrLog("Wrong Request payload", lt, log.E201434, err)
 		log.AppTraceLog.Error(lg)
@@ -179,11 +178,11 @@ func SaveIndividualService(s *PartyHandler, c echo.Context, lt log.LogTracing) e
 	custNumb = strconv.Itoa(custNumbInt)
 	data.Id = custNumb
 	data.BaseType = "Party"
-	data.Type = "Individual"
+	data.Type = "Organization"
 	sqlStmt = "INSERT INTO cs_cust " +
-		"(cust_numb, frst_name, last_name, blpd_code, comp_code, cust_stts, id_type, id_numb,lang, grup_code, grup_levl, rprt_levl_flag, pmnt_levl_flag, grup_subr_indc, docm_addr_type, crtd_dttm, crtd_by,last_chng_dttm, last_chng_by) " +
-		"VALUES ($1, $2, $3,'02',20,'A','01','-', 'T',0,1,'1','1','0','1',current_timestamp,'ADMIN',current_timestamp,'ADMIN')"
-	_, sqlErr := s.DB.Exec(sqlStmt, data.Id, data.GivenName, data.FamilyName)
+		"(cust_numb, frst_name,  blpd_code, comp_code, cust_stts, id_type, id_numb,lang, grup_code, grup_levl, rprt_levl_flag, pmnt_levl_flag, grup_subr_indc, docm_addr_type, crtd_dttm, crtd_by,last_chng_dttm, last_chng_by) " +
+		"VALUES ($1, $2, '02',20,'A','01','-', 'T',0,1,'1','1','0','1',current_timestamp,'ADMIN',current_timestamp,'ADMIN')"
+	_, sqlErr := s.DB.Exec(sqlStmt, data.Id, data.Name)
 	if sqlErr != nil {
 		lg := log.GenErrLog("SQL:"+sqlStmt, lt, log.E000000, sqlErr)
 		log.AppTraceLog.Error(lg)
@@ -195,13 +194,13 @@ func SaveIndividualService(s *PartyHandler, c echo.Context, lt log.LogTracing) e
 
 }
 
-func GetIndividualService(s *PartyHandler, c echo.Context, lt log.LogTracing) error {
+func GetOrganizationService(s *PartyHandler, c echo.Context, lt log.LogTracing) error {
 	cond := make(map[string]interface{})
 	sqlOrder := " ORDER BY CUST_NUMB "
-	return getIndividual(s, c, sqlOrder, cond, lt)
+	return getOrganization(s, c, sqlOrder, cond, lt)
 }
 
-func GetIndividualByIdService(s *PartyHandler, c echo.Context, id string, lt log.LogTracing) error {
+func GetOrganizationByIdService(s *PartyHandler, c echo.Context, id string, lt log.LogTracing) error {
 	cond := make(map[string]interface{})
 	if !util.IsNotEmptyString(id) {
 		lg := log.GenErrLog("ID is empty", lt, log.E206247, nil)
@@ -212,10 +211,10 @@ func GetIndividualByIdService(s *PartyHandler, c echo.Context, id string, lt log
 	lt.CcbUser = id
 	cond["cust_numb"] = id
 	sqlOrder := " ORDER BY CUST_NUMB "
-	return getIndividual(s, c, sqlOrder, cond, lt)
+	return getOrganization(s, c, sqlOrder, cond, lt)
 }
 
-func getIndividual(s *PartyHandler, c echo.Context, sqlOrder string, cond map[string]interface{}, lt log.LogTracing) error {
+func getOrganization(s *PartyHandler, c echo.Context, sqlOrder string, cond map[string]interface{}, lt log.LogTracing) error {
 	var values []interface{}
 	var where []string
 	i := 1
@@ -224,7 +223,7 @@ func getIndividual(s *PartyHandler, c echo.Context, sqlOrder string, cond map[st
 		w := fmt.Sprintf("%s = %s%v", k, database.DB_CONST_TERM_VAR_PREFIX, i)
 		where = append(where, w)
 	}
-	sqlStmt := "SELECT cust_numb,frst_name, last_name FROM cs_cust"
+	sqlStmt := "SELECT cust_numb,frst_name FROM cs_cust"
 
 	if len(where) > 0 {
 		sqlStmt += " WHERE " + strings.Join(where, " AND ")
@@ -248,21 +247,21 @@ func getIndividual(s *PartyHandler, c echo.Context, sqlOrder string, cond map[st
 		return c.JSON(http.StatusInternalServerError, omErr.ErrorReponsTMFJSON())
 	}
 
-	dataSet := []IndividualData{}
+	dataSet := []OrganizationData{}
 
 	for rows.Next() {
-		var data IndividualData
-		rowErr := rows.Scan(&data.Id, &data.GivenName, &data.FamilyName)
+		var data OrganizationData
+		rowErr := rows.Scan(&data.Id, &data.Name)
 		if rowErr != nil {
 			lg := log.GenErrLog("SQL:"+sqlStmt, lt, log.E000000, rowErr)
 			log.AppTraceLog.Error(lg)
 			omErr := util.NewOMError(lg)
 			return c.JSON(http.StatusInternalServerError, omErr.ErrorReponsTMFJSON())
 		}
-		data.Name = data.GivenName + " " + data.FamilyName
+
 		apihelper.JSONOmitFilteredData(s.fields, &data)
 		data.BaseType = "Party"
-		data.Type = "Individual"
+		data.Type = "Organization"
 		dataSet = append(dataSet, data)
 	}
 	if len(dataSet) == 1 {

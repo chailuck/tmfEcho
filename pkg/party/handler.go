@@ -87,3 +87,37 @@ func (h *PartyHandler) DeleteIndividual(c echo.Context) error {
 	h.callAPIStart(c, lt)
 	return DeleteIndividualService(h, c, id, lt)
 }
+
+func (h *PartyHandler) SaveOrganization(c echo.Context) error {
+	lt := log.LogTracing{ApiName: TMFno + "-" + "SaveOrganization"}
+	h.callAPIStart(c, lt)
+	return SaveOrganizationService(h, c, lt)
+}
+
+func (h *PartyHandler) UpdateOrganization(c echo.Context) error {
+	lt := log.LogTracing{ApiName: TMFno + "-" + "UpdateOrganization"}
+	h.callAPIStart(c, lt)
+	id := c.Param("id")
+	return UpdateOrganizationService(h, c, id, lt)
+}
+
+func (h *PartyHandler) GetOrganization(c echo.Context) error {
+	lt := log.LogTracing{ApiName: TMFno + "-" + "GetOrganization"}
+
+	h.callAPIStart(c, lt)
+	return GetOrganizationService(h, c, lt)
+}
+
+func (h *PartyHandler) GetOrganizationById(c echo.Context) error {
+	id := c.Param("id")
+	lt := log.LogTracing{ApiName: TMFno + "-" + "GetOrganizationById", CustNumb: id}
+	h.callAPIStart(c, lt)
+	return GetOrganizationByIdService(h, c, id, lt)
+}
+
+func (h *PartyHandler) DeleteOrganization(c echo.Context) error {
+	id := c.Param("id")
+	lt := log.LogTracing{ApiName: TMFno + "-" + "DeleteOrganizationService", CustNumb: id}
+	h.callAPIStart(c, lt)
+	return DeleteOrganizationService(h, c, id, lt)
+}
