@@ -91,7 +91,7 @@ func NewOMError(m log.LogMessage) OMError {
 
 	_, filename, line, _ := runtime.Caller(1)
 	e.LineOfCode = fmt.Sprintf("%s:%d", filepath.Base(filename), line)
-	m.LineOfCode = e.LineOfCode
+	//m.LineOfCode = e.LineOfCode
 	e.ErrText = m.ErrorMessage
 	if m.ErrorObject != nil {
 		e.ErrMessage = m.LogMessage

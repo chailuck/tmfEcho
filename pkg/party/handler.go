@@ -1,7 +1,6 @@
 package party
 
 import (
-	"fmt"
 	"tmfEcho/internal/log"
 	"tmfEcho/internal/util"
 
@@ -34,7 +33,7 @@ func (h *PartyHandler) callAPIStart(c echo.Context, lt log.LogTracing) {
 	log.AppTraceLog.Info(logMessage)
 
 	filterField := c.QueryParam("fields")
-	fmt.Println("filterField: ", filterField)
+	//fmt.Println("filterField: ", filterField)
 	h.fields = util.ConvertCommaStringToMap(filterField)
 	limitStr := c.QueryParam("limit")
 	limit, err := strconv.Atoi(limitStr)

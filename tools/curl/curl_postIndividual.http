@@ -7,10 +7,12 @@ curl -X POST    -H "Content-Type:application/json"
   "familyName": "Newtrinet",
   "individualIdentification": [
       {
+        "@type": "IndividualIdentification",
         "identificiationType": "15"  ,
         "identificationId": "15232342342"
       }
-    ]
+    ],
+    "contactMedium": [{}]
 }'  
 http://localhost:8082/partyManagement/v5/individual
 

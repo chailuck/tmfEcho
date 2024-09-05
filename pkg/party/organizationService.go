@@ -6,7 +6,6 @@ import (
 	"net/http"
 	"strconv"
 	"strings"
-	"tmfEcho/internal/api/apihelper"
 	"tmfEcho/internal/database"
 	"tmfEcho/internal/log"
 	"tmfEcho/internal/util"
@@ -99,7 +98,7 @@ func UpdateOrganizationService(s *PartyHandler, c echo.Context, id string, lt lo
 		omErr := util.NewOMError(lg)
 		return c.JSON(http.StatusBadRequest, omErr.ErrorReponsTMFJSON())
 	}
-	sqlUpdate, OMerr := apihelper.JSONconverToUpdateValue(requestMap, &data, lt)
+	sqlUpdate, OMerr := util.JSONconverToUpdateValue(requestMap, &data, lt)
 	if OMerr.Err != nil {
 		lg := log.GenErrLog("Wrong Request payload (Binding SQL Update)", lt, log.E201434, OMerr.Err)
 		log.AppTraceLog.Error(lg)
@@ -259,7 +258,7 @@ func getOrganization(s *PartyHandler, c echo.Context, sqlOrder string, cond map[
 			return c.JSON(http.StatusInternalServerError, omErr.ErrorReponsTMFJSON())
 		}
 
-		apihelper.JSONOmitFilteredData(s.fields, &data)
+		util.JSONOmitFilteredData(s.fields, &data)
 		data.BaseType = "Party"
 		data.Type = "Organization"
 		dataSet = append(dataSet, data)

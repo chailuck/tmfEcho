@@ -6,28 +6,45 @@ import (
 	"net/http"
 	"strconv"
 	"strings"
-	"tmfEcho/internal/api/apihelper"
 	"tmfEcho/internal/database"
 	"tmfEcho/internal/log"
 	"tmfEcho/internal/util"
 
-	"github.com/go-playground/validator"
 	"github.com/labstack/echo"
 )
 
 type IndividualData struct {
-	Id                       string                         `json:"id,omitempty" db:"cust_numb"`
-	Type                     string                         `json:"@type"  db:""`
-	BaseType                 string                         `json:"@baseType"  db:""`
-	GivenName                string                         `json:"givenName,omitempty"  db:"frst_name"  validate:"required"`
-	FamilyName               string                         `json:"familyName,omitempty"  db:"last_name"`
-	Name                     string                         `json:"name,omitempty"  db:""`
-	IndividualIdentification []individualIdentificationData `json:"individualIdentification,omitempty" db:""  validate:"required"`
+	Id                       string                         `json:"id,omitempty" db:"cust_numb" dbTable:"CS_CUST"`
+	Type                     string                         `json:"@type"  db:"" dbTable:""`
+	BaseType                 string                         `json:"@baseType"  db:"" dbTable:"CS_CUST"`
+	GivenName                string                         `json:"givenName,omitempty"  db:"frst_name"  validate:"required" dbTable:"CS_CUST"`
+	FamilyName               string                         `json:"familyName,omitempty"  db:"last_name" dbTable:"CS_CUST"`
+	Name                     string                         `json:"name,omitempty"  db:"" dbTable:"CS_CUST"`
+	Title                    string                         `json:"title,omitempty" db:"titl" dbTable:"CS_CUST"`
+	IndividualIdentification []individualIdentificationData `json:"individualIdentification,omitempty" db:""  validate:"required" maxArray:"1"`
+	ContactMedium            []contactMediumData            `json:"contactMedium,omitempty" db:""`
 }
 
 type individualIdentificationData struct {
-	IdentificationId   string `json:"identificationId,omitempty" db:"id_type"`
-	IdentificationType string `json:"identificiationType,omitempty" db:"id_numb" validate:"required"`
+	Type               string `json:"@type"  db:"" dbTable:""`
+	IdentificationId   string `json:"identificationId,omitempty" db:"id_type"  dbTable:"CS_CUST"`
+	IdentificationType string `json:"identificiationType,omitempty" db:"id_numb" validate:"required"  dbTable:"CS_CUST"`
+}
+
+type contactMediumData struct {
+	ContactType     string `json:"contactType" db:""`
+	Preferred       bool   `json:"" db:""`
+	City            string `json:"city" db:"AMPR_DESC" dbTable:"CS_PSCD"`
+	Country         string `json:"country" db:"CNTRY_CODE" dbTable:"CS_CNTY"`
+	PostCode        string `json:"postCode" db:"POST_CODE" dbTable:"CS_CSAD"`
+	StateOrProvince string `json:"stateOrProvince" db:"PNVC_DESC" dbTable:"CS_PVNC"`
+	Street1         string `json:"street1" db:"ADR1" dbTable:"CS_CSSAD"`
+	Street2         string `json:"street2" db:"ADR2" dbTable:"CS_CSSAD"`
+	PostCodeID      string `json:"postCodeID" db:"POST_CODE_SEQN" dbTable:"CS_CSAD"`
+	EmailAddress    string `json:"emailAddress" db:"EMAL_ADDR" dbTable:"CS_CUST"`
+	PhoneNumber     string `json:"phoneNumber" db:"HOME_TELP_NUMB" dbTable:"CS_CUST"`
+	FaxNumber       string `json:"faxNumber" db:"HOME_FAX_NUMB" dbTable:"CS_CUST"`
+	SocialNetworkId string `json:"socialNetworkId" db:""`
 }
 
 func DeleteIndividualService(s *PartyHandler, c echo.Context, id string, lt log.LogTracing) error {
@@ -107,7 +124,7 @@ func UpdateIndividualService(s *PartyHandler, c echo.Context, id string, lt log.
 		omErr := util.NewOMError(lg)
 		return c.JSON(http.StatusBadRequest, omErr.ErrorReponsTMFJSON())
 	}
-	sqlUpdate, OMerr := apihelper.JSONconverToUpdateValue(requestMap, &data, lt)
+	sqlUpdate, OMerr := util.JSONconverToUpdateValue(requestMap, &data, lt)
 	if OMerr.Err != nil {
 		lg := log.GenErrLog("Wrong Request payload (Binding SQL Update)", lt, log.E201434, OMerr.Err)
 		log.AppTraceLog.Error(lg)
@@ -169,26 +186,10 @@ func SaveIndividualService(s *PartyHandler, c echo.Context, lt log.LogTracing) e
 		return c.JSON(http.StatusBadRequest, omErr.ErrorReponsTMFJSON())
 	}
 	//validate required fields
-	validate := validator.New()
-	vErr := validate.Struct(data)
-	if vErr != nil {
-		lg := log.GenErrLog("Required fields", lt, log.E100009, vErr)
-		log.AppTraceLog.Error(lg)
-		omErr := util.NewOMError(lg)
-		return c.JSON(http.StatusInternalServerError, omErr.ErrorReponsTMFJSON())
-	}
-	if len(data.IndividualIdentification) != 1 {
-		lg := log.GenErrLog("Array of Indentification shall be 1", lt, log.E100009, vErr)
-		log.AppTraceLog.Error(lg)
-		omErr := util.NewOMError(lg)
-		return c.JSON(http.StatusInternalServerError, omErr.ErrorReponsTMFJSON())
-	}
-	vErr = validate.Struct(data.IndividualIdentification[0])
-	if vErr != nil {
-		lg := log.GenErrLog("Required fields", lt, log.E100009, vErr)
-		log.AppTraceLog.Error(lg)
-		omErr := util.NewOMError(lg)
-		return c.JSON(http.StatusInternalServerError, omErr.ErrorReponsTMFJSON())
+	omErr := util.ValidateStruct(&data, lt)
+
+	if omErr.Err != nil {
+		return c.JSON(http.StatusBadRequest, omErr.ErrorReponsTMFJSON())
 	}
 
 	sqlStmt := "select max(cust_numb) from cs_cust"
@@ -293,7 +294,7 @@ func getIndividual(s *PartyHandler, c echo.Context, sqlOrder string, cond map[st
 		data.Name = data.GivenName + " " + data.FamilyName
 
 		data.IndividualIdentification = append(data.IndividualIdentification, id)
-		apihelper.JSONOmitFilteredData(s.fields, &data)
+		util.JSONOmitFilteredData(s.fields, &data)
 		data.BaseType = "Party"
 		data.Type = "Individual"
 		dataSet = append(dataSet, data)

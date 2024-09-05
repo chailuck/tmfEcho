@@ -5,9 +5,19 @@ curl -X PATCH    -H "Content-Type:application/json"
   "@baseType": "Party",
   "familyName": "test patch",
   "givenName" : "TESTGIVENT",
-  "name": "in json not in sql"
+  "name": "in json not in sql",
+   "individualIdentification": [
+      {
+        "identificiationType": "15"  ,
+        "identificationId": "15232342342"
+      },
+      {
+        "identificiationType": "15"  ,
+        "identificationId": "15232342342"
+      }
+    ]
 }'  
-http://localhost:8080/partyManagement/v5/individual/500606518
+http://localhost:8082/partyManagement/v5/individual/500606518
 
 
 
