@@ -11,16 +11,23 @@ import (
 	"tmfEcho/internal/log"
 	"tmfEcho/internal/util"
 
+	"github.com/go-playground/validator"
 	"github.com/labstack/echo"
 )
 
 type IndividualData struct {
-	Id         string `json:"id,omitempty" db:"cust_numb"`
-	Type       string `json:"@type"  db:""`
-	BaseType   string `json:"@baseType"  db:""`
-	GivenName  string `json:"givenName,omitempty"  db:"frst_name"`
-	FamilyName string `json:"familyName,omitempty"  db:"last_name"`
-	Name       string `json:"name,omitempty"  db:""`
+	Id                       string                         `json:"id,omitempty" db:"cust_numb"`
+	Type                     string                         `json:"@type"  db:""`
+	BaseType                 string                         `json:"@baseType"  db:""`
+	GivenName                string                         `json:"givenName,omitempty"  db:"frst_name"  validate:"required"`
+	FamilyName               string                         `json:"familyName,omitempty"  db:"last_name"`
+	Name                     string                         `json:"name,omitempty"  db:""`
+	IndividualIdentification []individualIdentificationData `json:"individualIdentification,omitempty" db:""  validate:"required"`
+}
+
+type individualIdentificationData struct {
+	IdentificationId   string `json:"identificationId,omitempty" db:"id_type"`
+	IdentificationType string `json:"identificiationType,omitempty" db:"id_numb" validate:"required"`
 }
 
 func DeleteIndividualService(s *PartyHandler, c echo.Context, id string, lt log.LogTracing) error {
@@ -161,6 +168,29 @@ func SaveIndividualService(s *PartyHandler, c echo.Context, lt log.LogTracing) e
 		omErr := util.NewOMError(lg)
 		return c.JSON(http.StatusBadRequest, omErr.ErrorReponsTMFJSON())
 	}
+	//validate required fields
+	validate := validator.New()
+	vErr := validate.Struct(data)
+	if vErr != nil {
+		lg := log.GenErrLog("Required fields", lt, log.E100009, vErr)
+		log.AppTraceLog.Error(lg)
+		omErr := util.NewOMError(lg)
+		return c.JSON(http.StatusInternalServerError, omErr.ErrorReponsTMFJSON())
+	}
+	if len(data.IndividualIdentification) != 1 {
+		lg := log.GenErrLog("Array of Indentification shall be 1", lt, log.E100009, vErr)
+		log.AppTraceLog.Error(lg)
+		omErr := util.NewOMError(lg)
+		return c.JSON(http.StatusInternalServerError, omErr.ErrorReponsTMFJSON())
+	}
+	vErr = validate.Struct(data.IndividualIdentification[0])
+	if vErr != nil {
+		lg := log.GenErrLog("Required fields", lt, log.E100009, vErr)
+		log.AppTraceLog.Error(lg)
+		omErr := util.NewOMError(lg)
+		return c.JSON(http.StatusInternalServerError, omErr.ErrorReponsTMFJSON())
+	}
+
 	sqlStmt := "select max(cust_numb) from cs_cust"
 	var custNumb string
 	err := s.DB.QueryRow(sqlStmt).Scan(&custNumb)
@@ -182,8 +212,8 @@ func SaveIndividualService(s *PartyHandler, c echo.Context, lt log.LogTracing) e
 	data.Type = "Individual"
 	sqlStmt = "INSERT INTO cs_cust " +
 		"(cust_numb, frst_name, last_name, blpd_code, comp_code, cust_stts, id_type, id_numb,lang, grup_code, grup_levl, rprt_levl_flag, pmnt_levl_flag, grup_subr_indc, docm_addr_type, crtd_dttm, crtd_by,last_chng_dttm, last_chng_by) " +
-		"VALUES ($1, $2, $3,'02',20,'A','01','-', 'T',0,1,'1','1','0','1',current_timestamp,'ADMIN',current_timestamp,'ADMIN')"
-	_, sqlErr := s.DB.Exec(sqlStmt, data.Id, data.GivenName, data.FamilyName)
+		"VALUES ($1, $2, $3,'02',20,'A',$4,$5, 'T',0,1,'1','1','0','1',current_timestamp,'ADMIN',current_timestamp,'ADMIN')"
+	_, sqlErr := s.DB.Exec(sqlStmt, data.Id, data.GivenName, data.FamilyName, data.IndividualIdentification[0].IdentificationType, data.IndividualIdentification[0].IdentificationId)
 	if sqlErr != nil {
 		lg := log.GenErrLog("SQL:"+sqlStmt, lt, log.E000000, sqlErr)
 		log.AppTraceLog.Error(lg)
@@ -224,7 +254,7 @@ func getIndividual(s *PartyHandler, c echo.Context, sqlOrder string, cond map[st
 		w := fmt.Sprintf("%s = %s%v", k, database.DB_CONST_TERM_VAR_PREFIX, i)
 		where = append(where, w)
 	}
-	sqlStmt := "SELECT cust_numb,frst_name, last_name FROM cs_cust"
+	sqlStmt := "SELECT cust_numb,frst_name, last_name, id_type, id_numb FROM cs_cust"
 
 	if len(where) > 0 {
 		sqlStmt += " WHERE " + strings.Join(where, " AND ")
@@ -252,7 +282,8 @@ func getIndividual(s *PartyHandler, c echo.Context, sqlOrder string, cond map[st
 
 	for rows.Next() {
 		var data IndividualData
-		rowErr := rows.Scan(&data.Id, &data.GivenName, &data.FamilyName)
+		var id individualIdentificationData
+		rowErr := rows.Scan(&data.Id, &data.GivenName, &data.FamilyName, &id.IdentificationId, &id.IdentificationType)
 		if rowErr != nil {
 			lg := log.GenErrLog("SQL:"+sqlStmt, lt, log.E000000, rowErr)
 			log.AppTraceLog.Error(lg)
@@ -260,6 +291,8 @@ func getIndividual(s *PartyHandler, c echo.Context, sqlOrder string, cond map[st
 			return c.JSON(http.StatusInternalServerError, omErr.ErrorReponsTMFJSON())
 		}
 		data.Name = data.GivenName + " " + data.FamilyName
+
+		data.IndividualIdentification = append(data.IndividualIdentification, id)
 		apihelper.JSONOmitFilteredData(s.fields, &data)
 		data.BaseType = "Party"
 		data.Type = "Individual"

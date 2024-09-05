@@ -3,10 +3,16 @@ curl -X POST    -H "Content-Type:application/json"
 '{
   "@type": "Individual",
   "@baseType": "Party",
-  "givenName": "dtac",
-  "familyName": "trinet"
+  "givenName": "Newdtac",
+  "familyName": "Newtrinet",
+  "individualIdentification": [
+      {
+        "identificiationType": "15"  ,
+        "identificationId": "15232342342"
+      }
+    ]
 }'  
-http://localhost:8081/partyManagement/v5/individual
+http://localhost:8082/partyManagement/v5/individual
 
 
 
