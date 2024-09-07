@@ -26,11 +26,17 @@ type OMError struct {
 	Path       string
 	LineOfCode string
 	Err        error
+	LogMsg     log.LogMessage
 }
 
 func (e *OMError) Error() string {
 
 	return e.ErrType + ":" + e.ErrCode + " (" + e.LineOfCode + ", " + e.Path + "): " + e.ErrText
+}
+
+func (e OMError) WriteLog() OMError {
+	log.AppTraceLog.Error(e.LogMsg)
+	return e
 }
 
 type ErrorResponse struct {
@@ -57,17 +63,6 @@ type TMFErrorResponse struct {
 	ErrReference string `json:"referenceError,omitempty"`
 }
 
-/*
-	"@type": "Error",
-	"@baseType": "string",
-	"@schemaLocation": "string",
-	"code": "string",
-	"reason": "string",
-	"message": "string",
-	"status": "string",
-	"referenceError": "string"
-*/
-
 func (err *OMError) ErrorReponsJSON() ErrorResponse {
 	if err.Err != nil {
 		//fmt.Printf("ERROR HANDLER: %v %v\n", err.ErrCode, ErrorResponse{ErrDetail: ErrorDetailResponse{ErrCode: err.ErrCode, ErrType: err.ErrType, ErrText: err.ErrText, ErrLoc: err.LineOfCode}})
@@ -76,7 +71,7 @@ func (err *OMError) ErrorReponsJSON() ErrorResponse {
 	return ErrorResponse{}
 }
 
-func (err *OMError) ErrorReponsTMFJSON() TMFErrorResponse {
+func (err OMError) ErrorReponsTMFJSON() TMFErrorResponse {
 	if err.Err != nil {
 		//fmt.Printf("ERROR HANDLER: %v %v\n", err.ErrCode, ErrorResponse{ErrDetail: ErrorDetailResponse{ErrCode: err.ErrCode, ErrType: err.ErrType, ErrText: err.ErrText, ErrLoc: err.LineOfCode}})
 		return TMFErrorResponse{ErrCode: err.ErrCode, ErrType: "ERROR", ErrReason: err.ErrText, ErrMessage: err.ErrMessage, ErrStatus: err.ErrType, ErrReference: err.LineOfCode + "(" + err.Path + ")"}
@@ -97,10 +92,12 @@ func NewOMError(m log.LogMessage) OMError {
 		e.ErrMessage = m.LogMessage
 		e.Err = m.ErrorObject
 	}
+	e.LogMsg = m
 	//log.AppTraceLog.Error(m)
 	return e
 }
 
+/*
 func NewError(eType string, eCode string, er error) OMError {
 	var e OMError
 	e.ErrType = eType
@@ -113,5 +110,6 @@ func NewError(eType string, eCode string, er error) OMError {
 		e.ErrMessage = er.Error()
 		e.Err = er
 	}
+	e.LogMsg = log.GenErrLog("Type:"+eType+" Code:"+eCode, log.LogTracing{}, log.E000000, er)
 	return e
-}
+}*/

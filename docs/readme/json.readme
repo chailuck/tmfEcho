@@ -1,0 +1,17 @@
+JSON MARSHAL and UNMARSHAL
+- https://betterstack.com/community/guides/scaling-go/json-in-go/
+
+JSON to GO website: 
+- https://betterstack.com/community/guides/scaling-go/json-in-go/
+- https://jsontypedef.com/docs/go-codegen/
+
+JSON Validator
+- github.com/go-playground/validator/v10
+
+SAMPLE of JSON Validator tags
+type User struct {
+    Username string `json:"username" validate:"required"`
+    Password string `json:"password" validate:"required"`
+    Email    string `json:"email"    validate:"required,email"`
+    Age      int    `json:"age"      validate:"required,min=18,max=99"`
+}

@@ -38,7 +38,7 @@ func (h *PartyHandler) callAPIStart(c echo.Context, lt log.LogTracing) {
 	limitStr := c.QueryParam("limit")
 	limit, err := strconv.Atoi(limitStr)
 	if err != nil {
-		logmessage := log.GenAppLog("ERROR:limit is not int "+err.Error(), lt)
+		logmessage := log.GenAppLog("limit is not int "+err.Error(), lt)
 		log.AppTraceLog.Debug(logmessage)
 		limit = maxLimit
 	}
@@ -46,7 +46,7 @@ func (h *PartyHandler) callAPIStart(c echo.Context, lt log.LogTracing) {
 	offsetStr := c.QueryParam("offset")
 	offset, err := strconv.Atoi(offsetStr)
 	if err != nil {
-		logmessage := log.GenAppLog("ERROR:offset is not int "+err.Error(), lt)
+		logmessage := log.GenAppLog("offset is not int "+err.Error(), lt)
 		log.AppTraceLog.Debug(logmessage)
 		offset = -1
 	}
