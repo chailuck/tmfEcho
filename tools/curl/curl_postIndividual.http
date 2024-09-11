@@ -2,12 +2,12 @@
 curl -X POST    -H "Content-Type:application/json"  
 -d 
 ' {
-        "@type": "Individual",
-        "@baseType": "Party",
-        "givenName": "Newdtac",
-        "familyName": "Newtrinet",
-        "gender":"M",
-        "individualIdentification": [
+    "@type": "Individual",
+    "@baseType": "Party",
+    "givenName": "Newdtac",
+    "familyName": "Newtrinet",
+    "gender":"M",
+    "individualIdentification": [
         {
             "@type": "IndividualIdentification",
             "identificiationType": "15"  ,
