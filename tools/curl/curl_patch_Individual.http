@@ -5,7 +5,7 @@ curl -X PATCH    -H "Content-Type:application/json"
   "@baseType": "Party",
   "givenName" : "TESTGIVENT1111",
   "familyName": "<EMPTY>",
-  "name": "in json not in sql",
+  "name": "Full name",
   "individualIdentification": [
     {
       "@type": "IndividualIndeitification",
