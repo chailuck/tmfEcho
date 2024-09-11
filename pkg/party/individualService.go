@@ -14,13 +14,17 @@ import (
 )
 
 type IndividualData struct {
-	Id                       string                         `json:"id" db:"cust_numb" dbTable:"CS_CUST"`
-	Type                     string                         `json:"@type"  db:"" dbTable:""`
-	BaseType                 string                         `json:"@baseType"  db:"" dbTable:"CS_CUST"`
-	GivenName                string                         `json:"givenName"  db:"frst_name"  validate:"required" dbTable:"CS_CUST"`
-	FamilyName               string                         `json:"familyName,omitempty"  db:"last_name" dbTable:"CS_CUST"`
-	Name                     string                         `json:"name,omitempty"  db:"" dbTable:"CS_CUST"`
-	Title                    string                         `json:"title,omitempty" db:"titl" dbTable:"CS_CUST"`
+	Id           string `json:"id" db:"cust_numb" dbTable:"CS_CUST"`
+	Type         string `json:"@type"  db:"" dbTable:""`
+	BaseType     string `json:"@baseType"  db:"" dbTable:"CS_CUST"`
+	GivenName    string `json:"givenName"  db:"frst_name"  validate:"required,alphanumunicode" dbTable:"CS_CUST"`
+	FamilyName   string `json:"familyName,omitempty"  db:"last_name" dbTable:"CS_CUST"`
+	Name         string `json:"name,omitempty"  db:"" dbTable:"CS_CUST"`
+	Title        string `json:"title,omitempty" db:"titl" dbTable:"CS_CUST"`
+	Gender       string `json:"gender" db:"gndr" dbTable:"CS_CUST" validate:"oneof=F M U"`
+	MarialStatus string `json:"marialStatus" db:"mrtl_stts" dbTable:"CS_CUST"`
+	Nationality  string `json:"nationality" db:"ntnt_code" dbTable:"CS_CUST"`
+	//	Status                   string                         `json:"status" db:"cust_stts" dbTable:"CS_CUST"`
 	IndividualIdentification []individualIdentificationData `json:"individualIdentification,omitempty" db:""  maxArray:"1"`
 	ContactMedium            []contactMediumData            `json:"contactMedium,omitempty" db:""`
 }
@@ -155,6 +159,8 @@ func UpdateIndividualService(s *PartyHandler, c echo.Context, id string, lt log.
 
 	for k, v := range sqlFieldMap {
 		sqlStmt = ""
+
+		// cond format : [field1=$1, field2=$2]
 		cond := []string{}
 		for _, valueTerm := range v {
 			m := fmt.Sprintf("%v=%v%v", valueTerm, database.DB_CONST_TERM_VAR_PREFIX, strconv.Itoa(len(cond)+1))
@@ -164,7 +170,6 @@ func UpdateIndividualService(s *PartyHandler, c echo.Context, id string, lt log.
 		case "CS_CUST":
 			sqlStmt = "update " + k + " SET " + strings.Join(cond, ",")
 			sqlStmt += " WHERE cust_numb = " + id
-
 		default:
 		}
 		log.AppTraceLog.Debug(log.GenAppLog("SQL STMT:"+sqlStmt, lt))

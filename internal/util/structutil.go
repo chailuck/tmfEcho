@@ -23,7 +23,7 @@ func ValidateStruct(data interface{}, lt log.LogTracing) OMError {
 	validate := validator.New()
 	vErr := validate.Struct(data)
 	if vErr != nil {
-		lg := log.GenErrLog("Required fields", lt, log.E100009, vErr)
+		lg := log.GenErrLog("Validation failed", lt, log.E100009, vErr)
 		log.AppTraceLog.Error(lg)
 		omErr := NewOMError(lg)
 		return omErr
@@ -136,7 +136,6 @@ func StructGenerateSQLUpdate(data interface{}, lt log.LogTracing) (map[string][]
 				sqlWhereTerm = fmt.Sprintf("%v = '%v'", dbField, structValueStr)
 				sqlFieldTerm = fmt.Sprintf("%v", dbField)
 				sqlValueTerm = fmt.Sprintf("%v", structValueStr)
-				log.AppTraceLog.Debug(log.GenAppLog(fmt.Sprintf("UPDATE: STR- %v ", structValueStr), lt))
 				//f.SetString(structValueStr)
 				log.AppTraceLog.Debug(log.GenAppLog(fmt.Sprintf("UPDATE: STR- %v  %v : %v (json: '%v', db:'%v'", structField, f.Kind(), structValueStr, jsonField, dbField), lt))
 			}
@@ -155,7 +154,6 @@ func StructGenerateSQLUpdate(data interface{}, lt log.LogTracing) (map[string][]
 					sqlWhereTerm = fmt.Sprintf("%v = %v", dbField, structValueStr)
 					sqlFieldTerm = fmt.Sprintf("%v", dbField)
 					sqlValueTerm = fmt.Sprintf("%v", structValueStr)
-
 					log.AppTraceLog.Debug(log.GenAppLog(fmt.Sprintf("UPDATE: INT- %v  %v : %v (json: '%v', db:'%v'", structField, f.Kind(), structValueStr, jsonField, dbField), lt))
 				}
 			}

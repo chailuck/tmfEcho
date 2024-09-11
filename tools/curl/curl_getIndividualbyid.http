@@ -1,1 +1,4 @@
-curl -X get http://localhost:8082/partyManagement/v5/individual/500606518
+#curl -X get http://localhost:8082/partyManagement/v5/individual/500606518
+
+
+curl --insecure -X get https://localhost/partyManagement/v5/individual/500606518
