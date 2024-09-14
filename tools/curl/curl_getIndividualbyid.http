@@ -1,4 +1,9 @@
 #curl -X get http://localhost:8082/partyManagement/v5/individual/500606518
 
+ #curl --noproxy -X get http://192.168.50.1:30176/partyManagement/v5/individual/500606518
 
-curl --insecure -X get https://localhost/partyManagement/v5/individual/500606518
+ #curl --noproxy -X get http://192.168.50.1:8080/partyManagement/v5/individual/500606518
+ curl --noproxy -X get http://localhost:14039/partyManagement/v5/individual/1
+ 
+ #curl -X get http://192.168.49.2:30020/partyManagement/v5/individual/500606518
+#curl --insecure -X get https://localhost/partyManagement/v5/individual/500606518

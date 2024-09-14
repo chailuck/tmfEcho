@@ -1,0 +1,20 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: {{.Release.Name}}-tmf632-service
+  labels:
+    oda.tmforum.org/componentName: {{.Release.Name}}-{{.Values.component.name}}
+    app: {{.Release.Name}}-{{.Values.component.name}}
+spec:
+  containers:
+  - name: {{.Release.Name}}-tmf632-service
+    image: nginx
+    ports:
+    - containerPort: {{.Values.api.port}}
+    volumeMounts:
+    - name: config-volume
+      mountPath: {{.Values.api.configpath}}
+  volumes:
+  - name: config-volume
+    hostPath:
+      path: {{.Values.api.hostconfigpath}}

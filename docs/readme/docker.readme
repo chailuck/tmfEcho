@@ -5,4 +5,189 @@ docker run --rm -ti chailuck/tmfecho:v1
 PS D:\Documents\Pop\Knowledge\Programming\GO lang\tmfEcho> docker network create popNetwork
 7833b5bfa648f0354a0913cb1c188b7c089104b61145065bea296e7a6237b89b
 PS D:\Documents\Pop\Knowledge\Programming\GO lang\tmfEcho> docker network connect popNetwork postgres-migration
-PS D:\Documents\Pop\Knowledge\Programming\GO lang\tmfEcho> docker network connect popNetwork TMF632 
+PS D:\Documents\Pop\Knowledge\Programming\GO lang\tmfEcho> docker network connect popNetwork TMF632
+
+
+D:\Documents\Pop\Knowledge\Programming\GO lang\tmfEcho> docker network connect popNetwork TMFECHO_V2
+
+
+
+
+K8S
+
+
+
+kubectl create -f TMF632_pod.yaml
+
+kubectl delete pod odapoc-tmf632-pod
+
+kubectl logs -c odapoc-tmf632-pod
+
+
+postgresql
+
+Reference 
+https://refine.dev/blog/postgres-on-kubernetes/#deploying-postgresql-using-configmaps-and-secrets
+https://github.com/felipecruz91/k8s-postgresql-persistent-volume
+
+
+PS D:\Documents\Pop\Knowledge\Programming\GO lang\tmfEcho\tools\deployment\postgresql> kubectl apply -f .\postgresql_pv.yaml
+persistentvolume/postgres-pv created
+PS D:\Documents\Pop\Knowledge\Programming\GO lang\tmfEcho\tools\deployment\postgresql> kubectl apply -f .\postgresql_pvc.yaml
+persistentvolumeclaim/postgres-pvc created
+PS D:\Documents\Pop\Knowledge\Programming\GO lang\tmfEcho\tools\deployment\postgresql> kubectl get pv
+NAME                                       CAPACITY   ACCESS MODES   RECLAIM POLICY   STATUS      CLAIM                  STORAGECLASS   VOLUMEATTRIBUTESCLASS   REASON   AGE
+postgres-pv                                5Gi        RWO            Retain           Available                                         <unset>                          64s
+pvc-bc806cf5-57a1-4dcd-816c-82b0c5ec2e23   5Gi        RWO            Delete           Bound       default/postgres-pvc   standard       <unset>                          7s
+PS D:\Documents\Pop\Knowledge\Programming\GO lang\tmfEcho\tools\deployment\postgresql> kubectl get pv
+NAME                                       CAPACITY   ACCESS MODES   RECLAIM POLICY   STATUS      CLAIM                  STORAGECLASS   VOLUMEATTRIBUTESCLASS   REASON   AGE
+postgres-pv                                5Gi        RWO            Retain           Available                                         <unset>                          79s
+pvc-bc806cf5-57a1-4dcd-816c-82b0c5ec2e23   5Gi        RWO            Delete           Bound       default/postgres-pvc   standard       <unset>                          22s
+PS D:\Documents\Pop\Knowledge\Programming\GO lang\tmfEcho\tools\deployment\postgresql> kubectl get pvc
+NAME           STATUS   VOLUME                                     CAPACITY   ACCESS MODES   STORAGECLASS   VOLUMEATTRIBUTESCLASS   AGE
+postgres-pvc   Bound    pvc-bc806cf5-57a1-4dcd-816c-82b0c5ec2e23   5Gi        RWO            standard       <unset>                 26s
+
+
+minikube start --vm-driver="hyperv" --hyperv-virtual-switch="My Virtual Switch" --mount --mount-string="D:\data:/data"
+minikube start --driver=virtualbox --cpus=2 --memory=5120 --kubernetes-version=v1.18.3 --container-runtime=docker --mount=true --mount-string=/Users/<>/minikube/pgdata:/data
+
+minikube start  --mount --mount-string="D:\Documents\Pop\Docker\TMF632\PostgreSQL:/docker"
+
+minikube delete
+minikube start  --mount=true --mount-string="D:\Documents\Pop\Docker:/docker"
+
+
+kubectl expose deployment postgres --type=NodePort --target-port=5432 --dry-run -o yaml > postgres-service.yaml
+
+#Create secret
+kubectl create secret generic postgres-secret --from-literal=POSTGRES_USER=postgresadmin --from-literal=POSTGRES_PASSWORD=admin123 --dry-run -o yaml > postgresql_secret.yaml
+kubectl apply -f postgresql_secret.yaml
+kubectl describe secret postgres-secret
+
+kubectl apply -f postgresql_pv.yaml
+kubectl apply -f postgresql_pvc.yaml
+
+Need to convert to Unix first
+=============================
+kubectl create configmap default-config --from-file=default.conf=D:\Documents\Pop\Docker\TMF632\Config\default.conf
+
+kubectl apply -f postgresql_deployment.yaml
+kubectl get po
+
+
+kubectl expose deployment postgres --type=NodePort --target-port=5432 --dry-run=client -o yaml > postgresql_service.yaml
+kubectl apply -f postgresql_service.yaml
+kubectl get svc
+
+kubectl delete service postgres 
+kubectl delete deployment postgres
+kubectl delete secret postgres-secret
+kubectl delete pvc postgres-pv
+
+U:postgresadmin
+P:admin123
+
+kubectl exec -it postgres-756ddffd47-pdg5b -- psql -h localhost -U postgresadmin --password -p 5432 postgres
+
+kubectl exec -it odapoc-tmf632-pod-7ff996c95f-l6k29 -- ls -l
+
+
+kubectl port-forward pod/postgres-756ddffd47-6crkd 5432:5432
+
+
+Config map to send the file to pod
+
+https://stackoverflow.com/questions/75306198/how-to-mount-a-host-volume-in-kubernetes-running-on-docker-desktop-windows-10
+
+
+
+kubectl apply -f postgresql_secret.yaml
+kubectl describe secret postgres-secret
+
+kubectl apply -f postgresql_pv.yaml
+kubectl apply -f postgresql_pvc.yaml
+
+Need to convert to Unix first
+=============================
+https://kubernetes.io/docs/tasks/configure-pod-container/configure-pod-configmap/
+
+kubectl create configmap default-config --from-file=default.conf=D:\Documents\Pop\Docker\TMF632\Config\default.conf
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+START - STOP
+
+PREREQUISITE
+============
+
+minikube delete
+minikube start  --mount=true --mount-string="D:\Documents\Pop\Docker:/docker"
+
+
+#Create secret
+kubectl create secret generic postgres-secret --from-literal=POSTGRES_USER=postgresadmin --from-literal=POSTGRES_PASSWORD=admin123 --dry-run -o yaml > postgresql_secret.yaml
+kubectl apply -f postgresql_secret.yaml
+kubectl describe secret postgres-secret
+
+
+
+
+START POSTGRES
+=======================
+kubectl apply -f postgresql_pv.yaml
+kubectl apply -f postgresql_pvc.yaml
+kubectl apply -f postgresql_deployment.yaml
+kubectl apply -f postgresql_service.yaml
+kubectl get po
+kubectl get svc
+
+START TMF632
+============
+kubectl create configmap default-config --from-file=default.conf=D:\Documents\Pop\Docker\TMF632\Config\default.conf
+kubectl apply -f TMF632_deployment.yaml
+kubectl apply -f TMF632_service.yaml
+kubectl get po
+kubectl get svc
+
+WINDOWS TUNNEL
+==============
+minikube service odapoc-tmf632-service
+minikube service postgres
+
+
+STOP TMF632
+===========
+kubectl delete service odapoc-tmf632-service
+kubectl delete deployment odapoc-tmf632-pod
+kubectl delete configmap default-config
+
+STOP POSTGRES_PASSWORD
+======================
+kubectl delete service postgres 
+kubectl delete deployment postgres
+kubectl delete pvc postgres-pvc
+kubectl delete pv postgres-pv
+
+
+
+kubectl exec -it postgres-756ddffd47-9m9zt -- psql -h localhost -U postgresadmin --password -p 5432 postgres
+
+CREATE TABLE cs_test (dfpm_code char(20) NOT NULL);
+select * from cs_test;
+
+HELM to Generate metadata
+HELM create <foldername>
+helm template test <foldername> > <output file>
+helm template test partymanagement > test-instance.component.yaml

@@ -1,0 +1,71 @@
+apiVersion: oda.tmforum.org/v1alpha4
+kind: component
+metadata:
+  name: {{.Release.Name}}-{{.Values.component.name}}
+  labels:
+    oda.tmforum.org/componentName: {{.Release.Name}}-{{.Values.component.name}}
+spec:
+  id: {{.Values.component.id}}
+  name: {{.Values.component.name}}
+  type: Party management
+  functionalBlock: {{.Values.component.functionalBlock}}
+  publicationDate: {{.Values.component.publicationDate}}
+  status: specified
+  version: {{.Values.component.version}}
+  description: "POC Partymanagement with TMF632 ODA-Component from Open-API reference implementation."
+  maintainers:
+  - email: ChailucK@truecorp.co.th
+    name: Chailuck K
+  owners:
+  - email: ChailucK@truecorp.co.th
+    name: Chailuck K
+  
+  coreFunction:
+    exposedAPIs: 
+    - id: TMF632
+      version: v5.0.0
+      name: party-management-api
+      implementation: {{.Release.Name}}-partymanagmentapi
+      apitype: openapi
+      required: true
+      specification: https://tmf-open-api-table-documents.s3.eu-west-1.amazonaws.com/ODA/TMF632_v5.0.0.swagger.json
+      path: /{{.Release.Name}}-{{.Values.component.name}}/tmf-api/productInventory/v5
+      developerUI: /{{.Release.Name}}-{{.Values.component.name}}/tmf-api/productInventory/v5/docs      
+      port: 8082
+      resources:
+      - individual:
+        - GET
+        - GET/id
+        - POST
+        - PATCH/id
+        - DELETE/id
+      - organization:
+        - GET
+        - GET/id
+        - POST
+        - PATCH/id
+        - DELETE/id
+    dependentAPIs: 
+    - name: party
+      apitype: openapi        
+      specification: https://tmf-open-api-table-documents.s3.eu-west-1.amazonaws.com/ODA/TMF632_v5.0.0.swagger.json
+  eventNotification:
+    publishedEvents: []
+    subscribedEvents: []
+  managementFunction: 
+    exposedAPIs: []
+    dependentAPIs: []   
+  security:
+    controllerRole: {{.Values.security.controllerRole }}
+    securitySchemes:
+      bearerAuth:
+        type: http
+        scheme: bearer
+        bearerFormat: JWT
+    partyrole:
+      specification: https://raw.githubusercontent.com/tmforum-apis/TMF669_PartyRole/master/TMF669-PartyRole-v4.0.0.swagger.json
+      implementation: {{.Release.Name}}-partyroleapi
+      apitype: openapi
+      path: /{{.Release.Name}}-{{.Values.component.name}}/tmf-api/partyRoleManagement/v4
+      developerUI: /{{.Release.Name}}-{{.Values.component.name}}/tmf-api/partyRoleManagement/v4/docs
+      port: 8080

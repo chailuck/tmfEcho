@@ -2,10 +2,10 @@
 curl -X POST    -H "Content-Type:application/json"  
 -d 
 ' {
-    "@type": "Individual",
-    "@baseType": "Party",
-    "givenName": "Newdtac",
-    "familyName": "Newtrinet",
+    "@type":"Individual",
+    "@baseType":"Party",
+    "givenName":"Newdtac",
+    "familyName":"Newtrinet",
     "gender":"M",
     "individualIdentification": [
         {
@@ -15,7 +15,8 @@ curl -X POST    -H "Content-Type:application/json"
         }
     ]
 }' 
-http://localhost:8082/partyManagement/v5/individual
+http://127.0.0.1:25108/partyManagement/v5/individual
+#http://localhost:8082/partyManagement/v5/individual
 
 
             

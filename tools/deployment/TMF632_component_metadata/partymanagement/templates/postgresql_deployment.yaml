@@ -1,0 +1,31 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{.Values.postgresql.name}}
+  labels:
+    oda.tmforum.org/componentName: {{.Release.Name}}-{{.Values.component.name}}
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      run: {{.Values.postgresql.name}}
+  template:
+    metadata:
+      labels:
+        run: {{.Values.postgresql.name}}
+    spec:
+      containers:
+        - name: {{.Values.postgresql.name}}
+          image: {{.Values.postgresql.image}}
+          ports:
+            - containerPort: 5432
+          envFrom:
+            - secretRef:
+                name: {{.Values.postgresql.name}}-secret
+          volumeMounts:
+            - mountPath: /var/lib/postgresql/data
+              name: {{.Values.postgresql.name}}-vol
+      volumes:
+        - name: {{.Values.postgresql.name}}-vol
+          persistentVolumeClaim:
+            claimName: {{.Values.postgresql.name}}-pvc

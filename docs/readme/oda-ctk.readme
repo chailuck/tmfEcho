@@ -1,0 +1,7 @@
+helm template test partymanagement > test-instance.component.yaml
+
+git clond https://github.com/tmforum-oda/oda-component-ctk.git
+cd oda-component-ctk
+npm install
+
+npm run L1-static ../test-instance.component.yaml

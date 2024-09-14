@@ -1,0 +1,11 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{.Values.postgresql.name}}-config
+  labels:
+    oda.tmforum.org/componentName: {{.Release.Name}}-{{.Values.component.name}}
+data:
+  postgresql.conf: |
+    max_connections = 100
+    shared_buffers = 256MB
+    log_statement = 'all' 

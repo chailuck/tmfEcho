@@ -1,0 +1,29 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{.Release.Name}}-{{.Values.component.name}}-pod
+  labels:
+    oda.tmforum.org/componentName: {{.Release.Name}}-{{.Values.component.name}}
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      name: {{.Release.Name}}-{{.Values.component.name}}-pod
+  template:
+    metadata:
+      labels:
+        name: {{.Release.Name}}-{{.Values.component.name}}-pod
+    spec:
+      containers:
+      - name: {{.Release.Name}}-{{.Values.component.name}}-pod
+        image: {{.Values.image.repository}}
+        ports:
+        - containerPort: 8082
+        volumeMounts:
+        - name: default-config
+          mountPath: {{.Values.mountVolume.volMountPath}}
+          readOnly: true
+      volumes:
+      - name: default-config
+        configMap:
+          name: {{.Values.mountVolume.volConfigName}}

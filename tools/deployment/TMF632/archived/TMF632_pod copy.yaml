@@ -1,0 +1,20 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: odapoc-tmf632-pod
+  labels:
+    oda.tmforum.org/componentName: odapoc-tmf632
+    app: odapoc-tmf632
+spec:
+  containers:
+  - name: odapoc-tmf632-pod
+    image: chailuck/tmfecho:v2
+    ports:
+    - containerPort: 8082
+    volumeMounts:
+    - name: config-volume
+      mountPath: /build/configs
+  volumes:
+  - name: config-volume
+    hostPath:
+      path: D:\\Documents\\Pop\\Docker\\TMF632\\Config

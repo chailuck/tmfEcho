@@ -63,7 +63,7 @@ RUN echo $(ls /build)
 
 
 # expose the port to run the application on
-EXPOSE 8080
+EXPOSE 8082
 
 # Command to run
 ENTRYPOINT ["/main"]

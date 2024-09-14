@@ -1,0 +1,27 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: odapoc-tmf632-pod
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      name: odapoc-tmf632-pod
+  template:
+    metadata:
+      labels:
+        name: odapoc-tmf632-pod
+    spec:
+      containers:
+      - name: odapoc-tmf632-pod
+        image: chailuck/tmfecho:v2
+        ports:
+        - containerPort: 8082
+        volumeMounts:
+        - name: default-config
+          mountPath: /build/configs
+          readOnly: true
+      volumes:
+      - name: default-config
+        configMap:
+          name: default-config
