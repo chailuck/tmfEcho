@@ -5,3 +5,10 @@ cd oda-component-ctk
 npm install
 
 npm run L1-static ../test-instance.component.yaml
+
+
+Install linux subsysm
+
+wsl --install
+
+Nickfnickf

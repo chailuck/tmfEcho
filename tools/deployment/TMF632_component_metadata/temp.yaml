@@ -1,15 +1,16 @@
+# Source: partymanagement/templates/TMF632_component.yaml
 apiVersion: oda.tmforum.org/v1alpha4
 kind: component
 metadata:
-  name: {{.Release.Name}}-{{.Values.component.name}}
+  name: test-tmf632poc
   labels:
-    oda.tmforum.org/componentName: {{.Release.Name}}-{{.Values.component.name}}
+    oda.tmforum.org/componentName: test-tmf632poc
 spec:
   type: Party management
-  functionalBlock: {{.Values.component.functionalBlock}}
-  publicationDate: {{.Values.component.publicationDate}}
+  functionalBlock: NOM
+  publicationDate: 2024-11-30T00:00:00.000Z
   status: specified
-  version: {{.Values.component.version}}
+  version: 0.0.1
   description: "POC Partymanagement with TMF632 ODA-Component from Open-API reference implementation."
   maintainers:
   - email: ChailucK@truecorp.co.th
@@ -22,12 +23,12 @@ spec:
     - id: TMF632
       version: v5.0.0
       name: party-management-api
-      implementation: {{.Release.Name}}-partymanagmentapi
+      implementation: test-partymanagmentapi
       apitype: openapi
       required: true
       specification: https://tmf-open-api-table-documents.s3.eu-west-1.amazonaws.com/ODA/TMF632_v5.0.0.swagger.json
-      path: /{{.Release.Name}}-{{.Values.component.name}}/tmf-api/productInventory/v5
-      developerUI: /{{.Release.Name}}-{{.Values.component.name}}/tmf-api/productInventory/v5/docs      
+      path: /test-tmf632poc/tmf-api/productInventory/v5
+      developerUI: /test-tmf632poc/tmf-api/productInventory/v5/docs      
       port: 8082
       resources:
       - individual:
@@ -53,7 +54,7 @@ spec:
     exposedAPIs: []
     dependentAPIs: []   
   security:
-    controllerRole: {{.Values.security.controllerRole }}
+    controllerRole: Admin
     securitySchemes:
       bearerAuth:
         type: http
@@ -61,8 +62,8 @@ spec:
         bearerFormat: JWT
     partyrole:
       specification: https://raw.githubusercontent.com/tmforum-apis/TMF669_PartyRole/master/TMF669-PartyRole-v4.0.0.swagger.json
-      implementation: {{.Release.Name}}-partyroleapi
+      implementation: test-partyroleapi
       apitype: openapi
-      path: /{{.Release.Name}}-{{.Values.component.name}}/tmf-api/partyRoleManagement/v4
-      developerUI: /{{.Release.Name}}-{{.Values.component.name}}/tmf-api/partyRoleManagement/v4/docs
+      path: /test-tmf632poc/tmf-api/partyRoleManagement/v4
+      developerUI: /test-tmf632poc/tmf-api/partyRoleManagement/v4/docs
       port: 8080

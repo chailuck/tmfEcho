@@ -13,7 +13,7 @@
 component:
   # Specifies whether a service account should be created
   id: TMFC028
-  name: TMF632POC
+  name: tmf632poc
   functionalBlock: NOM
   publicationDate: 2024-11-30T00:00:00.000Z
   version: "0.0.1"

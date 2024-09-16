@@ -8,7 +8,7 @@ spec:
   type: ClusterIP
   clusterIP: {{.Values.service.clusterIP}}
   selector:
-    name: {{.Release.Name}}-{{.Values.component.name}}-pod
+    name: {{.Release.Name}}-{{.Values.component.name}}
   ports:
   - protocol: TCP
     port: {{.Values.service.port}}

@@ -170,12 +170,12 @@ minikube service postgres
 STOP TMF632
 ===========
 kubectl delete service odapoc-tmf632-service
-kubectl delete deployment odapoc-tmf632-pod
+kubectl delete deployment odapoc-tmf632
 kubectl delete configmap default-config
 
 STOP POSTGRES_PASSWORD
 ======================
-kubectl delete service postgres 
+kubectl delete service postgres-svc 
 kubectl delete deployment postgres
 kubectl delete pvc postgres-pvc
 kubectl delete pv postgres-pv
@@ -191,3 +191,15 @@ HELM to Generate metadata
 HELM create <foldername>
 helm template test <foldername> > <output file>
 helm template test partymanagement > test-instance.component.yaml
+
+
+
+
+PROBLEM
+The meta-data is defined using a Kubernetes CustomResourceDefinition. 
+This allows us to extend the Kubernetes API with our custom-defined schema for Telco meta-data. 
+The CustomResourceDefinition schema is in the github.com/tmforum-oda/oda-canvas-charts repository.
+
+Move to https://github.com/tmforum-oda/oda-canvas
+
+https://github.com/tmforum-oda/oda-canvas/tree/master/installation

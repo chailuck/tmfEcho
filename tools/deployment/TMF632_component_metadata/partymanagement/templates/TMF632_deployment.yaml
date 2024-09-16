@@ -1,21 +1,21 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: {{.Release.Name}}-{{.Values.component.name}}-pod
+  name: {{.Release.Name}}-{{.Values.component.name}}
   labels:
     oda.tmforum.org/componentName: {{.Release.Name}}-{{.Values.component.name}}
 spec:
   replicas: 1
   selector:
     matchLabels:
-      name: {{.Release.Name}}-{{.Values.component.name}}-pod
+      name: {{.Release.Name}}-{{.Values.component.name}}
   template:
     metadata:
       labels:
-        name: {{.Release.Name}}-{{.Values.component.name}}-pod
+        name: {{.Release.Name}}-{{.Values.component.name}}
     spec:
       containers:
-      - name: {{.Release.Name}}-{{.Values.component.name}}-pod
+      - name: {{.Release.Name}}-{{.Values.component.name}}
         image: {{.Values.image.repository}}
         ports:
         - containerPort: 8082
