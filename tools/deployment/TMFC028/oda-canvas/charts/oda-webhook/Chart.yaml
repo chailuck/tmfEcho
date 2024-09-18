@@ -1,0 +1,26 @@
+apiVersion: v2
+name: oda-webhook
+description: A Helm chart to deploy the webhook following pattern in https://kubernetes.io/docs/tasks/extend-kubernetes/custom-resources/custom-resource-definition-versioning/#webhook-conversion
+
+# A chart can be either an 'application' or a 'library' chart.
+#
+# Application charts are a collection of templates that can be packaged into versioned archives
+# to be deployed.
+#
+# Library charts provide useful utilities or functions for the chart developer. They're included as
+# a dependency of application charts to inject those utilities and functions into the rendering
+# pipeline. Library charts do not define any templates and therefore cannot be deployed.
+type: application
+
+# This is the chart version. This version number should be incremented each time you make changes
+# to the chart and its templates, including the app version.
+# Versions are expected to follow Semantic Versioning (https://semver.org/)
+version: 1.1.2
+# version: 1.1.2 - bug fix to update apitype to apiType for conversions to v1beta3
+# version: 1.1.1 - bug fix for empty specification property of exposedAPI
+# version: 1.1.0 - changed the specification field in the exposed API to an array for v1beta3
+# version: 1.0.0 - baseline version
+
+# This is the version number of the application being deployed. We are versioning the canvas as the
+# version of the latest component spec that it supports.
+appVersion: "v1beta3"
