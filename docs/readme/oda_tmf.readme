@@ -7,3 +7,11 @@ TMF632 Party management
 
 SWAGGER FILE
 https://tmf-open-api-table-documents.s3.eu-west-1.amazonaws.com/ODA/TMF632_v5.0.0.swagger.json
+
+
+Problem:
+- CTK validate Kube resource as "component" but CRD use "Component"
+- CTK allows v1alpha1, v1alphe2, v1alphe3, v1alphe4,v1beta1 but TMF online provide spec with v1beta2
+- Cannot find official final CRD. Need to modify many attributes in SPEC 
+- ODA yaml spec consists of many TMF not sure whether we have to develop all of them or not
+- 

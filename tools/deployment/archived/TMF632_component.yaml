@@ -1,16 +1,20 @@
-# Source: partymanagement/templates/TMF632_component.yaml
-apiVersion: oda.tmforum.org/v1alpha4
-kind: component
+apiVersion: oda.tmforum.org/v1beta2
+kind: Component
 metadata:
-  name: test-tmf632poc
+  name: {{.Release.Name}}-{{.Values.component.name}}
   labels:
-    oda.tmforum.org/componentName: test-tmf632poc
+    oda.tmforum.org/componentName: {{.Release.Name}}-{{.Values.component.name}}
+    app.kubernetes.io/instance: {{ .Release.Name }}
+    app.kubernetes.io/managed-by: {{ .Release.Service }}
+  annotations:
+    meta.helm.sh/release-name: {{ .Release.Name }}
+    meta.helm.sh/release-namespace: {{ .Release.Namespace }}
 spec:
   type: Party management
-  functionalBlock: NOM
-  publicationDate: 2024-11-30T00:00:00.000Z
+  functionalBlock: {{.Values.component.functionalBlock}}
+  publicationDate: {{.Values.component.publicationDate}}
   status: specified
-  version: 0.0.1
+  version: {{.Values.component.version}}
   description: "POC Partymanagement with TMF632 ODA-Component from Open-API reference implementation."
   maintainers:
   - email: ChailucK@truecorp.co.th
@@ -20,15 +24,14 @@ spec:
     name: Chailuck K
   coreFunction:
     exposedAPIs: 
-    - id: TMF632
-      version: v5.0.0
+    - #version: v5.0.0
       name: party-management-api
-      implementation: test-partymanagmentapi
+      implementation: {{.Release.Name}}-partymanagmentapi
       apitype: openapi
       required: true
       specification: https://tmf-open-api-table-documents.s3.eu-west-1.amazonaws.com/ODA/TMF632_v5.0.0.swagger.json
-      path: /test-tmf632poc/tmf-api/productInventory/v5
-      developerUI: /test-tmf632poc/tmf-api/productInventory/v5/docs      
+      #path: /{{.Release.Name}}-{{.Values.component.name}}/tmf-api/productInventory/v5
+      developerUI: /{{.Release.Name}}-{{.Values.component.name}}/tmf-api/productInventory/v5/docs      
       port: 8082
       resources:
       - individual:
@@ -54,7 +57,7 @@ spec:
     exposedAPIs: []
     dependentAPIs: []   
   security:
-    controllerRole: Admin
+    controllerRole: {{.Values.security.controllerRole }}
     securitySchemes:
       bearerAuth:
         type: http
@@ -62,8 +65,8 @@ spec:
         bearerFormat: JWT
     partyrole:
       specification: https://raw.githubusercontent.com/tmforum-apis/TMF669_PartyRole/master/TMF669-PartyRole-v4.0.0.swagger.json
-      implementation: test-partyroleapi
+      implementation: {{.Release.Name}}-partyroleapi
       apitype: openapi
-      path: /test-tmf632poc/tmf-api/partyRoleManagement/v4
-      developerUI: /test-tmf632poc/tmf-api/partyRoleManagement/v4/docs
+      path: /{{.Release.Name}}-{{.Values.component.name}}/tmf-api/partyRoleManagement/v4
+      developerUI: /{{.Release.Name}}-{{.Values.component.name}}/tmf-api/partyRoleManagement/v4/docs
       port: 8080

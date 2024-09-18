@@ -1,11 +1,15 @@
-apiVersion: oda.tmforum.org/v1alpha4
-kind: component
+apiVersion: oda.tmforum.org/v1beta2
+kind: Component
 metadata:
   name: {{.Release.Name}}-{{.Values.component.name}}
   labels:
     oda.tmforum.org/componentName: {{.Release.Name}}-{{.Values.component.name}}
+    app.kubernetes.io/instance: {{ .Release.Name }}
+    app.kubernetes.io/managed-by: {{ .Release.Service }}
+  annotations:
+    meta.helm.sh/release-name: {{ .Release.Name }}
+    meta.helm.sh/release-namespace: {{ .Release.Namespace }}
 spec:
-  type: Party management
   functionalBlock: {{.Values.component.functionalBlock}}
   publicationDate: {{.Values.component.publicationDate}}
   status: specified
@@ -19,9 +23,7 @@ spec:
     name: Chailuck K
   coreFunction:
     exposedAPIs: 
-    - id: TMF632
-      version: v5.0.0
-      name: party-management-api
+    - name: party-management-api
       implementation: {{.Release.Name}}-partymanagmentapi
       apitype: openapi
       required: true
@@ -29,19 +31,6 @@ spec:
       path: /{{.Release.Name}}-{{.Values.component.name}}/tmf-api/productInventory/v5
       developerUI: /{{.Release.Name}}-{{.Values.component.name}}/tmf-api/productInventory/v5/docs      
       port: 8082
-      resources:
-      - individual:
-        - GET
-        - GET/id
-        - POST
-        - PATCH/id
-        - DELETE/id
-      - organization:
-        - GET
-        - GET/id
-        - POST
-        - PATCH/id
-        - DELETE/id
     dependentAPIs: 
     - name: party
       apitype: openapi        
@@ -52,7 +41,7 @@ spec:
   managementFunction: 
     exposedAPIs: []
     dependentAPIs: []   
-  security:
+  securityFunction:
     controllerRole: {{.Values.security.controllerRole }}
     securitySchemes:
       bearerAuth:

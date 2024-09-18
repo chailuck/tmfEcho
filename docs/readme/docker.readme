@@ -203,3 +203,13 @@ The CustomResourceDefinition schema is in the github.com/tmforum-oda/oda-canvas-
 Move to https://github.com/tmforum-oda/oda-canvas
 
 https://github.com/tmforum-oda/oda-canvas/tree/master/installation
+
+
+PS D:\Documents\Pop\Knowledge\Programming\GO lang\tmfEcho\tools\deployment\TMF632_component_metadata\oda-canvas\charts> kubectl apply -f .\gen_CRD.yaml
+customresourcedefinition.apiextensions.k8s.io/apis.oda.tmforum.org created
+customresourcedefinition.apiextensions.k8s.io/components.oda.tmforum.org created
+customresourcedefinition.apiextensions.k8s.io/dependentapis.oda.tmforum.org created
+customresourcedefinition.apiextensions.k8s.io/exposedapis.oda.tmforum.org created
+customresourcedefinition.apiextensions.k8s.io/publishednotifications.oda.tmforum.org created
+customresourcedefinition.apiextensions.k8s.io/secretsmanagements.oda.tmforum.org created
+customresourcedefinition.apiextensions.k8s.io/subscribednotifications.oda.tmforum.org created
