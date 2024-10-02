@@ -113,7 +113,7 @@ spec:
     spec:
       containers:
       - name: test-tmf632poc
-        image: chailuck/tmfecho:v2
+        image: chailuck/tmfecho:v3
         ports:
         - containerPort: 8082
         volumeMounts:
@@ -159,8 +159,8 @@ spec:
             claimName: postgres-pvc
 ---
 # Source: partymanagement/templates/TMF632_component.yaml
-apiVersion: oda.tmforum.org/v1beta2
-kind: Component
+apiVersion: oda.tmforum.org/v1alpha4
+kind: component
 metadata:
   name: test-tmf632poc
   labels:
@@ -171,6 +171,7 @@ metadata:
     meta.helm.sh/release-name: test
     meta.helm.sh/release-namespace: default
 spec:
+  type: Party management
   functionalBlock: NOM
   publicationDate: 2024-11-30T00:00:00.000Z
   status: specified
@@ -202,7 +203,7 @@ spec:
   managementFunction: 
     exposedAPIs: []
     dependentAPIs: []   
-  securityFunction:
+  security:
     controllerRole: Admin
     securitySchemes:
       bearerAuth:

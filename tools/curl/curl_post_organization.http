@@ -1,0 +1,13 @@
+
+curl -X POST    -H "Content-Type:application/json"  
+-d 
+' {
+    "@type":"Individual",
+    "@baseType":"Party",
+    "name":"New Organization"
+}' 
+http://127.0.0.1:46111/partyManagement/v5/organization
+
+
+
+            

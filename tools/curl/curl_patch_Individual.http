@@ -14,7 +14,7 @@ curl -X PATCH    -H "Content-Type:application/json"
     }
   ]
 }'  
-http://localhost:8082/partyManagement/v5/individual/500606518
+http://localhost:46111/partyManagement/v5/individual/2
 
 
 

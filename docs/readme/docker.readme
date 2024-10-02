@@ -156,6 +156,7 @@ kubectl get svc
 START TMF632
 ============
 kubectl create configmap default-config --from-file=default.conf=D:\Documents\Pop\Docker\TMF632\Config\default.conf
+
 kubectl apply -f TMF632_deployment.yaml
 kubectl apply -f TMF632_service.yaml
 kubectl get po
@@ -201,6 +202,8 @@ This allows us to extend the Kubernetes API with our custom-defined schema for T
 The CustomResourceDefinition schema is in the github.com/tmforum-oda/oda-canvas-charts repository.
 
 Move to https://github.com/tmforum-oda/oda-canvas
+
+CRD: https://github.com/tmforum-oda/oda-canvas/blob/master/charts/oda-crds/templates/oda-component-crd.yaml
 
 https://github.com/tmforum-oda/oda-canvas/tree/master/installation
 

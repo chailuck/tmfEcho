@@ -1,0 +1,2 @@
+ curl --noproxy -X get http://127.0.0.1:46111/partyManagement/v5/individual/1
+ 

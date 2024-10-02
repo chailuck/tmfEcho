@@ -15,8 +15,8 @@ curl -X POST    -H "Content-Type:application/json"
         }
     ]
 }' 
-http://127.0.0.1:25108/partyManagement/v5/individual
-#http://localhost:8082/partyManagement/v5/individual
+http://127.0.0.1:46111/partyManagement/v5/individual
+
 
 
             

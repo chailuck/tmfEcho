@@ -33,7 +33,7 @@ autoscaling:
   enabled: false
 
 image:
-  repository: chailuck/tmfecho:v2
+  repository: chailuck/tmfecho:v3
   # This sets the pull policy for images.
   pullPolicy: IfNotPresent
   # Overrides the image tag whose default is the chart appVersion.

@@ -1,0 +1,11 @@
+curl -X PATCH    -H "Content-Type:application/json"  
+-d 
+'{
+  "@type": "Individual",
+  "@baseType": "Party",
+  "name": "Updted name"
+}'  
+http://localhost:46111/partyManagement/v5/organization/3
+
+
+
