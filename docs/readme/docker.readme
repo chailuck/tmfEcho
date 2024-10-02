@@ -216,3 +216,21 @@ customresourcedefinition.apiextensions.k8s.io/exposedapis.oda.tmforum.org create
 customresourcedefinition.apiextensions.k8s.io/publishednotifications.oda.tmforum.org created
 customresourcedefinition.apiextensions.k8s.io/secretsmanagements.oda.tmforum.org created
 customresourcedefinition.apiextensions.k8s.io/subscribednotifications.oda.tmforum.org created
+
+
+Aurara
+Endpoint - oda-postgresql-dev-instance-1.c2ejxlrsy5bw.ap-southeast-1.rds.amazonaws.com
+Port - 5432
+Db name – odadev
+Master user name - postgres
+Password - devoda1234
+
+Create name space
+kubectl create ns tmf632poc
+
+
+kubectl config set-context --current --namespace tmf632poc
+
+kubectl create configmap default-config --from-file=default.conf=D:\Documents\Pop\Docker\TMF632\Config\default.conf
+
+kubectl create configmap default-config --from-file=default.conf=/home/ec2-user/tmf632/src/tmfEcho/configs/default.conf
