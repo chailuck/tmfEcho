@@ -222,15 +222,19 @@ func SaveIndividualService(s *PartyHandler, c echo.Context, lt log.LogTracing) e
 	}
 
 	sqlStmt := "select max(cust_numb) from cs_cust"
+	var custNumbNullInt64 sql.NullInt64
 	var custNumb string
-	err := s.DB.QueryRow(sqlStmt).Scan(&custNumb)
+	err := s.DB.QueryRow(sqlStmt).Scan(&custNumbNullInt64)
 	if err != nil {
 		if err == sql.ErrNoRows {
-			custNumb = "100000"
+			custNumb = "1000"
 		} else {
 			lg := log.GenErrLog("SQL:"+sqlStmt, lt, log.E000000, err)
 			return c.JSON(http.StatusInternalServerError, util.NewOMError(lg).WriteLog().ErrorReponsTMFJSON())
 		}
+	}
+	if !custNumbNullInt64.Valid {
+		custNumb = "1000"
 	}
 	custNumbInt, _ := strconv.Atoi(custNumb)
 	custNumbInt++

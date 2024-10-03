@@ -69,7 +69,6 @@ metadata:
     oda.tmforum.org/componentName: test-tmf632poc
 spec:
   type: ClusterIP
-  clusterIP: 10.101.100.10
   selector:
     name: test-tmf632poc
   ports:

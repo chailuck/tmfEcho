@@ -218,14 +218,28 @@ customresourcedefinition.apiextensions.k8s.io/secretsmanagements.oda.tmforum.org
 customresourcedefinition.apiextensions.k8s.io/subscribednotifications.oda.tmforum.org created
 
 
+AWS setup
+
+https://adfs16.dtac.co.th/adfs/ls/IdpInitiatedSignOn.aspx?loginToRp=urn:amazon:webservices&client-request-id=58c4e015-6f3d-4285-d101-00800220007c&pullStatus=0
+ 
+ODA POC Sandbox
+=========================
+Account ID = 158798767715
+IAM role name = aws-dev03-sandbox
+AD Group = AWS-854097344079-DTACNETWORK-aws-dev03-sandbox
+
 Aurara
+======
 Endpoint - oda-postgresql-dev-instance-1.c2ejxlrsy5bw.ap-southeast-1.rds.amazonaws.com
 Port - 5432
 Db name – odadev
 Master user name - postgres
 Password - devoda1234
 
+sudo su - ec2-user
+
 Create name space
+=================
 kubectl create ns tmf632poc
 
 
@@ -234,3 +248,9 @@ kubectl config set-context --current --namespace tmf632poc
 kubectl create configmap default-config --from-file=default.conf=D:\Documents\Pop\Docker\TMF632\Config\default.conf
 
 kubectl create configmap default-config --from-file=default.conf=/home/ec2-user/tmf632/src/tmfEcho/configs/default.conf
+
+
+k port-forward pods/test-tmf632poc-77fcf4b9fc-8kqf9 8082
+kubectl port-forward svc/odapoc-tmf632-service 8082
+
+curl -X get http://127.0.0.1:8082/partyManagement/v5/individual?offset=0&limit=3
