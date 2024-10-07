@@ -60,23 +60,6 @@ spec:
       storage: 5Gi
   volumeName: postgres-pv
 ---
-# Source: partymanagement/templates/TMF632_service.yaml
-apiVersion: v1
-kind: Service
-metadata:
-  name: odapoc-tmf632-service
-  labels:
-    oda.tmforum.org/componentName: test-tmf632poc
-spec:
-  type: ClusterIP
-  clusterIP: 10.101.100.10
-  selector:
-    name: test-tmf632poc
-  ports:
-  - protocol: TCP
-    port: 8082
-    targetPort: 8082
----
 # Source: partymanagement/templates/postgresql_service.yaml
 apiVersion: v1
 kind: Service
@@ -93,37 +76,6 @@ spec:
   - protocol: TCP
     port: 5432
     targetPort: 5432
----
-# Source: partymanagement/templates/TMF632_deployment.yaml
-apiVersion: apps/v1
-kind: Deployment
-metadata:
-  name: test-tmf632poc
-  labels:
-    oda.tmforum.org/componentName: test-tmf632poc
-spec:
-  replicas: 1
-  selector:
-    matchLabels:
-      name: test-tmf632poc
-  template:
-    metadata:
-      labels:
-        name: test-tmf632poc
-    spec:
-      containers:
-      - name: test-tmf632poc
-        image: chailuck/tmfecho:v2
-        ports:
-        - containerPort: 8082
-        volumeMounts:
-        - name: default-config
-          mountPath: /build/configs
-          readOnly: true
-      volumes:
-      - name: default-config
-        configMap:
-          name: default-config
 ---
 # Source: partymanagement/templates/postgresql_deployment.yaml
 apiVersion: apps/v1
