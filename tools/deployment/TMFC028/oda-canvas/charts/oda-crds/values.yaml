@@ -1,0 +1,14 @@
+# Default values for productcatalog.
+# This is a YAML-formatted file.
+# Declare variables to be passed into your templates.
+
+# Default values for productinventory.
+# This is a YAML-formatted file.
+# Declare variables to be passed into your templates.
+
+# Default values for productinventory.
+# This is a YAML-formatted file.
+# Declare variables to be passed into your templates.
+global:
+  certificate: 
+    appName: tmf632poc
